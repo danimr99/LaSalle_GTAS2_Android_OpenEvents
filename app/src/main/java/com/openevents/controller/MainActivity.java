@@ -1,8 +1,10 @@
-package com.openevents;
+package com.openevents.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.openevents.R;
 
 public class MainActivity extends AppCompatActivity {
 
