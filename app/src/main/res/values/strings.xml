@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">OpenEvents</string>
+    <string name="emailTitleLogin">Email</string>
+    <string name="passwordTitleLogin">Password</string>
+    <string name="passwordHintLogin">Your password</string>
+    <string name="emailHintLogin">Your email</string>
+    <string name="signInTitle">SIGN IN</string>
+    <string name="openEventsLogoDescription">openEventsLogo</string>
+    <string name="notAccountText">Don`t have an account?</string>
+    <string name="notAccountButton">Sign up</string>
 </resources>
