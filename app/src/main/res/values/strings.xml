@@ -8,4 +8,10 @@
     <string name="openEventsLogoDescription">openEventsLogo</string>
     <string name="notAccountText">Don`t have an account?</string>
     <string name="notAccountButton">Sign up</string>
+    <string name="signUpTitle">Sign up</string>
+    <string name="firstName">First name</string>
+    <string name="firstNameHint">Your first name</string>
+    <string name="lastName">Last name</string>
+    <string name="lastNameHint">Your last name</string>
+    <string name="createAccountTitle">CREATE ACCOUNT</string>
 </resources>
