@@ -18,8 +18,14 @@
             android:text="@string/signUpTitle"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp"
             android:textColor="@color/black"/>
+
+        <FrameLayout
+            android:id="@+id/imageSelector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/emailTitle"
@@ -30,7 +36,7 @@
             android:text="@string/emailTitleLogin"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginStart="45dp" />
         <EditText
             android:id="@+id/email"
             android:layout_width="305dp"
@@ -51,7 +57,7 @@
             android:text="@string/firstName"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginStart="45dp" />
         <EditText
             android:id="@+id/firstNameEdit"
             android:layout_width="305dp"
@@ -72,7 +78,7 @@
             android:text="@string/lastName"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginStart="45dp" />
         <EditText
             android:id="@+id/lastNameEdit"
             android:layout_width="305dp"
@@ -93,7 +99,7 @@
             android:text="@string/passwordTitleLogin"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginStart="45dp" />
         <EditText
             android:id="@+id/passwordEdit"
             android:layout_width="305dp"
@@ -111,10 +117,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/passwordTitleLogin"
+            android:text="@string/repeatPasswordTitleLogin"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginStart="45dp" />
         <EditText
             android:id="@+id/passwordEdit2"
             android:layout_width="305dp"
