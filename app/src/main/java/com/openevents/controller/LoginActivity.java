@@ -15,6 +15,7 @@ import com.openevents.api.APIManager;
 import com.openevents.constants.Constants;
 import com.openevents.model.AuthToken;
 import com.openevents.utils.SharedPrefs;
+import com.openevents.utils.ToastNotification;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = this.password.getText().toString();
 
         if(email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, R.string.formNotFilledError, Toast.LENGTH_SHORT).show();
+            ToastNotification.showNotification(getApplicationContext(), R.string.formNotFilledError);
         } else {
             // Attempt login to the API
             this.apiManager.login(email, password, new Callback<AuthToken>() {
@@ -79,20 +80,15 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "ERROR: Cannot connect to the API",
-                                    Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(getApplicationContext(), "ERROR: Invalid credentials",
-                                Toast.LENGTH_SHORT).show();
+                        ToastNotification.showNotification(getApplicationContext(), R.string.invalidCredentialsError);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<AuthToken> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), "ERROR: Cannot connect to the API",
-                            Toast.LENGTH_SHORT).show();
+                    ToastNotification.showServerConnectionError(getApplicationContext());
                 }
             });
         }

@@ -2,6 +2,7 @@ package com.openevents.api;
 
 import com.openevents.constants.Constants;
 import com.openevents.model.AuthToken;
+import com.openevents.model.User;
 import com.openevents.model.UserSession;
 
 import retrofit2.Callback;
@@ -32,5 +33,9 @@ public class APIManager {
 
     public void login(String email, String password, Callback<AuthToken> callback) {
         this.service.login(new UserSession(email, password)).enqueue(callback);
+    }
+
+    public void register(String name, String lastName, String email, String password, Callback<User> callback) {
+        this.service.register(new User(name, lastName, email, password)).enqueue(callback);
     }
 }

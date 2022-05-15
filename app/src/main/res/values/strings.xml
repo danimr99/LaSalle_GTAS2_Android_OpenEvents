@@ -2,6 +2,7 @@
     <string name="app_name">OpenEvents</string>
     <string name="emailTitleLogin">Email</string>
     <string name="passwordTitleLogin">Password</string>
+    <string name="repeatPasswordTitleLogin">Repeat password</string>
     <string name="passwordHintLogin">Your password</string>
     <string name="emailHintLogin">Your email</string>
     <string name="signInTitle">SIGN IN</string>
@@ -15,4 +16,6 @@
     <string name="lastNameHint">Your last name</string>
     <string name="createAccountTitle">CREATE ACCOUNT</string>
     <string name="formNotFilledError">ERROR: You must fill all the fields</string>
+    <string name="cannotConnectToServerError">ERROR: Connection to the server failed</string>
+    <string name="invalidCredentialsError">ERROR: Invalid credentials</string>
 </resources>
