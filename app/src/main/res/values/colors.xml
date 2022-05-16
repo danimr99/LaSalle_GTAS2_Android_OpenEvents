@@ -10,4 +10,7 @@
     <color name="blueish">#FF0099CC</color>
     <color name="primary_background">#1a212d</color>
     <color name="secondary_background">#303a49</color>
+    <color name="whitish">#aea5cf</color>
+    <color name="white2">#fdfeff</color>
+    <color name="white_grey">#cacad5</color>
 </resources>

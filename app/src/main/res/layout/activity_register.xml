@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scrollView">
+    android:id="@+id/scrollView"
+    android:background="@color/primary_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,8 +19,8 @@
             android:text="@string/signUpTitle"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:layout_marginLeft="35dp"
-            android:textColor="@color/black"/>
+            android:layout_marginStart="35dp"
+            android:textColor="@color/white2" />
 
         <TextView
             android:id="@+id/emailTitle"
@@ -30,7 +31,8 @@
             android:text="@string/emailTitleLogin"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginStart="45dp"
+            android:textColor="@color/white2"/>
         <EditText
             android:id="@+id/email"
             android:layout_width="305dp"
@@ -40,7 +42,10 @@
             android:textSize="20sp"
             android:layout_marginBottom="15dp"
             android:autofillHints=""
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/white_grey"
+            android:textColor="@color/white2"
+            android:backgroundTint="@color/white2"/>
 
         <TextView
             android:id="@+id/firstName"
@@ -51,7 +56,8 @@
             android:text="@string/firstName"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginStart="45dp"
+            android:textColor="@color/white2"/>
         <EditText
             android:id="@+id/firstNameEdit"
             android:layout_width="305dp"
@@ -61,7 +67,10 @@
             android:textSize="20sp"
             android:layout_marginBottom="15dp"
             android:autofillHints=""
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColorHint="@color/white_grey"
+            android:textColor="@color/white2"
+            android:backgroundTint="@color/white2"/>
 
         <TextView
             android:id="@+id/lastName"
@@ -72,7 +81,8 @@
             android:text="@string/lastName"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginStart="45dp"
+            android:textColor="@color/white2"/>
         <EditText
             android:id="@+id/lastNameEdit"
             android:layout_width="305dp"
@@ -82,7 +92,10 @@
             android:textSize="20sp"
             android:layout_marginBottom="15dp"
             android:autofillHints=""
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColorHint="@color/white_grey"
+            android:textColor="@color/white2"
+            android:backgroundTint="@color/white2"/>
 
         <TextView
             android:id="@+id/password"
@@ -93,7 +106,8 @@
             android:text="@string/passwordTitleLogin"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginStart="45dp"
+            android:textColor="@color/white2"/>
         <EditText
             android:id="@+id/passwordEdit"
             android:layout_width="305dp"
@@ -103,7 +117,10 @@
             android:textSize="20sp"
             android:layout_marginBottom="15dp"
             android:autofillHints=""
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColorHint="@color/white_grey"
+            android:textColor="@color/white2"
+            android:backgroundTint="@color/white2"/>
 
         <TextView
             android:id="@+id/password2"
@@ -114,7 +131,8 @@
             android:text="@string/passwordTitleLogin"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginStart="45dp"
+            android:textColor="@color/white2"/>
         <EditText
             android:id="@+id/passwordEdit2"
             android:layout_width="305dp"
@@ -124,7 +142,10 @@
             android:textSize="20sp"
             android:layout_marginBottom="15dp"
             android:autofillHints=""
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColorHint="@color/white_grey"
+            android:textColor="@color/white2"
+            android:backgroundTint="@color/white2"/>
 
         <Button
             android:id="@+id/registerButton"

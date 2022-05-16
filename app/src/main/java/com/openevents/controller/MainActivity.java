@@ -5,12 +5,15 @@ import com.openevents.HomeFragment;
 import com.openevents.R;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.openevents.SearchFragment;
 import com.openevents.UserFragment;
 
 import android.annotation.SuppressLint;
+
 import android.os.Bundle;
+
+
 import androidx.fragment.app.Fragment;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,9 +35,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.navBarEventsIcon:
                     fragment = new EventsFragment();
-                    break;
-                case R.id.navBarSearchIcon:
-                    fragment = new SearchFragment();
                     break;
                 case R.id.navBarUserIcon:
                     fragment = new UserFragment();

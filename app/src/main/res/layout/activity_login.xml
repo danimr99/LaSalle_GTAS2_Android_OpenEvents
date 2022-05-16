@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/primary_background">
 
         <ImageView
             android:id="@+id/logo"
@@ -21,7 +22,8 @@
             android:text="@string/emailTitleLogin"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp" />
+            android:layout_marginLeft="45dp"
+            android:textColor="@color/white2"/>
         <EditText
             android:id="@+id/email"
             android:layout_width="290dp"
@@ -31,7 +33,10 @@
             android:textSize="20sp"
             android:layout_marginBottom="20dp"
             android:autofillHints=""
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/white_grey"
+            android:textColor="@color/white2"
+            android:backgroundTint="@color/white2"/>
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -41,16 +46,19 @@
             android:text="@string/passwordTitleLogin"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp"/>
+            android:layout_marginLeft="45dp"
+            android:textColor="@color/white2"/>
         <EditText
             android:id="@+id/password"
             android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:textColorHint="@color/white_grey"
             android:hint="@string/passwordHintLogin"
             android:textSize="20sp"
             android:autofillHints=""
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:backgroundTint="@color/white2"/>
         <Button
             android:id="@+id/login"
             android:layout_width="wrap_content"
@@ -76,7 +84,7 @@
                 android:text="@string/notAccountText"
                 android:textSize="17sp"
                 android:layout_marginRight="5sp"
-                />
+                android:textColor="@color/white2"/>
 
             <TextView
                 android:id="@+id/notAccountButton"
@@ -85,6 +93,6 @@
                 android:text="@string/notAccountButton"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                />
+                android:textColor="@color/white2"/>
         </LinearLayout>
 </LinearLayout>

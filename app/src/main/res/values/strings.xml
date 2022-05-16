@@ -18,4 +18,19 @@
     <string name="search">Search</string>
     <string name="events">Events</string>
     <string name="home">Home</string>
+    <string name="homeTitle">Popular</string>
+    <string name="seeAllText">See all</string>
+    <string name="sortByText">Sort by rating</string>
+    <string name="eventsTitle">All Events</string>
+    <string name="searchEvents">Search Events</string>
+    <string name="myAccountTitle">My Account</string>
+    <string name="displayName">Display Name</string>
+    <string name="displaySurname">Display Surname</string>
+    <string name="displayEmail">Email</string>
+    <string name="editText">Edit</string>
+    <string name="password">Password</string>
+    <string name="statistics">My Statistics</string>
+    <string name="avgScore">Average Score</string>
+    <string name="numComments">Nº of Comments</string>
+    <string name="percentageOfUsers">Percentage of users with less comments</string>
 </resources>
