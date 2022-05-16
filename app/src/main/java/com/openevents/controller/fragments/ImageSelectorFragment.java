@@ -13,15 +13,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.openevents.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.mayanknagwanshi.imagepicker.ImageSelectActivity;
 
 
 public class ImageSelectorFragment extends Fragment {
-    private ImageView imageSelector;
+    private CircleImageView imageSelector;
 
     public ImageSelectorFragment() {
         // Required empty public constructor
@@ -75,9 +75,5 @@ public class ImageSelectorFragment extends Fragment {
         });
 
         return view;
-    }
-
-    public ImageView getImageSelector() {
-        return this.imageSelector;
     }
 }

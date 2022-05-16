@@ -21,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         new Handler().post(() -> {
             this.sharedPrefs = SharedPrefs.getInstance(this);
-            this.authToken = this.sharedPrefs.getStringEntry(Constants.AUTH_TOKEN);
+            this.authToken = this.sharedPrefs.getStringEntry(Constants.AUTHENTICATION_TOKEN_SHARED_PREFERENCES);
 
             if(!this.authToken.isEmpty() ) {
                 this.intent = new Intent(SplashActivity.this, MainActivity.class);

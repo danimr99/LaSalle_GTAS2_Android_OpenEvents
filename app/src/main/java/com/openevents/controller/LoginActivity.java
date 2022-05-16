@@ -39,9 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // SignInButton
         this.signInButton = findViewById(R.id.signInButton);
-        this.signInButton.setOnClickListener(view -> {
-            this.attemptSignIn();
-        });
+        this.signInButton.setOnClickListener(view -> this.attemptSignIn());
 
         // SignUpTextView
         this.signUpTextView = findViewById(R.id.signUpText);
@@ -72,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             // Save AuthToken to SharedPreferences
                             SharedPrefs sharedPrefs = SharedPrefs.getInstance(getApplicationContext());
-                            sharedPrefs.addStringEntry(Constants.AUTH_TOKEN, authToken.getAccessToken());
+                            sharedPrefs.addStringEntry(Constants.AUTHENTICATION_TOKEN_SHARED_PREFERENCES, authToken.getAccessToken());
 
                             // Redirect user to HomeActivity
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
