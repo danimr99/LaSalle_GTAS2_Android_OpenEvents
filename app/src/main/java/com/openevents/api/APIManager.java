@@ -1,7 +1,8 @@
 package com.openevents.api;
 
+import com.openevents.api.responses.Profile;
 import com.openevents.constants.Constants;
-import com.openevents.model.AuthToken;
+import com.openevents.api.responses.AuthToken;
 import com.openevents.model.User;
 import com.openevents.model.UserSession;
 
@@ -35,7 +36,7 @@ public class APIManager {
         this.service.login(new UserSession(email, password)).enqueue(callback);
     }
 
-    public void register(String name, String lastName, String email, String password, Callback<User> callback) {
-        this.service.register(new User(name, lastName, email, password)).enqueue(callback);
+    public void register(User user, Callback<Profile> callback) {
+        this.service.register(user).enqueue(callback);
     }
 }

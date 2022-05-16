@@ -2,18 +2,16 @@ package com.openevents.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.constants.Constants;
-import com.openevents.model.AuthToken;
+import com.openevents.api.responses.AuthToken;
 import com.openevents.utils.SharedPrefs;
 import com.openevents.utils.ToastNotification;
 

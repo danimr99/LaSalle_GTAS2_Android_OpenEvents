@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/scrollView">
@@ -22,10 +24,9 @@
             android:textColor="@color/black"/>
 
         <FrameLayout
-            android:id="@+id/imageSelector"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:id="@+id/fragment_container"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
 
         <TextView
             android:id="@+id/emailTitle"
@@ -38,7 +39,7 @@
             android:textStyle="bold"
             android:layout_marginStart="45dp" />
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/emailInput"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -49,7 +50,7 @@
             android:inputType="textEmailAddress" />
 
         <TextView
-            android:id="@+id/firstName"
+            android:id="@+id/firstNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -59,7 +60,7 @@
             android:textStyle="bold"
             android:layout_marginStart="45dp" />
         <EditText
-            android:id="@+id/firstNameEdit"
+            android:id="@+id/firstNameInput"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -70,7 +71,7 @@
             android:inputType="text" />
 
         <TextView
-            android:id="@+id/lastName"
+            android:id="@+id/lastNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -80,7 +81,7 @@
             android:textStyle="bold"
             android:layout_marginStart="45dp" />
         <EditText
-            android:id="@+id/lastNameEdit"
+            android:id="@+id/lastNameInput"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -91,7 +92,7 @@
             android:inputType="text" />
 
         <TextView
-            android:id="@+id/password"
+            android:id="@+id/passwordTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -100,19 +101,31 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginStart="45dp" />
-        <EditText
-            android:id="@+id/passwordEdit"
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:hint="@string/passwordHintLogin"
-            android:textSize="20sp"
             android:layout_marginBottom="15dp"
-            android:autofillHints=""
-            android:inputType="textPassword" />
+            app:passwordToggleEnabled="true"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:hintEnabled="false">
+
+            <EditText
+                android:id="@+id/passwordInput"
+                android:layout_width="305dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/passwordHintLogin"
+                android:textSize="20sp"
+                android:layout_marginBottom="15dp"
+                android:autofillHints=""
+                android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/password2"
+            android:id="@+id/repeatPasswordTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -121,16 +134,27 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginStart="45dp" />
-        <EditText
-            android:id="@+id/passwordEdit2"
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:hint="@string/passwordHintLogin"
-            android:textSize="20sp"
             android:layout_marginBottom="15dp"
-            android:autofillHints=""
-            android:inputType="textPassword" />
+            app:passwordToggleEnabled="true"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:hintEnabled="false">
+
+            <EditText
+                android:id="@+id/repeatPasswordInput"
+                android:layout_width="305dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/passwordHintLogin"
+                android:textSize="20sp"
+                android:layout_marginBottom="15dp"
+                android:autofillHints=""
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/registerButton"
