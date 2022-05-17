@@ -9,6 +9,10 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.Profile;
@@ -17,6 +21,8 @@ import com.openevents.controller.fragments.ImageSelectorFragment;
 import com.openevents.model.User;
 import com.openevents.utils.Numbers;
 import com.openevents.utils.ToastNotification;
+
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -27,11 +33,16 @@ public class RegisterActivity extends AppCompatActivity {
     private APIManager apiManager;
     private ImageSelectorFragment fragment;
     private CircleImageView profileImage;
+    private TextInputLayout emailLayout;
     private EditText email;
-    private EditText name;
-    private EditText lastName;
-    private EditText password;
-    private EditText repeatPassword;
+    private TextInputLayout nameLayout;
+    private TextInputEditText name;
+    private TextInputLayout lastNameLayout;
+    private TextInputEditText lastName;
+    private TextInputLayout passwordLayout;
+    private TextInputEditText password;
+    private TextInputLayout repeatPasswordLayout;
+    private TextInputEditText repeatPassword;
     private Button createAccountButton;
 
     @Override
@@ -50,10 +61,15 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // Get each component from the view
+        this.emailLayout = findViewById(R.id.emailInputLayout);
         this.email = findViewById(R.id.emailInput);
+        this.nameLayout = findViewById(R.id.firstNameLayout);
         this.name = findViewById(R.id.firstNameInput);
+        this.lastNameLayout = findViewById(R.id.lastNameLayout);
         this.lastName = findViewById(R.id.lastNameInput);
+        this.passwordLayout = findViewById(R.id.passwordInputLayout);
         this.password = findViewById(R.id.passwordInput);
+        this.repeatPasswordLayout = findViewById(R.id.repeatPasswordInputLayout);
         this.repeatPassword = findViewById(R.id.repeatPasswordInput);
         this.createAccountButton = findViewById(R.id.registerButton);
 
@@ -75,7 +91,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void createAccount() {
         // Get random image
-        int imageIndex = Numbers.generateRandomNumber(0, Constants.EXAMPLE_PROFILE_IMAGES_URL.length - 1);
+        int imageIndex = Numbers.generateRandomNumber(0,
+                Constants.EXAMPLE_PROFILE_IMAGES_URL.length - 1);
         String image = Constants.EXAMPLE_PROFILE_IMAGES_URL[imageIndex];
 
         // Get text from form fields
@@ -86,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
         String repeatedPassword = this.repeatPassword.getText().toString();
 
         // Check if all fields are filled and well formed
-        if(this.isFormValid(email, name, lastName, password, repeatedPassword)) {
+        if (this.isFormValid(email, name, lastName, password, repeatedPassword)) {
             // Create a new user
             User user = new User(name, lastName, email, password, image);
 
@@ -94,17 +111,49 @@ public class RegisterActivity extends AppCompatActivity {
             this.apiManager.register(user, new Callback<Profile>() {
                 @Override
                 public void onResponse(Call<Profile> call, Response<Profile> response) {
-                    if (response.code() == 201) {
-                        ToastNotification.showNotification(getApplicationContext(), R.string.registerSuccessful);
+                    if (response.isSuccessful()) {
+                        ToastNotification.showNotification(getApplicationContext(),
+                                R.string.registerSuccessful);
 
                         // Redirect user to LoginActivity
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this,
+                                LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         finish();
                     } else {
-                        ToastNotification.showNotification(getApplicationContext(),
-                                R.string.emailAlreadyExistsError);
+                        try {
+                            // Get error message from API
+                            String errorBody = response.errorBody().string();
+                            JsonObject element = JsonParser.parseString(errorBody).getAsJsonObject();
+
+                            // Try to get the type of the email error
+                            String errorMsg = "";
+                            String sqlError = "";
+                            try {
+                                errorMsg = element.
+                                        get("stackTrace").getAsJsonObject().
+                                        get("details").getAsJsonArray().get(0).getAsJsonObject().
+                                        get("message").getAsString();
+                            } catch (NullPointerException exception) {
+                                sqlError = element.
+                                        get("stackTrace").getAsJsonObject().
+                                        get("code").getAsString();
+                            }
+
+                            // Check if email is not valid
+                            if (!errorMsg.isEmpty()) {
+                                emailLayout.setError(getText(R.string.invalidEmailError));
+                            }
+
+                            // Check if user with the same email already exists
+                            if (!sqlError.isEmpty()) {
+                                emailLayout.setError(getText(R.string.alreadyExistsEmailError));
+                            }
+                        } catch (IOException e) {
+                            ToastNotification.showNotification(getApplicationContext(),
+                                    R.string.registerError);
+                        }
                     }
                 }
 
@@ -118,26 +167,68 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean isFormValid(String email, String name, String lastName, String password,
                                 String repeatedPassword) {
-        if (!email.isEmpty() && !name.isEmpty() && !lastName.isEmpty() && !password.isEmpty() &&
-                !repeatedPassword.isEmpty()) {
-            // Check if email is valid
-            if (email.contains("@")) {
-                // Check if passwords match
-                if (password.equals(repeatedPassword)) {
-                    // Check if password are longer than min length requirement
-                    if (password.length() >= Constants.MIN_LENGTH_PASSWORD) {
-                        return true;
-                    } else {
-                        ToastNotification.showNotification(getApplicationContext(), R.string.passwordMinLengthError);
-                    }
-                } else {
-                    ToastNotification.showNotification(getApplicationContext(), R.string.passwordsNotMatchError);
-                }
+        boolean isEmailValid = false, arePasswordsValid = false;
+
+        // Reset error on each field in case exists
+        this.emailLayout.setError(null);
+        this.nameLayout.setError(null);
+        this.lastNameLayout.setError(null);
+        this.passwordLayout.setError(null);
+        this.repeatPasswordLayout.setError(null);
+
+        // Check if all fields from the form are filled
+        if (!email.isEmpty()) {
+            isEmailValid = this.checkEmail(email);
+        } else {
+            this.emailLayout.setError(getText(R.string.requiredFieldError));
+        }
+
+        if (name.isEmpty()) {
+            this.nameLayout.setError(getText(R.string.requiredFieldError));
+        }
+
+        if (lastName.isEmpty()) {
+            this.lastNameLayout.setError(getText(R.string.requiredFieldError));
+        }
+
+        if (!password.isEmpty() && !repeatedPassword.isEmpty()) {
+            arePasswordsValid = this.checkPassword(password, repeatedPassword);
+        } else {
+            if (password.isEmpty()) {
+                this.passwordLayout.setError(getText(R.string.requiredFieldError));
+            }
+
+            if (repeatedPassword.isEmpty()) {
+                this.repeatPasswordLayout.setError(getText(R.string.requiredFieldError));
+            }
+        }
+
+        return isEmailValid && !name.isEmpty() && !lastName.isEmpty() && arePasswordsValid;
+    }
+
+    private boolean checkEmail(String email) {
+        if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return true;
+        } else {
+            this.emailLayout.setError(this.getText(R.string.invalidEmailError));
+        }
+
+        return false;
+    }
+
+    private boolean checkPassword(String password, String repeatedPassword) {
+        // Check if passwords match
+        if (password.equals(repeatedPassword)) {
+            // Check if password are longer than min length requirement
+            if (password.length() >= Constants.MIN_LENGTH_PASSWORD) {
+                return true;
             } else {
-                ToastNotification.showNotification(getApplicationContext(), R.string.invalidEmailError);
+                this.passwordLayout.setError(this.getText(R.string.passwordMinLengthError));
+                this.repeatPasswordLayout.setError(this.getText(R.string.passwordMinLengthError));
             }
         } else {
-            ToastNotification.showNotification(getApplicationContext(), R.string.formNotFilledError);
+            this.passwordLayout.setError(this.getText(R.string.passwordsNotMatchError));
+            this.repeatPasswordLayout.setError(this.getText(R.string.passwordsNotMatchError));
         }
 
         return false;
