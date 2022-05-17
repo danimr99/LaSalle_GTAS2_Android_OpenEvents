@@ -18,7 +18,10 @@
     <string name="formNotFilledError">ERROR: You must fill all the fields</string>
     <string name="cannotConnectToServerError">ERROR: Connection to the server failed</string>
     <string name="invalidCredentialsError">ERROR: Invalid credentials</string>
+    <string name="invalidEmailError">ERROR: Invalid email</string>
+    <string name="emailAlreadyExistsError">ERROR: Email already exists</string>
     <string name="passwordsNotMatchError">ERROR: Passwords do not match</string>
+    <string name="passwordMinLengthError">ERROR: Password length must be at least 8 characters long</string>
     <string name="registerError">ERROR: Sign up failed</string>
     <string name="registerSuccessful">Signed up successfully</string>
 </resources>

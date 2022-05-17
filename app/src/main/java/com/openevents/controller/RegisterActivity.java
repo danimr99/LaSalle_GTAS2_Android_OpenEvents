@@ -1,8 +1,6 @@
 package com.openevents.controller;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +15,7 @@ import com.openevents.api.responses.Profile;
 import com.openevents.constants.Constants;
 import com.openevents.controller.fragments.ImageSelectorFragment;
 import com.openevents.model.User;
-import com.openevents.utils.Base64Image;
-import com.openevents.utils.JsonManager;
-import com.openevents.utils.SharedPrefs;
+import com.openevents.utils.Numbers;
 import com.openevents.utils.ToastNotification;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -78,56 +74,72 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createAccount() {
-        // Encode profile image
-        String image = "";
-        Bitmap bitmap = ((BitmapDrawable) this.profileImage.getDrawable()).getBitmap();
-        image = Base64Image.encode(bitmap);
+        // Get random image
+        int imageIndex = Numbers.generateRandomNumber(0, Constants.EXAMPLE_PROFILE_IMAGES_URL.length - 1);
+        String image = Constants.EXAMPLE_PROFILE_IMAGES_URL[imageIndex];
 
         // Get text from form fields
         String email = this.email.getText().toString();
-        String name = this.email.getText().toString();
+        String name = this.name.getText().toString();
         String lastName = this.lastName.getText().toString();
         String password = this.password.getText().toString();
         String repeatedPassword = this.repeatPassword.getText().toString();
 
-        // Check if all fields are filled
+        // Check if all fields are filled and well formed
+        if(this.isFormValid(email, name, lastName, password, repeatedPassword)) {
+            // Create a new user
+            User user = new User(name, lastName, email, password, image);
+
+            // Register new user to API
+            this.apiManager.register(user, new Callback<Profile>() {
+                @Override
+                public void onResponse(Call<Profile> call, Response<Profile> response) {
+                    if (response.code() == 201) {
+                        ToastNotification.showNotification(getApplicationContext(), R.string.registerSuccessful);
+
+                        // Redirect user to LoginActivity
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        ToastNotification.showNotification(getApplicationContext(),
+                                R.string.emailAlreadyExistsError);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Profile> call, Throwable t) {
+                    ToastNotification.showServerConnectionError(getApplicationContext());
+                }
+            });
+        }
+    }
+
+    private boolean isFormValid(String email, String name, String lastName, String password,
+                                String repeatedPassword) {
         if (!email.isEmpty() && !name.isEmpty() && !lastName.isEmpty() && !password.isEmpty() &&
                 !repeatedPassword.isEmpty()) {
-            // Check if passwords match
-            if (password.equals(repeatedPassword)) {
-                // Create a new user
-                User user = new User(name, lastName, email, password, image);
-
-                // Save user to SharedPreferences
-                SharedPrefs sharedPrefs = SharedPrefs.getInstance(this);
-                sharedPrefs.addStringEntry(Constants.USER_SHARED_PREFERENCES, JsonManager.toJSON(user));
-
-                // Register new user to API
-                this.apiManager.register(user, new Callback<Profile>() {
-                    @Override
-                    public void onResponse(Call<Profile> call, Response<Profile> response) {
-                        if (response.isSuccessful()) {
-                            ToastNotification.showNotification(getApplicationContext(), R.string.registerSuccessful);
-
-                            // Redirect user to LoginActivity
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            ToastNotification.showNotification(getApplicationContext(), R.string.registerError);
-                        }
+            // Check if email is valid
+            if (email.contains("@")) {
+                // Check if passwords match
+                if (password.equals(repeatedPassword)) {
+                    // Check if password are longer than min length requirement
+                    if (password.length() >= Constants.MIN_LENGTH_PASSWORD) {
+                        return true;
+                    } else {
+                        ToastNotification.showNotification(getApplicationContext(), R.string.passwordMinLengthError);
                     }
-
-                    @Override
-                    public void onFailure(Call<Profile> call, Throwable t) {
-                        ToastNotification.showServerConnectionError(getApplicationContext());
-                    }
-                });
+                } else {
+                    ToastNotification.showNotification(getApplicationContext(), R.string.passwordsNotMatchError);
+                }
             } else {
-                ToastNotification.showNotification(this, R.string.passwordsNotMatchError);
+                ToastNotification.showNotification(getApplicationContext(), R.string.invalidEmailError);
             }
         } else {
-            ToastNotification.showNotification(this, R.string.formNotFilledError);
+            ToastNotification.showNotification(getApplicationContext(), R.string.formNotFilledError);
         }
+
+        return false;
     }
 }
