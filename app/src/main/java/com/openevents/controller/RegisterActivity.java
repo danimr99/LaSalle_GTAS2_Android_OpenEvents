@@ -50,6 +50,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        // Create an instance of APIManager
+        this.apiManager = APIManager.getInstance();
+
         // Create ImageSelectorFragment
         FragmentManager fm = this.getSupportFragmentManager();
         this.fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.fragment_container);
@@ -73,9 +76,6 @@ public class RegisterActivity extends AppCompatActivity {
         this.repeatPassword = findViewById(R.id.repeatPasswordInput);
         this.createAccountButton = findViewById(R.id.registerButton);
 
-        // Create an instance of APIManager
-        this.apiManager = APIManager.getInstance();
-
         // Set onClickListener to button
         this.createAccountButton.setOnClickListener(view -> this.createAccount());
     }
@@ -87,6 +87,75 @@ public class RegisterActivity extends AppCompatActivity {
         // Get profile image view once the fragment has been loaded
         View fragmentView = this.fragment.getView();
         this.profileImage = fragmentView.findViewById(R.id.imageSelector);
+    }
+
+    private boolean checkEmail(String email) {
+        if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return true;
+        } else {
+            this.emailLayout.setError(this.getText(R.string.invalidEmailError));
+        }
+
+        return false;
+    }
+
+    private boolean checkPassword(String password, String repeatedPassword) {
+        // Check if passwords match
+        if (password.equals(repeatedPassword)) {
+            // Check if password are longer than min length requirement
+            if (password.length() >= Constants.MIN_LENGTH_PASSWORD) {
+                return true;
+            } else {
+                this.passwordLayout.setError(this.getText(R.string.passwordMinLengthError));
+                this.repeatPasswordLayout.setError(this.getText(R.string.passwordMinLengthError));
+            }
+        } else {
+            this.passwordLayout.setError(this.getText(R.string.passwordsNotMatchError));
+            this.repeatPasswordLayout.setError(this.getText(R.string.passwordsNotMatchError));
+        }
+
+        return false;
+    }
+
+    private boolean isFormValid(String email, String name, String lastName, String password,
+                                String repeatedPassword) {
+        boolean isEmailValid = false, arePasswordsValid = false;
+
+        // Reset error on each field in case exists
+        this.emailLayout.setError(null);
+        this.nameLayout.setError(null);
+        this.lastNameLayout.setError(null);
+        this.passwordLayout.setError(null);
+        this.repeatPasswordLayout.setError(null);
+
+        // Check if all fields from the form are filled
+        if (!email.isEmpty()) {
+            isEmailValid = this.checkEmail(email);
+        } else {
+            this.emailLayout.setError(getText(R.string.requiredFieldError));
+        }
+
+        if (name.isEmpty()) {
+            this.nameLayout.setError(getText(R.string.requiredFieldError));
+        }
+
+        if (lastName.isEmpty()) {
+            this.lastNameLayout.setError(getText(R.string.requiredFieldError));
+        }
+
+        if (!password.isEmpty() && !repeatedPassword.isEmpty()) {
+            arePasswordsValid = this.checkPassword(password, repeatedPassword);
+        } else {
+            if (password.isEmpty()) {
+                this.passwordLayout.setError(getText(R.string.requiredFieldError));
+            }
+
+            if (repeatedPassword.isEmpty()) {
+                this.repeatPasswordLayout.setError(getText(R.string.requiredFieldError));
+            }
+        }
+
+        return isEmailValid && !name.isEmpty() && !lastName.isEmpty() && arePasswordsValid;
     }
 
     private void createAccount() {
@@ -163,74 +232,5 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private boolean isFormValid(String email, String name, String lastName, String password,
-                                String repeatedPassword) {
-        boolean isEmailValid = false, arePasswordsValid = false;
-
-        // Reset error on each field in case exists
-        this.emailLayout.setError(null);
-        this.nameLayout.setError(null);
-        this.lastNameLayout.setError(null);
-        this.passwordLayout.setError(null);
-        this.repeatPasswordLayout.setError(null);
-
-        // Check if all fields from the form are filled
-        if (!email.isEmpty()) {
-            isEmailValid = this.checkEmail(email);
-        } else {
-            this.emailLayout.setError(getText(R.string.requiredFieldError));
-        }
-
-        if (name.isEmpty()) {
-            this.nameLayout.setError(getText(R.string.requiredFieldError));
-        }
-
-        if (lastName.isEmpty()) {
-            this.lastNameLayout.setError(getText(R.string.requiredFieldError));
-        }
-
-        if (!password.isEmpty() && !repeatedPassword.isEmpty()) {
-            arePasswordsValid = this.checkPassword(password, repeatedPassword);
-        } else {
-            if (password.isEmpty()) {
-                this.passwordLayout.setError(getText(R.string.requiredFieldError));
-            }
-
-            if (repeatedPassword.isEmpty()) {
-                this.repeatPasswordLayout.setError(getText(R.string.requiredFieldError));
-            }
-        }
-
-        return isEmailValid && !name.isEmpty() && !lastName.isEmpty() && arePasswordsValid;
-    }
-
-    private boolean checkEmail(String email) {
-        if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            return true;
-        } else {
-            this.emailLayout.setError(this.getText(R.string.invalidEmailError));
-        }
-
-        return false;
-    }
-
-    private boolean checkPassword(String password, String repeatedPassword) {
-        // Check if passwords match
-        if (password.equals(repeatedPassword)) {
-            // Check if password are longer than min length requirement
-            if (password.length() >= Constants.MIN_LENGTH_PASSWORD) {
-                return true;
-            } else {
-                this.passwordLayout.setError(this.getText(R.string.passwordMinLengthError));
-                this.repeatPasswordLayout.setError(this.getText(R.string.passwordMinLengthError));
-            }
-        } else {
-            this.passwordLayout.setError(this.getText(R.string.passwordsNotMatchError));
-            this.repeatPasswordLayout.setError(this.getText(R.string.passwordsNotMatchError));
-        }
-
-        return false;
     }
 }
