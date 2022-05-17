@@ -10,6 +10,10 @@ public abstract class ToastNotification {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();
     }
 
+    public static void showError(Context context, String error) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+    }
+
     public static void showServerConnectionError(Context context) {
         ToastNotification.showNotification(context, R.string.cannotConnectToServerError);
     }

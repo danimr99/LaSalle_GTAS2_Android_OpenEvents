@@ -1,6 +1,7 @@
 package com.openevents.api;
 
-import com.openevents.model.AuthToken;
+import com.openevents.api.responses.AuthToken;
+import com.openevents.api.responses.Profile;
 import com.openevents.model.User;
 import com.openevents.model.UserSession;
 
@@ -13,5 +14,5 @@ public interface API {
     Call<AuthToken> login(@Body UserSession userSession);
 
     @POST("users")
-    Call register(@Body User user);
+    Call<Profile> register(@Body User user);
 }
