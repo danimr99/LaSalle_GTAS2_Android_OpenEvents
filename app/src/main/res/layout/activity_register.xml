@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/primary_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +21,9 @@
             android:text="@string/signUpTitle"
             android:textColor="@color/black"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginStart="35dp"
+            android:textColor="@color/white2" />
 
         <FrameLayout
             android:id="@+id/fragment_container"
