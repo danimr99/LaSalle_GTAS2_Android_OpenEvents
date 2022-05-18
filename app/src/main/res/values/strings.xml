@@ -2,11 +2,12 @@
     <string name="app_name">OpenEvents</string>
     <string name="emailTitleLogin">Email</string>
     <string name="passwordTitleLogin">Password</string>
+    <string name="repeatPasswordTitleLogin">Repeat password</string>
     <string name="passwordHintLogin">Your password</string>
     <string name="emailHintLogin">Your email</string>
     <string name="signInTitle">SIGN IN</string>
     <string name="openEventsLogoDescription">openEventsLogo</string>
-    <string name="notAccountText">Don`t have an account?</string>
+    <string name="notAccountText">Don\'t have an account?</string>
     <string name="notAccountButton">Sign up</string>
     <string name="signUpTitle">Sign up</string>
     <string name="firstName">First name</string>
@@ -14,6 +15,17 @@
     <string name="lastName">Last name</string>
     <string name="lastNameHint">Your last name</string>
     <string name="createAccountTitle">CREATE ACCOUNT</string>
+    <string name="formNotFilledError">ERROR: You must fill all the fields</string>
+    <string name="requiredFieldError">ERROR: Required field</string>
+    <string name="cannotConnectToServerError">ERROR: Connection to the server failed</string>
+    <string name="invalidCredentialsError">ERROR: Invalid credentials</string>
+    <string name="invalidEmailError">ERROR: Invalid email</string>
+    <string name="emailAlreadyExistsError">ERROR: Email already exists</string>
+    <string name="passwordsNotMatchError">ERROR: Passwords do not match</string>
+    <string name="passwordMinLengthError">ERROR: Password length must be at least 8 characters long</string>
+    <string name="alreadyExistsEmailError">ERROR: A user with the introduced email already exists</string>
+    <string name="registerError">ERROR: Sign up failed</string>
+    <string name="registerSuccessful">Signed up successfully</string>
     <string name="user">User</string>
     <string name="search">Search</string>
     <string name="events">Events</string>
@@ -33,4 +45,5 @@
     <string name="avgScore">Average Score</string>
     <string name="numComments">Nº of Comments</string>
     <string name="percentageOfUsers">Percentage of users with less comments</string>
+
 </resources>

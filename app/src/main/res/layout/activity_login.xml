@@ -1,81 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/primary_background">
+    android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="280dp"
-            android:layout_height="140dp"
-            android:src="@drawable/open_events_logo"
-            android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/openEventsLogoDescription" />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="280dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/openEventsLogoDescription"
+        android:src="@drawable/open_events_logo" />
 
         <TextView
             android:id="@+id/emailTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/emailTitleLogin"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginLeft="45dp"
             android:textColor="@color/white2"/>
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="290dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:hint="@string/emailHintLogin"
-            android:textSize="20sp"
-            android:layout_marginBottom="20dp"
-            android:autofillHints=""
-            android:inputType="textEmailAddress"
-            android:textColorHint="@color/white_grey"
-            android:textColor="@color/white2"
-            android:backgroundTint="@color/white2"/>
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/passwordTitleLogin"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="45dp"
-            android:textColor="@color/white2"/>
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="290dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textColorHint="@color/white_grey"
-            android:hint="@string/passwordHintLogin"
-            android:textSize="20sp"
-            android:autofillHints=""
-            android:inputType="textPassword"
-            android:backgroundTint="@color/white2"/>
-        <Button
-            android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/signInTitle"
-            android:backgroundTint="#FF0099CC"
-            android:textColor="#fff"
-            android:textSize="20sp"
-            android:layout_marginTop="60dp"/>
+      <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/emailInputLayout"
+          android:layout_width="305dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          app:boxBackgroundColor="@android:color/transparent"
+          app:errorEnabled="true"
+          app:hintEnabled="false">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/emailInput"
+              android:layout_width="305dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:autofillHints=""
+            android:hint="@string/emailHintLogin"
+            android:inputType="textEmailAddress"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/passwordTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/passwordTitleLogin"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordInputLayout"
+        android:layout_width="305dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:errorEnabled="true"
+        app:hintEnabled="false"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordInput"
+            android:layout_width="305dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:autofillHints=""
+            android:hint="@string/passwordHintLogin"
+            android:inputType="textPassword"
+            android:textSize="20sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/signInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="#FF0099CC"
+        android:text="@string/signInTitle"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="30dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/notAccountText"
