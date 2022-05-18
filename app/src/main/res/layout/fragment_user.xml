@@ -27,7 +27,7 @@
             android:layout_marginBottom="30dp"
             android:text="@string/myAccountTitle"
             android:textSize="28sp"
-            android:textColor="@color/white2"
+            android:textColor="@color/white"
             android:textStyle="bold"/>
 
         <LinearLayout
@@ -63,7 +63,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:text="PruebaUser"
-                    android:textColor="@color/white2"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
@@ -73,7 +73,7 @@
                     android:textSize="20sp"
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="20dp"
-                    android:textColor="@color/white2"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:text="LastName"/>
 
@@ -102,7 +102,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:text="@string/displayName"
-                    android:textColor="@color/white_grey" />
+                    android:textColor="@color/broken_white" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                         android:textSize="15sp"
                         android:layout_marginStart="20dp"
                         android:text="PruebaUser"
-                        android:textColor="@color/white2"
+                        android:textColor="@color/white"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/editUserName"
@@ -125,7 +125,7 @@
                         android:layout_marginEnd="20dp"
                         android:gravity="end"
                         android:text="@string/editText"
-                        android:textColor="@color/blueish"
+                        android:textColor="@color/clear_blue"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -138,7 +138,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:text="@string/displaySurname"
-                    android:textColor="@color/white_grey" />
+                    android:textColor="@color/broken_white" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                         android:textSize="15sp"
                         android:layout_marginStart="20dp"
                         android:text="PruebaUser"
-                        android:textColor="@color/white2"
+                        android:textColor="@color/white"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/editUserSurname"
@@ -161,7 +161,7 @@
                         android:layout_marginEnd="20dp"
                         android:gravity="end"
                         android:text="@string/editText"
-                        android:textColor="@color/blueish"
+                        android:textColor="@color/clear_blue"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -174,7 +174,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:text="@string/displayEmail"
-                    android:textColor="@color/white_grey" />
+                    android:textColor="@color/broken_white" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -187,7 +187,7 @@
                         android:textSize="15sp"
                         android:layout_marginStart="20dp"
                         android:text="emailDePeruano@gmail.com"
-                        android:textColor="@color/white2"
+                        android:textColor="@color/white"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/editEmail"
@@ -197,7 +197,7 @@
                         android:layout_marginEnd="20dp"
                         android:gravity="end"
                         android:text="@string/editText"
-                        android:textColor="@color/blueish"
+                        android:textColor="@color/clear_blue"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -210,7 +210,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:text="@string/password"
-                    android:textColor="@color/white_grey" />
+                    android:textColor="@color/broken_white" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -225,7 +225,7 @@
                         android:layout_marginStart="20dp"
                         android:text="password"
                         android:inputType="textPassword"
-                        android:textColor="@color/white2"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         tools:ignore="TextViewEdits" />
                     <TextView
@@ -236,7 +236,7 @@
                         android:layout_marginEnd="20dp"
                         android:gravity="end"
                         android:text="@string/editText"
-                        android:textColor="@color/blueish"
+                        android:textColor="@color/clear_blue"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -266,7 +266,7 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="18sp"
                     android:text="@string/statistics"
-                    android:textColor="@color/white2"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
@@ -276,7 +276,7 @@
                     android:textSize="15sp"
                     android:layout_marginStart="20dp"
                     android:text="@string/avgScore"
-                    android:textColor="@color/white_grey" />
+                    android:textColor="@color/broken_white" />
                 <TextView
                     android:id="@+id/avgScore"
                     android:layout_width="wrap_content"
@@ -284,7 +284,7 @@
                     android:textSize="15sp"
                     android:layout_marginStart="20dp"
                     android:text="4.5"
-                    android:textColor="@color/white2"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="15dp"/>
@@ -296,7 +296,7 @@
                     android:textSize="15sp"
                     android:layout_marginStart="20dp"
                     android:text="@string/numComments"
-                    android:textColor="@color/white_grey" />
+                    android:textColor="@color/broken_white" />
                 <TextView
                     android:id="@+id/numComments"
                     android:layout_width="wrap_content"
@@ -304,7 +304,7 @@
                     android:textSize="15sp"
                     android:layout_marginStart="20dp"
                     android:text="12"
-                    android:textColor="@color/white2"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="15dp"/>
@@ -316,7 +316,7 @@
                     android:textSize="15sp"
                     android:layout_marginStart="20dp"
                     android:text="@string/percentageOfUsers"
-                    android:textColor="@color/white_grey" />
+                    android:textColor="@color/broken_white" />
                 <TextView
                     android:id="@+id/percentageOfUsers"
                     android:layout_width="wrap_content"
@@ -324,7 +324,7 @@
                     android:textSize="15sp"
                     android:layout_marginStart="20dp"
                     android:text="56%"
-                    android:textColor="@color/white2"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="10dp"/>

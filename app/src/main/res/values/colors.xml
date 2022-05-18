@@ -7,11 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="blueish">#FF0099CC</color>
-    <color name="primary_background">#1a212d</color>
-    <color name="secondary_background">#303a49</color>
-    <color name="whitish">#aea5cf</color>
-    <color name="white2">#fdfeff</color>
-    <color name="white_grey">#cacad5</color>
+    <color name="primary_background">#1A212D</color>
+    <color name="secondary_background">#303A49</color>
+    <color name="clear_blue">#FF0099CC</color>
+    <color name="soft_purple">#AEA5CF</color>
     <color name="broken_white">#FFB3B0B0</color>
 </resources>

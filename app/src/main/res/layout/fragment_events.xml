@@ -14,8 +14,8 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:hint="@string/searchEvents"
-        android:textColorHint="@color/white_grey"
-        android:textColor="@color/white2"
+        android:textColorHint="@color/broken_white"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:autofillHints=""
         android:inputType="text"
@@ -41,7 +41,7 @@
             android:layout_marginStart="25dp"
             android:text="@string/eventsTitle"
             android:textSize="28sp"
-            android:textColor="@color/white2"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:paddingEnd="47dp"
             tools:ignore="RtlSymmetry" />
@@ -50,9 +50,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/sortByText"
-            android:textColor="@color/white2"
+            android:textColor="@color/white"
             android:textSize="17sp"
-            android:gravity="end | center_vertical"
+            android:gravity="end|center_vertical"
             android:layout_marginEnd="30dp" />
 
     </LinearLayout>

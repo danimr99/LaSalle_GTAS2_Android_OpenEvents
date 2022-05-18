@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
@@ -17,18 +18,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginTop="35dp"
-            android:layout_marginBottom="16dp"
             android:text="@string/signUpTitle"
-            android:textColor="@color/black"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:layout_marginStart="35dp"
-            android:textColor="@color/white2" />
+            android:textColor="@color/white" />
 
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp"/>
 
         <TextView
             android:id="@+id/emailTitle"
@@ -36,10 +35,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="5dp"
             android:text="@string/emailTitleLogin"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailInputLayout"
@@ -55,10 +54,12 @@
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:autofillHints=""
                 android:hint="@string/emailHintLogin"
                 android:inputType="textEmailAddress"
-                android:textSize="20sp" />
+                android:textSize="15sp"
+                android:background="@color/primary_background"
+                android:textColor="@color/white"
+                android:textColorHint="@color/secondary_background"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -68,7 +69,8 @@
             android:layout_marginStart="45dp"
             android:text="@string/firstName"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/firstNameLayout"
@@ -84,10 +86,12 @@
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:autofillHints=""
                 android:hint="@string/firstNameHint"
                 android:inputType="text"
-                android:textSize="20sp" />
+                android:textSize="15sp"
+                android:background="@color/primary_background"
+                android:textColor="@color/white"
+                android:textColorHint="@color/secondary_background"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -97,7 +101,8 @@
             android:layout_marginStart="45dp"
             android:text="@string/lastName"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lastNameLayout"
@@ -113,13 +118,14 @@
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:autofillHints=""
                 android:hint="@string/lastNameHint"
                 android:inputType="text"
-                android:textSize="20sp" />
+                android:textSize="15sp"
+                android:background="@color/primary_background"
+                android:textColor="@color/white"
+                android:textColorHint="@color/secondary_background"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
         <TextView
             android:id="@+id/passwordTitle"
@@ -128,7 +134,8 @@
             android:layout_marginStart="45dp"
             android:text="@string/passwordTitleLogin"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordInputLayout"
@@ -145,10 +152,12 @@
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:autofillHints=""
                 android:hint="@string/passwordHintLogin"
                 android:inputType="textPassword"
-                android:textSize="20sp" />
+                android:textSize="15sp"
+                android:background="@color/primary_background"
+                android:textColor="@color/white"
+                android:textColorHint="@color/secondary_background"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,7 +168,8 @@
             android:layout_marginStart="45dp"
             android:text="@string/repeatPasswordTitleLogin"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/repeatPasswordInputLayout"
@@ -176,10 +186,12 @@
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:autofillHints=""
                 android:hint="@string/passwordHintLogin"
                 android:inputType="textPassword"
-                android:textSize="20sp" />
+                android:textSize="15sp"
+                android:background="@color/primary_background"
+                android:textColor="@color/white"
+                android:textColorHint="@color/secondary_background"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -189,10 +201,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="60dp"
-            android:backgroundTint="#FF0099CC"
+            android:backgroundTint="@color/clear_blue"
             android:text="@string/createAccountTitle"
-            android:textColor="#fff"
-            android:textSize="20sp" />
+            android:textSize="15sp"/>
 
     </LinearLayout>
 </ScrollView>
