@@ -45,5 +45,6 @@
     <string name="avgScore">Average Score</string>
     <string name="numComments">Nº of Comments</string>
     <string name="percentageOfUsers">Percentage of users with less comments</string>
-
+    <string name="logOut">Log Out</string>
+    <string name="deleteAccount">Delete Account</string>
 </resources>

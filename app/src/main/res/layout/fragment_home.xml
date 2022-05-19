@@ -24,7 +24,10 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:paddingStart="20dp"
-        tools:ignore="RtlSymmetry" />
+        tools:ignore="RtlSymmetry"
+        android:imeOptions="actionSearch"
+        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:drawablePadding="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

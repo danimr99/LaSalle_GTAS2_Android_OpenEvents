@@ -331,8 +331,31 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/logOutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/clear_blue"
+            android:text="@string/logOut"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            android:drawableEnd="@drawable/ic_baseline_logout_24"/>
+
+        <Button
+            android:id="@+id/deleteAccountButton"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="17dp"
+            android:backgroundTint="@color/red_delete"
+            android:text="@string/deleteAccount"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            android:drawableEnd="@drawable/ic_baseline_clear_24"/>
+
     </LinearLayout>
-
-
 
 </ScrollView>
