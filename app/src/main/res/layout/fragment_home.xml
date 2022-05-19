@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HomeFragment">
+    tools:context=".controller.fragments.HomeFragment">
 
     <EditText
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:hint="@string/search"
+        android:hint="@string/searchEventsHint"
         android:textColorHint="@color/broken_white"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -39,7 +39,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layout_marginStart="25dp"
-            android:text="@string/homeTitle"
+            android:text="@string/popularTitle"
             android:textSize="28sp"
             android:textColor="@color/white"
             android:textStyle="bold"/>
@@ -49,11 +49,11 @@
             android:id="@+id/textSeeAll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/seeAllText"
+            android:text="@string/seeAllLabel"
             android:gravity="end|center_vertical"
             android:layout_marginEnd="30dp"
             android:textSize="20sp"
-            android:textColor="@color/soft_purple"/>
+            android:textColor="@color/clear_blue"/>
 
     </LinearLayout>
 

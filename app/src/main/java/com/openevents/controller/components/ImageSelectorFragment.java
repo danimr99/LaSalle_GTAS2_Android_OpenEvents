@@ -1,4 +1,4 @@
-package com.openevents.controller.fragments;
+package com.openevents.controller.components;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

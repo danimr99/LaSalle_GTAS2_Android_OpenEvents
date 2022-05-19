@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HomeFragment">
+    tools:context=".controller.fragments.HomeFragment">
 
     <EditText
         android:id="@+id/events_search_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:hint="@string/searchEvents"
+        android:hint="@string/searchEventsHint"
         android:textColorHint="@color/broken_white"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -39,7 +39,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layout_marginStart="25dp"
-            android:text="@string/eventsTitle"
+            android:text="@string/allEventsTitle"
             android:textSize="28sp"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -49,7 +49,7 @@
         <CheckBox android:id="@+id/sortCheckbox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/sortByText"
+            android:text="@string/sortByTextLabel"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:gravity="end|center_vertical"

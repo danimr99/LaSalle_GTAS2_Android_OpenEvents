@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginTop="16dp"
-        android:text="@string/emailTitleLogin"
+        android:text="@string/emailTitle"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/white"/>
@@ -38,12 +38,12 @@
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:hint="@string/emailHintLogin"
+            android:hint="@string/emailHint"
             android:inputType="textEmailAddress"
             android:textSize="15sp"
             android:background="@color/primary_background"
             android:textColor="@color/white"
-            android:textColorHint="@color/secondary_background" />
+            android:textColorHint="@color/broken_white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginTop="16dp"
-        android:text="@string/passwordTitleLogin"
+        android:text="@string/passwordTitle"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/white"/>
@@ -71,12 +71,12 @@
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:hint="@string/passwordHintLogin"
+            android:hint="@string/passwordHint"
             android:inputType="textPassword"
             android:textSize="15sp"
             android:background="@color/primary_background"
             android:textColor="@color/white"
-            android:textColorHint="@color/secondary_background"/>
+            android:textColorHint="@color/broken_white"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +87,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
         android:backgroundTint="@color/clear_blue"
-        android:text="@string/signInTitle"
+        android:text="@string/signInLabel"
         android:textColor="#fff"
         android:textSize="15sp" />
 
@@ -112,7 +112,7 @@
             android:id="@+id/signUpText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/notAccountButton"
+            android:text="@string/signUpTitle"
             android:textSize="17sp"
             android:textStyle="bold"
             android:textColor="@color/clear_blue"/>

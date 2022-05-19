@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class User implements Serializable {
+    private int id;
     @SerializedName("name")
     private String name;
     @SerializedName("last_name")
@@ -16,6 +17,15 @@ public class User implements Serializable {
     @SerializedName("image")
     private String image;
 
+    public User(Integer id, String name, String lastName, String email, String password, String image) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.image = image;
+    }
+
     public User(String name, String lastName, String email, String password, String image) {
         this.name = name;
         this.lastName = lastName;
@@ -24,11 +34,18 @@ public class User implements Serializable {
         this.image = image;
     }
 
-    public User(String name, String lastName, String email, String image) {
+    public void updateUser(Integer id, String name, String lastName, String email, String password,
+                           String image) {
+        this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.image = image;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getName() {

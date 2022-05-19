@@ -2,7 +2,7 @@ package com.openevents.api.responses;
 
 import java.io.Serializable;
 
-public class Profile implements Serializable {
+public class RegisteredUser implements Serializable {
     private String name;
     private String last_name;
     private String email;

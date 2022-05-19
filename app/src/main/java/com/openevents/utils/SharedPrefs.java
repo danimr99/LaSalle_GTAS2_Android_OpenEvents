@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import com.openevents.constants.Constants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SharedPrefs {
     private static SharedPrefs sharedPrefs;
     private SharedPreferences sharedPreferences;
@@ -43,5 +46,9 @@ public class SharedPrefs {
 
     public String getStringEntry(String key) {
         return this.sharedPreferences.getString(key, "");
+    }
+
+    public String getAuthenticationToken() {
+        return this.getStringEntry(Constants.AUTHENTICATION_TOKEN_SHARED_PREFERENCES);
     }
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -15,14 +16,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.openevents.R;
 import com.openevents.api.APIManager;
-import com.openevents.api.responses.Profile;
+import com.openevents.api.responses.RegisteredUser;
 import com.openevents.constants.Constants;
-import com.openevents.controller.fragments.ImageSelectorFragment;
+import com.openevents.controller.components.ImageSelectorFragment;
 import com.openevents.model.User;
 import com.openevents.utils.Numbers;
 import com.openevents.utils.ToastNotification;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -86,7 +88,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Get profile image view once the fragment has been loaded
         View fragmentView = this.fragment.getView();
-        this.profileImage = fragmentView.findViewById(R.id.imageSelector);
+        this.profileImage = fragmentView != null ?
+                fragmentView.findViewById(R.id.imageSelector) : null;
     }
 
     private boolean checkEmail(String email) {
@@ -165,11 +168,11 @@ public class RegisterActivity extends AppCompatActivity {
         String image = Constants.EXAMPLE_PROFILE_IMAGES_URL[imageIndex];
 
         // Get text from form fields
-        String email = this.email.getText().toString();
-        String name = this.name.getText().toString();
-        String lastName = this.lastName.getText().toString();
-        String password = this.password.getText().toString();
-        String repeatedPassword = this.repeatPassword.getText().toString();
+        String email = Objects.requireNonNull(this.email.getText()).toString();
+        String name = Objects.requireNonNull(this.name.getText()).toString();
+        String lastName = Objects.requireNonNull(this.lastName.getText()).toString();
+        String password = Objects.requireNonNull(this.password.getText()).toString();
+        String repeatedPassword = Objects.requireNonNull(this.repeatPassword.getText()).toString();
 
         // Check if all fields are filled and well formed
         if (this.isFormValid(email, name, lastName, password, repeatedPassword)) {
@@ -177,9 +180,9 @@ public class RegisterActivity extends AppCompatActivity {
             User user = new User(name, lastName, email, password, image);
 
             // Register new user to API
-            this.apiManager.register(user, new Callback<Profile>() {
+            this.apiManager.register(user, new Callback<RegisteredUser>() {
                 @Override
-                public void onResponse(Call<Profile> call, Response<Profile> response) {
+                public void onResponse(@NonNull Call<RegisteredUser> call, @NonNull Response<RegisteredUser> response) {
                     if (response.isSuccessful()) {
                         ToastNotification.showNotification(getApplicationContext(),
                                 R.string.registerSuccessful);
@@ -193,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
                     } else {
                         try {
                             // Get error message from API
-                            String errorBody = response.errorBody().string();
+                            String errorBody = Objects.requireNonNull(response.errorBody()).string();
                             JsonObject element = JsonParser.parseString(errorBody).getAsJsonObject();
 
                             // Try to get the type of the email error
@@ -227,7 +230,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Profile> call, Throwable t) {
+                public void onFailure(@NonNull Call<RegisteredUser> call, @NonNull Throwable t) {
                     ToastNotification.showServerConnectionError(getApplicationContext());
                 }
             });
