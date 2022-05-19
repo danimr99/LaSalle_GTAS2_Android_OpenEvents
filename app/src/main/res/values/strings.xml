@@ -47,4 +47,19 @@
     <string name="percentageOfUsers">Percentage of users with less comments</string>
     <string name="logOut">Log Out</string>
     <string name="deleteAccount">Delete Account</string>
+    <string name="dateOfEvent">Date</string>
+    <string name="separator">-</string>
+    <string name="typeOfEvent">Type</string>
+    <string name="numberOfParticipants">Number of Participants</string>
+    <string name="eventDescription">Description</string>
+    <string name="joinEvent">Join Event</string>
+    <string name="newEventTextView">New Event</string>
+    <string name="titleEventCreation">Title</string>
+    <string name="locationEventCreation">Location</string>
+    <string name="startDateEventCreation">Starting Date</string>
+    <string name="startDateEventCreationHint">Select starting date</string>
+    <string name="endDateEventCreation">Closure Date</string>
+    <string name="endDateEventCreationHint">Select closure date</string>
+    <string name="participantsEventCreationHint">Select number of participants</string>
+    <string name="createEvent">CREATE EVENT</string>
 </resources>
