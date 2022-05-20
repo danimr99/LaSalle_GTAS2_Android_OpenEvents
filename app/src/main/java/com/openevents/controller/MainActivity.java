@@ -2,6 +2,7 @@ package com.openevents.controller;
 
 import com.openevents.EventsFragment;
 import com.openevents.HomeFragment;
+import com.openevents.MyEventListsFragment;
 import com.openevents.R;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new HomeFragment();
                     break;
                 case R.id.navBarEventsIcon:
-                    fragment = new EventsFragment();
+                    fragment = new MyEventListsFragment();
                     break;
                 case R.id.navBarUserIcon:
                     fragment = new UserFragment();
