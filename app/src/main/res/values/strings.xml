@@ -24,6 +24,15 @@
     <string name="myAverageScoreTitle">My average score</string>
     <string name="numberOfCommentTitle">Number of comments</string>
     <string name="percentageOfUsersTitle">Percentage of users with less comments</string>
+    <string name="createEventTitle">Create event</string>
+    <string name="eventTitle">Title</string>
+    <string name="eventLocationTitle">Location</string>
+    <string name="eventStartDateTitle">Start date</string>
+    <string name="eventEndDateTitle">Closure date</string>
+    <string name="eventNumberOfParticipantsTitle">Number of participants</string>
+    <string name="eventTypeTitle">Category</string>
+    <string name="eventDescriptionTitle">Description</string>
+    <string name="eventDateTitle">Start date - Closure date</string>
 
     <!-- Texts -->
     <string name="notAccountText">Don\'t have an account?</string>
@@ -41,6 +50,10 @@
     <string name="editLabel">Edit</string>
     <string name="acceptLabel">Accept</string>
     <string name="cancelLabel">Cancel</string>
+    <string name="createEventLabel">CREATE EVENT</string>
+    <string name="joinEventLabel">JOIN EVENT</string>
+    <string name="logOutLabel">LOG OUT</string>
+    <string name="deleteAccountLabel">DELETE ACCOUNT</string>
 
     <!-- Hints -->
     <string name="emailHint">Your email</string>
@@ -49,6 +62,13 @@
     <string name="lastNameHint">Your last name</string>
     <string name="searchHint">Search</string>
     <string name="searchEventsHint">Search events</string>
+    <string name="eventTitleHint">Event title</string>
+    <string name="eventLocationHint">Event location</string>
+    <string name="eventStartDateHint">Select start date</string>
+    <string name="eventEndDateHint">Select end date</string>
+    <string name="numberOfParticipantsHint">Select number of participants</string>
+    <string name="eventTypeHint">Event category</string>
+    <string name="eventDescriptionHint">Event description</string>
 
     <!-- Errors -->
     <string name="cannotConnectToServerError">ERROR: Connection to the server failed</string>
@@ -67,4 +87,10 @@
 
     <!-- Notifications -->
     <string name="registerSuccessful">Signed up successfully</string>
+
+    <!-- Symbols -->
+    <string name="dot">·</string>
+    <string name="hyphen">-</string>
+
+
 </resources>

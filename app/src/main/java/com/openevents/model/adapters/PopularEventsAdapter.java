@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openevents.R;
 import com.openevents.api.responses.Event;
+import com.openevents.utils.DateParser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView eventTitle;
+        public TextView eventStartDate;
         public ImageView eventImage;
 
         public ViewHolder(View view) {
@@ -28,6 +30,7 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
 
             // Get elements of the view for each item of the RecyclerView
             this.eventTitle = view.findViewById(R.id.event_card_title);
+            this.eventStartDate = view.findViewById(R.id.event_card_start_date);
             this.eventImage = view.findViewById(R.id.event_card_image);
         }
     }
@@ -55,6 +58,9 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
                 .placeholder(R.drawable.event_placeholder)
                 .error(R.drawable.event_placeholder)
                 .into(holder.eventImage);
+
+        // Set event name
+        holder.eventStartDate.setText(DateParser.toDate(item.getEventStartDate()));
 
         // Set event name
         holder.eventTitle.setText(item.getName());

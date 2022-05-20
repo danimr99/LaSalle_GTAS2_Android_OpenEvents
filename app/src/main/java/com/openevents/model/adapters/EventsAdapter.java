@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openevents.R;
 import com.openevents.api.responses.Event;
+import com.openevents.utils.DateParser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView eventTitle;
         public TextView eventLocation;
+        public TextView eventStartDate;
         public ImageView eventImage;
 
         public ViewHolder(View view) {
@@ -28,7 +30,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
             // Get elements of the view for each item of the RecyclerView
             this.eventTitle = view.findViewById(R.id.event_title);
-            this.eventLocation = view.findViewById(R.id.event_location_title);
+            this.eventLocation = view.findViewById(R.id.event_location);
+            this.eventStartDate = view.findViewById(R.id.event_start_date);
             this.eventImage = view.findViewById(R.id.event_image);
         }
     }
@@ -62,6 +65,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
         // Set event location
         holder.eventLocation.setText(item.getLocation());
+
+        // Set event start date
+        holder.eventStartDate.setText(DateParser.toDate(item.getEventStartDate()));
     }
 
     @Override

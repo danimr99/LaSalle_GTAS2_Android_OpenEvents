@@ -12,4 +12,7 @@
     <color name="clear_blue">#FF0099CC</color>
     <color name="soft_purple">#AEA5CF</color>
     <color name="broken_white">#FFB3B0B0</color>
+    <color name="red_delete">#eb4034</color>
+    <color name="broken_grey">#6e6968</color>
+    <color name="semi_white">#e3dfde</color>
 </resources>
