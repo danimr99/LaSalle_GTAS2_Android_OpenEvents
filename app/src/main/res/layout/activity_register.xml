@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
@@ -13,35 +12,33 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/signUpTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
             android:layout_marginTop="35dp"
             android:text="@string/signUpTitle"
+            android:textColor="@color/white"
             android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="@color/white" />
+            android:textStyle="bold" />
 
         <FrameLayout
-            android:id="@+id/fragment_container"
+            android:id="@+id/image_selector_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp" />
 
         <TextView
-            android:id="@+id/emailTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
             android:layout_marginTop="16dp"
             android:text="@string/emailTitle"
+            android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailInputLayout"
+            android:id="@+id/email_input_layout"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -50,30 +47,29 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/emailInput"
+                android:id="@+id/email_input"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:background="@color/primary_background"
                 android:hint="@string/emailHint"
                 android:inputType="textEmailAddress"
-                android:textSize="15sp"
-                android:background="@color/primary_background"
                 android:textColor="@color/white"
-                android:textColorHint="@color/broken_white"/>
+                android:textColorHint="@color/broken_white"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/firstNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
             android:text="@string/firstNameTitle"
+            android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/firstNameLayout"
+            android:id="@+id/first_name_input_layout"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -82,30 +78,29 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/firstNameInput"
+                android:id="@+id/first_name_input"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:background="@color/primary_background"
                 android:hint="@string/firstNameHint"
                 android:inputType="text"
-                android:textSize="15sp"
-                android:background="@color/primary_background"
                 android:textColor="@color/white"
-                android:textColorHint="@color/broken_white"/>
+                android:textColorHint="@color/broken_white"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/lastNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
             android:text="@string/lastNameTitle"
+            android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lastNameLayout"
+            android:id="@+id/last_name_input_layout"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -114,31 +109,30 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/lastNameInput"
+                android:id="@+id/last_name_input"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:background="@color/primary_background"
                 android:hint="@string/lastNameHint"
                 android:inputType="text"
-                android:textSize="15sp"
-                android:background="@color/primary_background"
                 android:textColor="@color/white"
-                android:textColorHint="@color/broken_white"/>
+                android:textColorHint="@color/broken_white"
+                android:textSize="15sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/passwordTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
             android:text="@string/passwordTitle"
+            android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordInputLayout"
+            android:id="@+id/password_input_layout"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -148,31 +142,30 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passwordInput"
+                android:id="@+id/password_input"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:background="@color/primary_background"
                 android:hint="@string/passwordHint"
                 android:inputType="textPassword"
-                android:textSize="15sp"
-                android:background="@color/primary_background"
                 android:textColor="@color/white"
-                android:textColorHint="@color/broken_white"/>
+                android:textColorHint="@color/broken_white"
+                android:textSize="15sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/repeatPasswordTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
             android:text="@string/repeatPasswordTitle"
+            android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/repeatPasswordInputLayout"
+            android:id="@+id/repeat_password_input_layout"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -182,20 +175,20 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/repeatPasswordInput"
+                android:id="@+id/repeat_password_input"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:background="@color/primary_background"
                 android:hint="@string/passwordHint"
                 android:inputType="textPassword"
-                android:textSize="15sp"
-                android:background="@color/primary_background"
                 android:textColor="@color/white"
-                android:textColorHint="@color/broken_white"/>
+                android:textColorHint="@color/broken_white"
+                android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/registerButton"
+            android:id="@+id/register_button"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
@@ -203,7 +196,7 @@
             android:layout_marginBottom="60dp"
             android:backgroundTint="@color/clear_blue"
             android:text="@string/createAccountLabel"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
     </LinearLayout>
 </ScrollView>

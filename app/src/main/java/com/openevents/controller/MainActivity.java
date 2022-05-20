@@ -48,14 +48,14 @@ public class MainActivity extends AppCompatActivity {
         this.getUserLoggedIn();
 
         // Configure bottom navigation bar of the app
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_bar);
         bottomNav.setOnItemSelectedListener(view -> {
             switch (view.getItemId()) {
                 case R.id.navBarHomeIcon:
                     this.fragment = new HomeFragment();
                     break;
                 case R.id.navBarEventsIcon:
-                    this.fragment = new EventsFragment();
+                    this.fragment = new HomeFragment();
                     break;
                 case R.id.navBarUserIcon:
                     this.fragment = new UserFragment();
@@ -64,14 +64,14 @@ public class MainActivity extends AppCompatActivity {
 
             // Change fragment to the one selected from the bottom navigation bar
             this.getSupportFragmentManager().beginTransaction().
-                    replace(R.id.fragment_container, this.fragment).commit();
+                    replace(R.id.home_fragment_container, this.fragment).commit();
             return true;
         });
 
         // Set default fragment on enter to the app
         this.fragment = new HomeFragment();
         this.getSupportFragmentManager().beginTransaction().
-                replace(R.id.fragment_container, this.fragment).commit();
+                replace(R.id.home_fragment_container, this.fragment).commit();
     }
 
 

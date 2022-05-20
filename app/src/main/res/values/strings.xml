@@ -3,7 +3,8 @@
     <string name="app_name">OpenEvents</string>
 
     <!-- Component descriptions -->
-    <string name="openEventsLogoDescription">openEventsLogo</string>
+    <string name="openEventsLogoDescription">Open Events Logo</string>
+    <string name="eventImageDescription">Image of an event</string>
 
     <!-- Titles -->
     <string name="emailTitle">Email</string>
@@ -26,13 +27,20 @@
 
     <!-- Texts -->
     <string name="notAccountText">Don\'t have an account?</string>
+    <string name="loading">Loading…</string>
+    <string name="response">Loading…</string>
+    <string name="serverConnectionFailed">An error occurred while connecting to the server</string>
+    <string name="noPopularEvents">No popular events were found</string>
+    <string name="noEvents">No events were found</string>
 
     <!-- Labels -->
     <string name="signInLabel">SIGN IN</string>
     <string name="createAccountLabel">CREATE ACCOUNT</string>
     <string name="seeAllLabel">See all</string>
-    <string name="sortByTextLabel">Sort by rating</string>
+    <string name="sortByStartDate">Sort by start date</string>
     <string name="editLabel">Edit</string>
+    <string name="acceptLabel">Accept</string>
+    <string name="cancelLabel">Cancel</string>
 
     <!-- Hints -->
     <string name="emailHint">Your email</string>
@@ -54,6 +62,8 @@
     <string name="registerError">ERROR: Sign up failed</string>
     <string name="cannotGetUsersError">ERROR: Cannot get users</string>
     <string name="cannotGetUserError">ERROR: Cannot get user</string>
+    <string name="cannotGetEventsError">ERROR: Cannot get events</string>
+    <string name="cannotGetEventError">ERROR: Cannot get event</string>
 
     <!-- Notifications -->
     <string name="registerSuccessful">Signed up successfully</string>

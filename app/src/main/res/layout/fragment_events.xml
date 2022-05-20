@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/primary_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary_background"
     android:orientation="vertical"
     tools:context=".controller.fragments.HomeFragment">
 
@@ -13,56 +12,64 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:hint="@string/searchEventsHint"
-        android:textColorHint="@color/broken_white"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:autofillHints=""
-        android:inputType="text"
-        android:background="@drawable/home_search_bar"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+        android:background="@drawable/search_bar_shape"
+        android:hint="@string/searchEventsHint"
+        android:autofillHints=""
+        android:inputType="text"
         android:paddingStart="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/broken_white"
+        android:textSize="20sp"
         tools:ignore="RtlSymmetry" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
+        android:layout_gravity="end"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/EventsTitle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:layout_marginStart="25dp"
-            android:text="@string/allEventsTitle"
-            android:textSize="28sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            android:gravity="center_vertical"
             android:paddingEnd="47dp"
+            android:text="@string/allEventsTitle"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"
             tools:ignore="RtlSymmetry" />
 
-        <CheckBox android:id="@+id/sortCheckbox"
+        <CheckBox
+            android:id="@+id/sort_by_rating_checkbox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/sortByTextLabel"
-            android:textColor="@color/white"
-            android:textSize="17sp"
+            android:layout_marginEnd="30dp"
             android:gravity="end|center_vertical"
-            android:layout_marginEnd="30dp" />
+            android:text="@string/sortByStartDate"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/AllEventsRecyclerView"
+        android:id="@+id/events_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="30dp"/>
+        android:fadingEdgeLength="30dp"
+        android:requiresFadingEdge="vertical"/>
+
+    <TextView
+        android:id="@+id/events_status_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/broken_white"/>
 
 </LinearLayout>

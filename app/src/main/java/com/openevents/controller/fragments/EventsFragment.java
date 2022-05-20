@@ -1,8 +1,8 @@
 package com.openevents.controller.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,19 +10,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
-import com.openevents.model.adapters.EventsRecyclerViewAdapter;
+import com.openevents.api.APIManager;
+import com.openevents.api.ActivityState;
+import com.openevents.api.responses.Event;
 import com.openevents.R;
+import com.openevents.model.adapters.EventsAdapter;
+import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class EventsFragment extends Fragment implements EventsRecyclerViewAdapter.ItemClickListener {
-    private EventsRecyclerViewAdapter adapter;
 
-    public EventsFragment() {
-        // Required empty public constructor
+public class EventsFragment extends Fragment implements ActivityState {
+    private CheckBox sortByRating;
+    private TextView eventsStatusText;
+    private RecyclerView eventsRecyclerView;
+    private RecyclerView.Adapter eventsAdapter;
+    private APIManager apiManager;
+    private SharedPrefs sharedPrefs;
+    private ArrayList<Event> events;
+
+    public EventsFragment(ArrayList<Event> events) {
+        this.events = new ArrayList<>();
     }
 
     @Override
@@ -34,45 +49,92 @@ public class EventsFragment extends Fragment implements EventsRecyclerViewAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_events, container, false);
 
-        // data to populate the RecyclerView with
-        ArrayList<Integer> eventsImage = new ArrayList<>();
-        eventsImage.add(Color.BLUE);
-        eventsImage.add(Color.RED);
-        eventsImage.add(Color.BLUE);
-        eventsImage.add(Color.RED);
-        eventsImage.add(Color.BLUE);
-        eventsImage.add(Color.RED);
+        // Create an instance of APIManager and SharedPreferences
+        this.apiManager = APIManager.getInstance();
+        this.sharedPrefs = SharedPrefs.getInstance(view.getContext());
 
-        ArrayList<String> eventsTitle = new ArrayList<>();
-        eventsTitle.add("Evento Palomero para palomas");
-        eventsTitle.add("Evento Palomero");
-        eventsTitle.add("Evento Palomero para palomas");
-        eventsTitle.add("Evento Palomero");
-        eventsTitle.add("Evento Palomero para palomas");
-        eventsTitle.add("Evento Palomero");
+        // Get popular events from API
+        this.getEvents();
 
-        ArrayList<String> eventsLocation = new ArrayList<>();
-        eventsLocation.add("Perú");
-        eventsLocation.add("Perú");
-        eventsLocation.add("Perú");
-        eventsLocation.add("Perú");
-        eventsLocation.add("Perú");
-        eventsLocation.add("Perú");
+        // Get components from view
+        this.sortByRating = view.findViewById(R.id.sort_by_rating_checkbox);
+        this.eventsRecyclerView = view.findViewById(R.id.events_recycler_view);
+        this.eventsStatusText = view.findViewById(R.id.events_status_text);
 
-        // set up the vertical RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.AllEventsRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new EventsRecyclerViewAdapter(getContext(), eventsImage, eventsTitle, eventsLocation);
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
+        // Set activity status to loading
+        this.loading();
+
+        // TODO Configure on click listener for the checkbox
+
+        // Configure horizontal layout for the events recycler view
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),
+                LinearLayoutManager.VERTICAL, false);
+        this.eventsRecyclerView.setLayoutManager(linearLayoutManager);
 
         return view;
     }
 
+    private void getEvents() {
+        this.apiManager.getEvents(this.sharedPrefs.getAuthenticationToken(), new Callback<ArrayList<Event>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<Event>> call, @NonNull Response<ArrayList<Event>> response) {
+                if (response.isSuccessful()) {
+                    if(response.body() != null) {
+                        // Get events from response
+                        events = response.body();
+
+                        // Create EventsAdapter and pass it to the events recycler view
+                        eventsAdapter = new EventsAdapter(events);
+                        eventsRecyclerView.setAdapter(eventsAdapter);
+
+                        // Update dataset and view
+                        eventsAdapter.notifyDataSetChanged();
+                        onDataReceived();
+                    } else {
+                        // Set activity status to no data received
+                        onNoDataReceived();
+                    }
+                } else {
+                    // Set activity status to no data received
+                    onNoDataReceived();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<Event>> call, @NonNull Throwable t) {
+                // Set activity status to connection failure
+                onConnectionFailure();
+            }
+        });
+    }
+
     @Override
-    public void onItemClick(View view, int position) {
-        Toast.makeText(getContext(), "You clicked " + adapter.getItem(position), Toast.LENGTH_SHORT).show();
+    public void loading() {
+        this.eventsStatusText.setVisibility(View.VISIBLE);
+        this.eventsStatusText.setText(getText(R.string.loading));
+        this.eventsRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDataReceived() {
+        this.eventsStatusText.setVisibility(View.GONE);
+        this.eventsRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onNoDataReceived() {
+        this.eventsStatusText.setVisibility(View.VISIBLE);
+        this.eventsStatusText.setText(getText(R.string.noEvents));
+        this.eventsRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onConnectionFailure() {
+        this.eventsStatusText.setVisibility(View.VISIBLE);
+        this.eventsStatusText.setText(getText(R.string.serverConnectionFailed));
+        this.eventsRecyclerView.setVisibility(View.GONE);
     }
 }

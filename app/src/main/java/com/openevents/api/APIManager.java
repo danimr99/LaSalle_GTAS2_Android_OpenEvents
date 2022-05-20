@@ -1,12 +1,14 @@
 package com.openevents.api;
 
+import com.openevents.api.requests.CreatedUser;
+import com.openevents.api.responses.Event;
 import com.openevents.api.responses.RegisteredUser;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.constants.Constants;
 import com.openevents.api.responses.AuthenticationToken;
 
 import com.openevents.model.User;
-import com.openevents.model.UserSession;
+import com.openevents.api.requests.UserSession;
 
 import java.util.ArrayList;
 
@@ -40,14 +42,20 @@ public class APIManager {
         return "Bearer " + authenticationToken;
     }
 
+    /*
+     * Authentication
+     */
     public void login(UserSession userSession, Callback<AuthenticationToken> callback) {
         this.service.login(userSession).enqueue(callback);
     }
 
-    public void register(User user, Callback<RegisteredUser> callback) {
+    public void register(CreatedUser user, Callback<RegisteredUser> callback) {
         this.service.register(user).enqueue(callback);
     }
 
+    /*
+     * Users
+     */
     public void getUsers(String authenticationToken, Callback<ArrayList<UserProfile>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.getUsers(authentication).enqueue(callback);
@@ -57,5 +65,18 @@ public class APIManager {
                                Callback<ArrayList<User>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.getUserByEmail(authentication, search).enqueue(callback);
+    }
+
+    /*
+     * Events
+     */
+    public void getEvents(String authenticationToken, Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getEvents(authentication).enqueue(callback);
+    }
+
+    public void getPopularEvents(String authenticationToken, Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getPopularEvents(authentication).enqueue(callback);
     }
 }

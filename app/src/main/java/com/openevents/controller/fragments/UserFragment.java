@@ -40,12 +40,12 @@ public class UserFragment extends Fragment {
 
         // Create ImageSelectorFragment
         FragmentManager fm = this.getChildFragmentManager();
-        this.fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.fragment_container);
+        this.fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.image_selector_fragment_container);
 
         // Inflate view with the ImageSelectorFragment
         if (this.fragment == null) {
             this.fragment = new ImageSelectorFragment();
-            fm.beginTransaction().add(R.id.fragment_container, this.fragment).commit();
+            fm.beginTransaction().add(R.id.image_selector_fragment_container, this.fragment).commit();
         }
 
         return view;
@@ -58,6 +58,6 @@ public class UserFragment extends Fragment {
         // Get profile image view once the fragment has been loaded
         View fragmentView = this.fragment.getView();
         this.profileImage = fragmentView != null ?
-                fragmentView.findViewById(R.id.imageSelector) : null;
+                fragmentView.findViewById(R.id.image_selector) : null;
     }
 }

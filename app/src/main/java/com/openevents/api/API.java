@@ -1,10 +1,12 @@
 package com.openevents.api;
 
+import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.AuthenticationToken;
+import com.openevents.api.responses.Event;
 import com.openevents.api.responses.RegisteredUser;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.User;
-import com.openevents.model.UserSession;
+import com.openevents.api.requests.UserSession;
 
 import java.util.ArrayList;
 
@@ -16,12 +18,18 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface API {
+    /*
+     * Authentication
+     */
     @POST("users/login")
     Call<AuthenticationToken> login(@Body UserSession userSession);
 
     @POST("users")
-    Call<RegisteredUser> register(@Body User user);
+    Call<RegisteredUser> register(@Body CreatedUser user);
 
+    /*
+     * Users
+     */
     @GET("users")
     Call<ArrayList<UserProfile>> getUsers(@Header("Authorization") String authenticationToken);
 
@@ -29,4 +37,12 @@ public interface API {
     Call<ArrayList<User>> getUserByEmail(@Header("Authorization") String authenticationToken,
                               @Query("s") String search);
 
+    /*
+     * Events
+     */
+    @GET("events")
+    Call<ArrayList<Event>> getEvents(@Header("Authorization") String authenticationToken);
+
+    @GET("events/best")
+    Call<ArrayList<Event>> getPopularEvents(@Header("Authorization") String authenticationToken);
 }

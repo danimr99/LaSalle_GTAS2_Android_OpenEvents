@@ -14,7 +14,7 @@ import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.constants.Constants;
-import com.openevents.model.UserSession;
+import com.openevents.api.requests.UserSession;
 import com.openevents.utils.SharedPrefs;
 import com.openevents.utils.ToastNotification;
 
@@ -42,19 +42,19 @@ public class LoginActivity extends AppCompatActivity {
         this.apiManager = APIManager.getInstance();
 
         // Email input
-        this.emailLayout = findViewById(R.id.emailInputLayout);
-        this.email = findViewById(R.id.emailInput);
+        this.emailLayout = findViewById(R.id.email_input_layout);
+        this.email = findViewById(R.id.email_input);
 
         // Password input
-        this.passwordLayout = findViewById(R.id.passwordInputLayout);
-        this.password = findViewById(R.id.passwordInput);
+        this.passwordLayout = findViewById(R.id.password_input_layout);
+        this.password = findViewById(R.id.password_input);
 
         // Sign in button
-        this.signInButton = findViewById(R.id.signInButton);
+        this.signInButton = findViewById(R.id.sign_in_button);
         this.signInButton.setOnClickListener(view -> this.attemptSignIn());
 
         // Sign up textview to navigate to RegisterActivity
-        this.signUpTextView = findViewById(R.id.signUpText);
+        this.signUpTextView = findViewById(R.id.sign_up_text);
         this.signUpTextView.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
