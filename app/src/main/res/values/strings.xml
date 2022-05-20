@@ -9,12 +9,14 @@
     <string name="userImageDescription">Image of a user</string>
     <string name="acceptRequestButtonDescription">Accept request button</string>
     <string name="declineRequestButtonDescription">Decline request button</string>
+    <string name="backArrowDescription">Back arrow button</string>
 
     <!-- Titles -->
     <string name="emailTitle">Email</string>
     <string name="passwordTitle">Password</string>
     <string name="repeatPasswordTitle">Repeat password</string>
     <string name="signUpTitle">Sign up</string>
+    <string name="editUserInfoTitle">Edit information</string>
     <string name="firstNameTitle">First name</string>
     <string name="lastNameTitle">Last name</string>
     <string name="userTitle">User</string>
@@ -25,6 +27,7 @@
     <string name="popularTitle">Popular</string>
     <string name="allEventsTitle">All Events</string>
     <string name="myStatisticsTitle">My Statistics</string>
+    <string name="informationTitle">Information</string>
     <string name="myAverageScoreTitle">My average score</string>
     <string name="numberOfCommentTitle">Number of comments</string>
     <string name="percentageOfUsersTitle">Percentage of users with less comments</string>
@@ -52,6 +55,7 @@
     <!-- Labels -->
     <string name="signInLabel">SIGN IN</string>
     <string name="createAccountLabel">CREATE ACCOUNT</string>
+    <string name="updateInfoLabel">UPDATE INFORMATION</string>
     <string name="seeAllLabel">See all</string>
     <string name="sortByStartDate">Sort by start date</string>
     <string name="editLabel">Edit</string>
@@ -67,10 +71,15 @@
 
     <!-- Hints -->
     <string name="emailHint">Your email</string>
+    <string name="changeEmailHint">Change email</string>
     <string name="passwordHint">Your password</string>
+    <string name="changePasswordHint">Change your password</string>
+    <string name="repeatChangedPasswordHint">Repeat changed password</string>
     <string name="repeatPasswordHint">Repeat your password</string>
     <string name="firstNameHint">Your first name</string>
+    <string name="changeFirstNameHint">Change your first name</string>
     <string name="lastNameHint">Your last name</string>
+    <string name="changeLastNameHint">Change your last name</string>
     <string name="searchHint">Search</string>
     <string name="searchEventsHint">Search events</string>
     <string name="searchUsersHint">Search users</string>
