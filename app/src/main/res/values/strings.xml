@@ -9,6 +9,7 @@
     <string name="userImageDescription">Image of a user</string>
     <string name="acceptRequestButtonDescription">Accept request button</string>
     <string name="declineRequestButtonDescription">Decline request button</string>
+    <string name="backArrowDescription">Back arrow button</string>
 
     <!-- Titles -->
     <string name="emailTitle">Email</string>
