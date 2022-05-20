@@ -5,7 +5,7 @@
     android:background="@color/primary_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EventDetailsFragment"
+    tools:context=".controller.fragments.EventDetailsFragment"
     android:requiresFadingEdge="vertical"
     android:fadingEdgeLength="30dp">
 
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
-                android:text="@string/separator"
+                android:text="@string/hyphen"
                 android:textSize="17sp"
                 android:textColor="@color/broken_white" />
 
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:textSize="17sp"
-            android:text="@string/dateOfEvent"
+            android:text="@string/eventDateTitle"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -115,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
-                android:text="@string/separator"
+                android:text="@string/hyphen"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
                 android:textColor="@color/broken_white"
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textSize="17sp"
-            android:text="@string/typeOfEvent"
+            android:text="@string/eventTypeTitle"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textSize="17sp"
-            android:text="@string/numberOfParticipants"
+            android:text="@string/eventNumberOfParticipantsTitle"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -172,7 +172,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textSize="17sp"
-            android:text="@string/eventDescription"
+            android:text="@string/eventDescriptionTitle"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -201,7 +201,7 @@
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:textSize="20sp"
-            android:text="@string/joinEvent"
+            android:text="@string/joinEventLabel"
             android:textColor="@color/clear_blue"
             android:textStyle="bold" />
 

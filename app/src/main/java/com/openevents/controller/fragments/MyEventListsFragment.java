@@ -1,4 +1,4 @@
-package com.openevents;
+package com.openevents.controller.fragments;
 
 import android.os.Bundle;
 
@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.openevents.R;
+import com.openevents.ViewPager2Adapter;
 
 import java.util.ArrayList;
 

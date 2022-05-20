@@ -1,4 +1,4 @@
-package com.openevents;
+package com.openevents.controller.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,13 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.openevents.R;
+
 import java.util.ArrayList;
 
+public class MyCreatedEventsFragment extends Fragment {
 
-public class EventsFragment extends Fragment implements MyEventsRecyclerViewAdapter.ItemClickListener{
-    private MyEventsRecyclerViewAdapter adapter;
-
-    public EventsFragment() {
+    public MyCreatedEventsFragment() {
         // Required empty public constructor
     }
 
@@ -30,8 +30,8 @@ public class EventsFragment extends Fragment implements MyEventsRecyclerViewAdap
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_events, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_my_created_events, container, false);
 
         // data to populate the RecyclerView with
         ArrayList<Integer> eventsImage = new ArrayList<>();
@@ -66,19 +66,7 @@ public class EventsFragment extends Fragment implements MyEventsRecyclerViewAdap
         eventsDate.add("12/12/2020");
         eventsDate.add("12/12/2020");
 
-        // set up the vertical RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.AllEventsRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new MyEventsRecyclerViewAdapter(getContext(), eventsImage, eventsTitle, eventsLocation, eventsDate);
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
 
         return view;
-
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        Toast.makeText(getContext(), "You clicked " + adapter.getItem(position), Toast.LENGTH_SHORT).show();
     }
 }

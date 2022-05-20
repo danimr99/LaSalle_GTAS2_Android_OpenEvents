@@ -1,4 +1,4 @@
-package com.openevents.model;
+package com.openevents.api.requests;
 
 import java.io.Serializable;
 

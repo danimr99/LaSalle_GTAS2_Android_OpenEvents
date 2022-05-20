@@ -1,4 +1,4 @@
-package com.openevents.controller.fragments;
+package com.openevents.controller.components;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -64,7 +64,7 @@ public class ImageSelectorFragment extends Fragment {
         );
 
         // Set onClickListener to the ImageView
-        this.imageSelector = view.findViewById(R.id.imageSelector);
+        this.imageSelector = view.findViewById(R.id.image_selector);
         this.imageSelector.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), ImageSelectActivity.class);
             intent.putExtra(ImageSelectActivity.FLAG_COMPRESS, false);

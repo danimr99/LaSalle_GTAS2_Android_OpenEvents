@@ -1,11 +1,15 @@
 package com.openevents.controller;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -15,14 +19,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.openevents.R;
 import com.openevents.api.APIManager;
-import com.openevents.api.responses.Profile;
+import com.openevents.api.requests.CreatedUser;
+import com.openevents.api.responses.RegisteredUser;
 import com.openevents.constants.Constants;
-import com.openevents.controller.fragments.ImageSelectorFragment;
+import com.openevents.controller.components.ImageSelectorFragment;
 import com.openevents.model.User;
 import com.openevents.utils.Numbers;
 import com.openevents.utils.ToastNotification;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -55,26 +61,26 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Create ImageSelectorFragment
         FragmentManager fm = this.getSupportFragmentManager();
-        this.fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.fragment_container);
+        this.fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.image_selector_fragment_container);
 
         // Inflate view with the ImageSelectorFragment
         if (this.fragment == null) {
             this.fragment = new ImageSelectorFragment();
-            fm.beginTransaction().add(R.id.fragment_container, this.fragment).commit();
+            fm.beginTransaction().add(R.id.image_selector_fragment_container, this.fragment).commit();
         }
 
         // Get each component from the view
-        this.emailLayout = findViewById(R.id.emailInputLayout);
-        this.email = findViewById(R.id.emailInput);
-        this.nameLayout = findViewById(R.id.firstNameLayout);
-        this.name = findViewById(R.id.firstNameInput);
-        this.lastNameLayout = findViewById(R.id.lastNameLayout);
-        this.lastName = findViewById(R.id.lastNameInput);
-        this.passwordLayout = findViewById(R.id.passwordInputLayout);
-        this.password = findViewById(R.id.passwordInput);
-        this.repeatPasswordLayout = findViewById(R.id.repeatPasswordInputLayout);
-        this.repeatPassword = findViewById(R.id.repeatPasswordInput);
-        this.createAccountButton = findViewById(R.id.registerButton);
+        this.emailLayout = findViewById(R.id.email_input_layout);
+        this.email = findViewById(R.id.email_input);
+        this.nameLayout = findViewById(R.id.first_name_input_layout);
+        this.name = findViewById(R.id.first_name_input);
+        this.lastNameLayout = findViewById(R.id.last_name_input_layout);
+        this.lastName = findViewById(R.id.last_name_input);
+        this.passwordLayout = findViewById(R.id.password_input_layout);
+        this.password = findViewById(R.id.password_input);
+        this.repeatPasswordLayout = findViewById(R.id.repeat_password_input_layout);
+        this.repeatPassword = findViewById(R.id.repeat_password_input);
+        this.createAccountButton = findViewById(R.id.register_button);
 
         // Set onClickListener to button
         this.createAccountButton.setOnClickListener(view -> this.createAccount());
@@ -86,7 +92,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Get profile image view once the fragment has been loaded
         View fragmentView = this.fragment.getView();
-        this.profileImage = fragmentView.findViewById(R.id.imageSelector);
+        this.profileImage = fragmentView != null ?
+                fragmentView.findViewById(R.id.image_selector) : null;
     }
 
     private boolean checkEmail(String email) {
@@ -165,35 +172,30 @@ public class RegisterActivity extends AppCompatActivity {
         String image = Constants.EXAMPLE_PROFILE_IMAGES_URL[imageIndex];
 
         // Get text from form fields
-        String email = this.email.getText().toString();
-        String name = this.name.getText().toString();
-        String lastName = this.lastName.getText().toString();
-        String password = this.password.getText().toString();
-        String repeatedPassword = this.repeatPassword.getText().toString();
+        String email = Objects.requireNonNull(this.email.getText()).toString();
+        String name = Objects.requireNonNull(this.name.getText()).toString();
+        String lastName = Objects.requireNonNull(this.lastName.getText()).toString();
+        String password = Objects.requireNonNull(this.password.getText()).toString();
+        String repeatedPassword = Objects.requireNonNull(this.repeatPassword.getText()).toString();
 
         // Check if all fields are filled and well formed
         if (this.isFormValid(email, name, lastName, password, repeatedPassword)) {
             // Create a new user
-            User user = new User(name, lastName, email, password, image);
+            CreatedUser user = new CreatedUser(name, lastName, email, password, image);
 
             // Register new user to API
-            this.apiManager.register(user, new Callback<Profile>() {
+            this.apiManager.register(user, new Callback<RegisteredUser>() {
                 @Override
-                public void onResponse(Call<Profile> call, Response<Profile> response) {
+                public void onResponse(@NonNull Call<RegisteredUser> call,
+                                       @NonNull Response<RegisteredUser> response) {
                     if (response.isSuccessful()) {
-                        ToastNotification.showNotification(getApplicationContext(),
-                                R.string.registerSuccessful);
-
-                        // Redirect user to LoginActivity
-                        Intent intent = new Intent(RegisterActivity.this,
-                                LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
+                        if(response.body() != null) {
+                            showRegisterSuccessfulDialog();
+                        }
                     } else {
                         try {
                             // Get error message from API
-                            String errorBody = response.errorBody().string();
+                            String errorBody = Objects.requireNonNull(response.errorBody()).string();
                             JsonObject element = JsonParser.parseString(errorBody).getAsJsonObject();
 
                             // Try to get the type of the email error
@@ -227,10 +229,32 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Profile> call, Throwable t) {
+                public void onFailure(@NonNull Call<RegisteredUser> call, @NonNull Throwable t) {
                     ToastNotification.showServerConnectionError(getApplicationContext());
                 }
             });
         }
+    }
+
+    private void showRegisterSuccessfulDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(this.getText(R.string.registerSuccessful));
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(R.string.acceptLabel, (dialog, button) -> {
+            // Dismiss dialog
+            dialog.dismiss();
+        });
+
+        builder.setOnDismissListener(dialog -> {
+            // Redirect user to LoginActivity
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

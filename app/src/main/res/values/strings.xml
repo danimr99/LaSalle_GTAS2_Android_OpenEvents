@@ -1,66 +1,96 @@
 <resources>
+    <!-- App -->
     <string name="app_name">OpenEvents</string>
-    <string name="emailTitleLogin">Email</string>
-    <string name="passwordTitleLogin">Password</string>
-    <string name="repeatPasswordTitleLogin">Repeat password</string>
-    <string name="passwordHintLogin">Your password</string>
-    <string name="emailHintLogin">Your email</string>
-    <string name="signInTitle">SIGN IN</string>
-    <string name="openEventsLogoDescription">openEventsLogo</string>
-    <string name="notAccountText">Don\'t have an account?</string>
-    <string name="notAccountButton">Sign up</string>
+
+    <!-- Component descriptions -->
+    <string name="openEventsLogoDescription">Open Events Logo</string>
+    <string name="eventImageDescription">Image of an event</string>
+
+    <!-- Titles -->
+    <string name="emailTitle">Email</string>
+    <string name="passwordTitle">Password</string>
+    <string name="repeatPasswordTitle">Repeat password</string>
     <string name="signUpTitle">Sign up</string>
-    <string name="firstName">First name</string>
+    <string name="firstNameTitle">First name</string>
+    <string name="lastNameTitle">Last name</string>
+    <string name="userTitle">User</string>
+    <string name="myProfileTitle">My profile</string>
+    <string name="eventsTitle">Events</string>
+    <string name="myEventsTitle">My events</string>
+    <string name="homeTitle">Home</string>
+    <string name="popularTitle">Popular</string>
+    <string name="allEventsTitle">All Events</string>
+    <string name="myStatisticsTitle">My Statistics</string>
+    <string name="myAverageScoreTitle">My average score</string>
+    <string name="numberOfCommentTitle">Number of comments</string>
+    <string name="percentageOfUsersTitle">Percentage of users with less comments</string>
+    <string name="createEventTitle">Create event</string>
+    <string name="eventTitle">Title</string>
+    <string name="eventLocationTitle">Location</string>
+    <string name="eventStartDateTitle">Start date</string>
+    <string name="eventEndDateTitle">Closure date</string>
+    <string name="eventNumberOfParticipantsTitle">Number of participants</string>
+    <string name="eventTypeTitle">Category</string>
+    <string name="eventDescriptionTitle">Description</string>
+    <string name="eventDateTitle">Start date - Closure date</string>
+
+    <!-- Texts -->
+    <string name="notAccountText">Don\'t have an account?</string>
+    <string name="loading">Loading…</string>
+    <string name="response">Loading…</string>
+    <string name="serverConnectionFailed">An error occurred while connecting to the server</string>
+    <string name="noPopularEvents">No popular events were found</string>
+    <string name="noEvents">No events were found</string>
+
+    <!-- Labels -->
+    <string name="signInLabel">SIGN IN</string>
+    <string name="createAccountLabel">CREATE ACCOUNT</string>
+    <string name="seeAllLabel">See all</string>
+    <string name="sortByStartDate">Sort by start date</string>
+    <string name="editLabel">Edit</string>
+    <string name="acceptLabel">Accept</string>
+    <string name="cancelLabel">Cancel</string>
+    <string name="createEventLabel">CREATE EVENT</string>
+    <string name="joinEventLabel">JOIN EVENT</string>
+    <string name="logOutLabel">LOG OUT</string>
+    <string name="deleteAccountLabel">DELETE ACCOUNT</string>
+
+    <!-- Hints -->
+    <string name="emailHint">Your email</string>
+    <string name="passwordHint">Your password</string>
     <string name="firstNameHint">Your first name</string>
-    <string name="lastName">Last name</string>
     <string name="lastNameHint">Your last name</string>
-    <string name="createAccountTitle">CREATE ACCOUNT</string>
+    <string name="searchHint">Search</string>
+    <string name="searchEventsHint">Search events</string>
+    <string name="eventTitleHint">Event title</string>
+    <string name="eventLocationHint">Event location</string>
+    <string name="eventStartDateHint">Select start date</string>
+    <string name="eventEndDateHint">Select end date</string>
+    <string name="numberOfParticipantsHint">Select number of participants</string>
+    <string name="eventTypeHint">Event category</string>
+    <string name="eventDescriptionHint">Event description</string>
+
+    <!-- Errors -->
+    <string name="cannotConnectToServerError">ERROR: Connection to the server failed</string>
     <string name="formNotFilledError">ERROR: You must fill all the fields</string>
     <string name="requiredFieldError">ERROR: Required field</string>
-    <string name="cannotConnectToServerError">ERROR: Connection to the server failed</string>
     <string name="invalidCredentialsError">ERROR: Invalid credentials</string>
     <string name="invalidEmailError">ERROR: Invalid email</string>
-    <string name="emailAlreadyExistsError">ERROR: Email already exists</string>
     <string name="passwordsNotMatchError">ERROR: Passwords do not match</string>
     <string name="passwordMinLengthError">ERROR: Password length must be at least 8 characters long</string>
     <string name="alreadyExistsEmailError">ERROR: A user with the introduced email already exists</string>
     <string name="registerError">ERROR: Sign up failed</string>
+    <string name="cannotGetUsersError">ERROR: Cannot get users</string>
+    <string name="cannotGetUserError">ERROR: Cannot get user</string>
+    <string name="cannotGetEventsError">ERROR: Cannot get events</string>
+    <string name="cannotGetEventError">ERROR: Cannot get event</string>
+
+    <!-- Notifications -->
     <string name="registerSuccessful">Signed up successfully</string>
-    <string name="user">User</string>
-    <string name="search">Search</string>
-    <string name="events">Events</string>
-    <string name="home">Home</string>
-    <string name="homeTitle">Popular</string>
-    <string name="seeAllText">See all</string>
-    <string name="sortByText">Sort by rating</string>
-    <string name="eventsTitle">All Events</string>
-    <string name="searchEvents">Search Events</string>
-    <string name="myAccountTitle">My Account</string>
-    <string name="displayName">Display Name</string>
-    <string name="displaySurname">Display Surname</string>
-    <string name="displayEmail">Email</string>
-    <string name="editText">Edit</string>
-    <string name="password">Password</string>
-    <string name="statistics">My Statistics</string>
-    <string name="avgScore">Average Score</string>
-    <string name="numComments">Nº of Comments</string>
-    <string name="percentageOfUsers">Percentage of users with less comments</string>
-    <string name="logOut">Log Out</string>
-    <string name="deleteAccount">Delete Account</string>
-    <string name="dateOfEvent">Date</string>
-    <string name="separator">-</string>
-    <string name="typeOfEvent">Type</string>
-    <string name="numberOfParticipants">Number of Participants</string>
-    <string name="eventDescription">Description</string>
-    <string name="joinEvent">Join Event</string>
-    <string name="newEventTextView">New Event</string>
-    <string name="titleEventCreation">Title</string>
-    <string name="locationEventCreation">Location</string>
-    <string name="startDateEventCreation">Starting Date</string>
-    <string name="startDateEventCreationHint">Select starting date</string>
-    <string name="endDateEventCreation">Closure Date</string>
-    <string name="endDateEventCreationHint">Select closure date</string>
-    <string name="participantsEventCreationHint">Select number of participants</string>
-    <string name="createEvent">CREATE EVENT</string>
-    <string name="separator2">·</string>
+
+    <!-- Symbols -->
+    <string name="dot">·</string>
+    <string name="hyphen">-</string>
+
+
 </resources>

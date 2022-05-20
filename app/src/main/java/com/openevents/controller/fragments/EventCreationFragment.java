@@ -1,4 +1,4 @@
-package com.openevents;
+package com.openevents.controller.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+
+import com.openevents.R;
 
 import java.util.Calendar;
 

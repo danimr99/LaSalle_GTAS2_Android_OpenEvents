@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/primary_background">
+    android:background="@color/primary_background"
+    android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/logo"
         android:layout_width="280dp"
         android:layout_height="140dp"
         android:layout_gravity="center_horizontal"
@@ -15,18 +14,17 @@
         android:src="@drawable/open_events_logo" />
 
     <TextView
-        android:id="@+id/emailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginTop="16dp"
-        android:text="@string/emailTitleLogin"
+        android:text="@string/emailTitle"
+        android:textColor="@color/white"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailInputLayout"
+        android:id="@+id/email_input_layout"
         android:layout_width="305dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -34,31 +32,30 @@
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailInput"
+            android:id="@+id/email_input"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:hint="@string/emailHintLogin"
-            android:inputType="textEmailAddress"
-            android:textSize="15sp"
             android:background="@color/primary_background"
+            android:hint="@string/emailHint"
+            android:inputType="textEmailAddress"
             android:textColor="@color/white"
-            android:textColorHint="@color/secondary_background" />
+            android:textColorHint="@color/broken_white"
+            android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/passwordTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginTop="16dp"
-        android:text="@string/passwordTitleLogin"
+        android:text="@string/passwordTitle"
+        android:textColor="@color/white"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordInputLayout"
+        android:id="@+id/password_input_layout"
         android:layout_width="305dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -67,27 +64,27 @@
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordInput"
+            android:id="@+id/password_input"
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:hint="@string/passwordHintLogin"
-            android:inputType="textPassword"
-            android:textSize="15sp"
             android:background="@color/primary_background"
+            android:hint="@string/passwordHint"
+            android:inputType="textPassword"
             android:textColor="@color/white"
-            android:textColorHint="@color/secondary_background"/>
+            android:textColorHint="@color/broken_white"
+            android:textSize="15sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/signInButton"
+        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
         android:backgroundTint="@color/clear_blue"
-        android:text="@string/signInTitle"
+        android:text="@string/signInLabel"
         android:textColor="#fff"
         android:textSize="15sp" />
 
@@ -100,21 +97,21 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/notAccountText"
+            android:id="@+id/not_account_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5sp"
             android:text="@string/notAccountText"
-            android:textSize="17sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="17sp" />
 
         <TextView
-            android:id="@+id/signUpText"
+            android:id="@+id/sign_up_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/notAccountButton"
+            android:text="@string/signUpTitle"
+            android:textColor="@color/clear_blue"
             android:textSize="17sp"
-            android:textStyle="bold"
-            android:textColor="@color/clear_blue"/>
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>
