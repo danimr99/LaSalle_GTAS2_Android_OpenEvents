@@ -17,6 +17,7 @@ import com.openevents.api.APIManager;
 import com.openevents.api.ActivityState;
 import com.openevents.api.responses.Event;
 import com.openevents.model.adapters.PopularEventsAdapter;
+import com.openevents.model.interfaces.OnEventListener;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeFragment extends Fragment implements ActivityState {
+public class HomeFragment extends Fragment implements ActivityState, OnEventListener {
     private TextView seeAll;
     private TextView popularEventsStatusText;
     private RecyclerView popularEventsRecyclerView;
@@ -89,7 +90,7 @@ public class HomeFragment extends Fragment implements ActivityState {
                         popularEvents = response.body();
 
                         // Create EventsAdapter and pass it to the events recycler view
-                        popularEventsAdapter = new PopularEventsAdapter(popularEvents);
+                        popularEventsAdapter = new PopularEventsAdapter(popularEvents, HomeFragment.this);
                         popularEventsRecyclerView.setAdapter(popularEventsAdapter);
                         popularEventsAdapter.notifyDataSetChanged();
                         onDataReceived();
@@ -136,5 +137,13 @@ public class HomeFragment extends Fragment implements ActivityState {
         this.popularEventsStatusText.setVisibility(View.VISIBLE);
         this.popularEventsStatusText.setText(getText(R.string.serverConnectionFailed));
         this.popularEventsRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onEventClick(int eventPosition) {
+        getParentFragmentManager().beginTransaction().
+                replace(R.id.home_fragment_container,
+                        new EventDetailsFragment(this.popularEvents.get(eventPosition))).
+                commit();
     }
 }

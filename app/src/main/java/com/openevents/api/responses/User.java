@@ -22,16 +22,6 @@ public class User implements Serializable {
         this.image = image;
     }
 
-    public void updateUser(Integer id, String name, String lastName, String email, String password,
-                           String image) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.image = image;
-    }
-
     public Integer getId() {
         return id;
     }

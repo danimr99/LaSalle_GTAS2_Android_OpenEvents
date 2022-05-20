@@ -62,6 +62,12 @@ public class APIManager {
         this.service.getUsers(authentication).enqueue(callback);
     }
 
+    public void getUserById(String authenticationToken, int userID,
+                               Callback<ArrayList<User>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getUserById(authentication, userID).enqueue(callback);
+    }
+
     public void getUserByEmail(String authenticationToken, String search,
                                Callback<ArrayList<User>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);

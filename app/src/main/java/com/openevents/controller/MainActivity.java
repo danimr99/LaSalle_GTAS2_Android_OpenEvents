@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.openevents.controller.fragments.UserFragment;
 import com.openevents.api.responses.User;
-import com.openevents.utils.JsonManager;
 import com.openevents.utils.SharedPrefs;
 import com.openevents.utils.ToastNotification;
 
