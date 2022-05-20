@@ -142,8 +142,9 @@ public class EventsFragment extends Fragment implements ActivityState, OnEventLi
     @Override
     public void onEventClick(int eventPosition) {
         getParentFragmentManager().beginTransaction().
-                replace(R.id.home_fragment_container,
+                add(R.id.home_fragment_container,
                         new EventDetailsFragment(this.events.get(eventPosition))).
+                addToBackStack(this.getClass().getName()).
                 commit();
     }
 }

@@ -142,8 +142,9 @@ public class HomeFragment extends Fragment implements ActivityState, OnEventList
     @Override
     public void onEventClick(int eventPosition) {
         getParentFragmentManager().beginTransaction().
-                replace(R.id.home_fragment_container,
+                add(R.id.home_fragment_container,
                         new EventDetailsFragment(this.popularEvents.get(eventPosition))).
+                addToBackStack(this.getClass().getName()).
                 commit();
     }
 }
