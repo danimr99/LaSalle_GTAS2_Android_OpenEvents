@@ -343,7 +343,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="17dp"
-            android:backgroundTint="@color/red_delete"
+            android:backgroundTint="@color/red"
             android:text="@string/deleteAccountLabel"
             android:textColor="@color/white"
             android:textSize="15sp"

@@ -39,6 +39,10 @@ public interface API {
     Call<ArrayList<User>> getUserByEmail(@Header("Authorization") String authenticationToken,
                               @Query("s") String search);
 
+    @GET("users/{userID}")
+    Call<ArrayList<User>> getUserById(@Header("Authorization") String authenticationToken,
+                                 @Path("userID") int userID);
+
     @GET("users/{userID}/statistics")
     Call<UserStats> getUserStats(@Header("Authorization") String authenticationToken,
                                  @Path("userID") int userID);

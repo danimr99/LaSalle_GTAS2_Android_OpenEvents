@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openevents.R;
 import com.openevents.api.responses.Event;
+import com.openevents.model.interfaces.OnEventListener;
 import com.openevents.utils.DateParser;
 import com.squareup.picasso.Picasso;
 
@@ -19,24 +20,38 @@ import java.util.ArrayList;
 public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdapter.ViewHolder> {
     private static final int TOP_10_POPULAR_EVENTS = 10;
     private ArrayList<Event> popularEvents;
+    private OnEventListener eventListener;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView eventTitle;
         public TextView eventStartDate;
         public ImageView eventImage;
+        private OnEventListener eventListener;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, OnEventListener eventListener) {
             super(view);
 
             // Get elements of the view for each item of the RecyclerView
             this.eventTitle = view.findViewById(R.id.event_card_title);
             this.eventStartDate = view.findViewById(R.id.event_card_start_date);
             this.eventImage = view.findViewById(R.id.event_card_image);
+
+            // Get event listener
+            this.eventListener = eventListener;
+
+            // Configure on click listener of the view
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            this.eventListener.onEventClick(getAdapterPosition());
         }
     }
 
-    public PopularEventsAdapter(ArrayList<Event> popularEvents) {
+    public PopularEventsAdapter(ArrayList<Event> popularEvents, OnEventListener eventListener) {
         this.popularEvents = popularEvents;
+        this.eventListener = eventListener;
     }
 
     @NonNull
@@ -45,7 +60,7 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card_item,
                 parent, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view, this.eventListener);
     }
 
     @Override

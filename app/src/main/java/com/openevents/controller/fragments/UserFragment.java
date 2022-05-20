@@ -66,7 +66,7 @@ public class UserFragment extends Fragment {
         this.authenticationToken =
                 new AuthenticationToken(this.sharedPrefs.getAuthenticationToken());
 
-        // Get an instance of APIManager and get the user from API
+        // Get an instance of APIManager and get the user and his/her stats from API
         this.apiManager = APIManager.getInstance();
         this.getUserLoggedIn();
         this.getUserStats();
