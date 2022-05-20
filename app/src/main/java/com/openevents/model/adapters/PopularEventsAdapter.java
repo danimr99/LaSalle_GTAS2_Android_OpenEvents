@@ -19,13 +19,14 @@ import java.util.ArrayList;
 
 public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdapter.ViewHolder> {
     private static final int TOP_10_POPULAR_EVENTS = 10;
-    private ArrayList<Event> popularEvents;
+    private final ArrayList<Event> popularEvents;
     private OnEventListener eventListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView eventTitle;
         public TextView eventStartDate;
         public ImageView eventImage;
+
         private OnEventListener eventListener;
 
         public ViewHolder(View view, OnEventListener eventListener) {

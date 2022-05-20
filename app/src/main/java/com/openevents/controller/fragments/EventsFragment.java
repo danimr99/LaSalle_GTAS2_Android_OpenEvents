@@ -18,6 +18,7 @@ import com.openevents.api.ActivityState;
 import com.openevents.api.responses.Event;
 import com.openevents.R;
 import com.openevents.model.adapters.EventsAdapter;
+import com.openevents.model.interfaces.OnEventListener;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class EventsFragment extends Fragment implements ActivityState {
+public class EventsFragment extends Fragment implements ActivityState, OnEventListener {
     private CheckBox sortByRating;
     private TextView eventsStatusText;
     private RecyclerView eventsRecyclerView;
@@ -87,7 +88,7 @@ public class EventsFragment extends Fragment implements ActivityState {
                         events = response.body();
 
                         // Create EventsAdapter and pass it to the events recycler view
-                        eventsAdapter = new EventsAdapter(events);
+                        eventsAdapter = new EventsAdapter(events, EventsFragment.this);
                         eventsRecyclerView.setAdapter(eventsAdapter);
 
                         // Update dataset and view
@@ -136,5 +137,13 @@ public class EventsFragment extends Fragment implements ActivityState {
         this.eventsStatusText.setVisibility(View.VISIBLE);
         this.eventsStatusText.setText(getText(R.string.serverConnectionFailed));
         this.eventsRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onEventClick(int eventPosition) {
+        getParentFragmentManager().beginTransaction().
+                replace(R.id.home_fragment_container,
+                        new EventDetailsFragment(this.events.get(eventPosition))).
+                commit();
     }
 }

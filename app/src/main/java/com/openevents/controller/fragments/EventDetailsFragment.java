@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,18 +37,19 @@ public class EventDetailsFragment extends Fragment {
     private TextView eventEndDate;
     private TextView eventCategory;
     private TextView eventParticipants;
+    private TextView eventDescription;
 
     // Variables
     private Event event;
     private User owner;
-    private ArrayList<Assistance> participants;
+    private ArrayList<Assistance> assistants;
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
 
     public EventDetailsFragment(Event event) {
         this.event = event;
-        this.participants = new ArrayList<>();
+        this.assistants = new ArrayList<>();
     }
 
     @Override
@@ -83,6 +83,8 @@ public class EventDetailsFragment extends Fragment {
         this.eventStartDate = view.findViewById(R.id.event_details_start_date);
         this.eventEndDate = view.findViewById(R.id.event_details_end_date);
         this.eventCategory = view.findViewById(R.id.event_details_category);
+        this.eventParticipants = view.findViewById(R.id.event_details_participants);
+        this.eventDescription = view.findViewById(R.id.event_details_description);
 
         // Update event details UI
         this.updateEventDetailsUI(this.event, null);
@@ -113,6 +115,15 @@ public class EventDetailsFragment extends Fragment {
         this.eventStartDate.setText(DateParser.toDateTime(event.getEventStartDate()));
         this.eventEndDate.setText(DateParser.toDateTime(event.getEventEndDate()));
         this.eventCategory.setText(event.getType());
+
+        if(assistants.isEmpty()) {
+            this.eventParticipants.setText("Max: " + event.getParticipatorsQuantity());
+        } else {
+            this.eventParticipants.setText(this.assistants.size() + "/" +
+                    event.getParticipatorsQuantity());
+        }
+
+        this.eventDescription.setText(event.getDescription());
     }
 
     private void getEventOwner(int userID) {
@@ -137,6 +148,25 @@ public class EventDetailsFragment extends Fragment {
     }
 
     private void getEventParticipants(int eventID) {
-        // this.apiManager.getEventAssistances()
+        this.apiManager.getEventAssistants(this.authenticationToken.getAccessToken(), eventID,
+                new Callback<ArrayList<Assistance>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Assistance>> call, Response<ArrayList<Assistance>> response) {
+                if(response.isSuccessful()) {
+                    if(response.body() != null) {
+                        // Get list of assistance
+                        assistants = response.body();
+
+                        // Update event details UI
+                        updateEventDetailsUI(event, owner);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Assistance>> call, Throwable t) {
+
+            }
+        });
     }
 }

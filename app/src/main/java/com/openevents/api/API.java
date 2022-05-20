@@ -1,6 +1,7 @@
 package com.openevents.api;
 
 import com.openevents.api.requests.CreatedUser;
+import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.Event;
 import com.openevents.api.responses.RegisteredUser;
@@ -55,4 +56,8 @@ public interface API {
 
     @GET("events/best")
     Call<ArrayList<Event>> getPopularEvents(@Header("Authorization") String authenticationToken);
+
+    @GET("events/{eventID}/assistances")
+    Call<ArrayList<Assistance>> getEventAssistances(@Header("Authorization") String authenticationToken,
+                                                    @Path("eventID") int eventID);
 }
