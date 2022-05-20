@@ -42,6 +42,7 @@ public class MyEventListsFragment extends Fragment {
         ArrayList<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new MyCreatedEventsFragment());
         fragmentList.add(new JoinedEventsFragment());
+        fragmentList.add(new FinishedEventsListFragment());
         viewPager2Adapter.setData(fragmentList);
         viewPager2.setAdapter(viewPager2Adapter);
 
@@ -58,8 +59,12 @@ public class MyEventListsFragment extends Fragment {
                     tab.setText("My Events");
                     break;
                 case 1:
-                    tab.setText("Joined Events");
+                    tab.setText("Joined");
                     break;
+                case 2:
+                    tab.setText("Finished");
+                    break;
+
             }
         }).attach();
     }

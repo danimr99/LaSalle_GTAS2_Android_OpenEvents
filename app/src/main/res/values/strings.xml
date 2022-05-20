@@ -59,6 +59,8 @@
     <string name="joinEventLabel">JOIN EVENT</string>
     <string name="logOutLabel">LOG OUT</string>
     <string name="deleteAccountLabel">DELETE ACCOUNT</string>
+    <string name="commentEventLabel">Comment</string>
+    <string name="rateEventLabel">Rate</string>
 
     <!-- Hints -->
     <string name="emailHint">Your email</string>
