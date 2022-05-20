@@ -180,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/primary_background"
-                android:hint="@string/passwordHint"
+                android:hint="@string/repeatPasswordHint"
                 android:inputType="textPassword"
                 android:textColor="@color/white"
                 android:textColorHint="@color/broken_white"

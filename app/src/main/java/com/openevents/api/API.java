@@ -5,8 +5,9 @@ import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.Event;
 import com.openevents.api.responses.RegisteredUser;
 import com.openevents.api.responses.UserProfile;
-import com.openevents.model.User;
+import com.openevents.api.responses.User;
 import com.openevents.api.requests.UserSession;
+import com.openevents.api.responses.UserStats;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface API {
@@ -36,6 +38,10 @@ public interface API {
     @GET("users/search")
     Call<ArrayList<User>> getUserByEmail(@Header("Authorization") String authenticationToken,
                               @Query("s") String search);
+
+    @GET("users/{userID}/statistics")
+    Call<UserStats> getUserStats(@Header("Authorization") String authenticationToken,
+                                 @Path("userID") int userID);
 
     /*
      * Events

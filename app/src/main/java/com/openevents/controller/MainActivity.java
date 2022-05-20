@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.openevents.controller.fragments.UserFragment;
-import com.openevents.model.User;
+import com.openevents.api.responses.User;
 import com.openevents.utils.JsonManager;
 import com.openevents.utils.SharedPrefs;
 import com.openevents.utils.ToastNotification;
@@ -94,15 +94,8 @@ public class MainActivity extends AppCompatActivity {
                         User user = response.body().get(0);
 
                         // Save user to SharedPreferences
-                        sharedPrefs.addStringEntry(Constants.USER_SHARED_PREFERENCES,
-                                JsonManager.toJSON(user));
-                    } else {
-                        ToastNotification.showNotification(getApplicationContext(),
-                                R.string.cannotGetUserError);
+                        sharedPrefs.saveUser(user);
                     }
-                } else {
-                    ToastNotification.showNotification(getApplicationContext(),
-                            R.string.cannotGetUserError);
                 }
             }
 
