@@ -12,25 +12,33 @@ import com.openevents.utils.SharedPrefs;
 
 public class SplashActivity extends AppCompatActivity {
     private SharedPrefs sharedPrefs;
-    private String authToken;
+    private String authenticationToken;
     private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        new Handler().post(() -> {
-            this.sharedPrefs = SharedPrefs.getInstance(this);
-            this.authToken = this.sharedPrefs.getStringEntry(Constants.AUTHENTICATION_TOKEN_SHARED_PREFERENCES);
 
-            if(!this.authToken.isEmpty() ) {
+        new Handler().postDelayed(() -> {
+            // Get an instance of SharedPreferences
+            this.sharedPrefs = SharedPrefs.getInstance(this);
+
+            // Get the authentication token
+            this.authenticationToken = this.sharedPrefs.getAuthenticationToken();
+
+            // Check if exists an authentication token
+            if(!this.authenticationToken.isEmpty() ) {
                 this.intent = new Intent(SplashActivity.this, MainActivity.class);
             } else {
                this.intent = new Intent(SplashActivity.this, LoginActivity.class);
             }
 
-            startActivity(intent);
+            // Navigate to the proper activity
+            this.startActivity(intent);
+
+            // Finish this activity to remove it from the stack of activities0
             this.finish();
-        });
+        }, 2000);
     }
 }

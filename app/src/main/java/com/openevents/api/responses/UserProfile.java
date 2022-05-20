@@ -1,38 +1,26 @@
-package com.openevents.model;
+package com.openevents.api.responses;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class UserProfile implements Serializable {
     private int id;
     private String name;
     @SerializedName("last_name")
     private String lastName;
     private String email;
-    private String password;
     private String image;
 
-    public User(Integer id, String name, String lastName, String email, String password, String image) {
+    public UserProfile(int id, String name, String lastName, String email, String image) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
         this.image = image;
     }
 
-    public void updateUser(Integer id, String name, String lastName, String email, String password,
-                           String image) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.image = image;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -46,10 +34,6 @@ public class User implements Serializable {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getImage() {

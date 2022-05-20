@@ -1,11 +1,16 @@
 package com.openevents.api;
 
-import com.openevents.api.responses.Profile;
+import com.openevents.api.requests.CreatedUser;
+import com.openevents.api.responses.Event;
+import com.openevents.api.responses.RegisteredUser;
+import com.openevents.api.responses.UserProfile;
 import com.openevents.constants.Constants;
-import com.openevents.api.responses.AuthToken;
+import com.openevents.api.responses.AuthenticationToken;
 
 import com.openevents.model.User;
-import com.openevents.model.UserSession;
+import com.openevents.api.requests.UserSession;
+
+import java.util.ArrayList;
 
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -17,7 +22,7 @@ public class APIManager {
     private API service;
 
     public static APIManager getInstance() {
-        if(apiManager == null) {
+        if (apiManager == null) {
             apiManager = new APIManager();
         }
 
@@ -33,11 +38,45 @@ public class APIManager {
         this.service = this.retrofit.create(API.class);
     }
 
-    public void login(UserSession userSession, Callback<AuthToken> callback) {
+    private String addBearerAuthenticationToken(String authenticationToken) {
+        return "Bearer " + authenticationToken;
+    }
+
+    /*
+     * Authentication
+     */
+    public void login(UserSession userSession, Callback<AuthenticationToken> callback) {
         this.service.login(userSession).enqueue(callback);
     }
 
-    public void register(User user, Callback<Profile> callback) {
+    public void register(CreatedUser user, Callback<RegisteredUser> callback) {
         this.service.register(user).enqueue(callback);
+    }
+
+    /*
+     * Users
+     */
+    public void getUsers(String authenticationToken, Callback<ArrayList<UserProfile>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getUsers(authentication).enqueue(callback);
+    }
+
+    public void getUserByEmail(String authenticationToken, String search,
+                               Callback<ArrayList<User>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getUserByEmail(authentication, search).enqueue(callback);
+    }
+
+    /*
+     * Events
+     */
+    public void getEvents(String authenticationToken, Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getEvents(authentication).enqueue(callback);
+    }
+
+    public void getPopularEvents(String authenticationToken, Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getPopularEvents(authentication).enqueue(callback);
     }
 }
