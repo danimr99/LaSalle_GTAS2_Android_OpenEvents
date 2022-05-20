@@ -5,6 +5,7 @@
     <!-- Component descriptions -->
     <string name="openEventsLogoDescription">Open Events Logo</string>
     <string name="eventImageDescription">Image of an event</string>
+    <string name="addEventButtonDescription">Add Event Button</string>
 
     <!-- Titles -->
     <string name="emailTitle">Email</string>

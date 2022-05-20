@@ -9,8 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:tabSelectedTextColor="@color/white"
         android:background="@color/secondary_background"
-        app:tabTextColor="@color/white" />
+        app:tabTextColor="@color/broken_white"
+        app:tabTextAppearance="@style/CustomTabText" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
