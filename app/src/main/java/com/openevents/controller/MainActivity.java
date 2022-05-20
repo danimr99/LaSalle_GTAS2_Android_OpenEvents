@@ -3,6 +3,7 @@ package com.openevents.controller;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.constants.Constants;
+import com.openevents.controller.fragments.FriendsFragment;
 import com.openevents.controller.fragments.HomeFragment;
 import com.openevents.controller.fragments.MyEventListsFragment;
 import com.openevents.R;
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.navBarEventsIcon:
                     this.fragment = new MyEventListsFragment();
+                    break;
+                case R.id.navBarFriendsIcon:
+                    this.fragment = new FriendsFragment();
                     break;
                 case R.id.navBarUserIcon:
                     this.fragment = new UserFragment();
