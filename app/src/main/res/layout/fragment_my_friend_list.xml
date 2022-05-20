@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/primary_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary_background"
     android:orientation="vertical"
-    tools:context=".controller.fragments.MyCreatedEventsFragment">
+    tools:context=".controller.fragments.MyFriendsListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="10dp"
-        android:id="@+id/joined_events_recycler_view"
+        android:id="@+id/my_friends_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:requiresFadingEdge="vertical"
-        android:fadingEdgeLength="30dp"/>
+        android:fadingEdgeLength="30dp"
+        android:requiresFadingEdge="vertical"/>
 
 </LinearLayout>

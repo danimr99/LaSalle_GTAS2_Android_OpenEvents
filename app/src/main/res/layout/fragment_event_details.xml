@@ -203,7 +203,56 @@
             android:textSize="20sp"
             android:text="@string/joinEventLabel"
             android:textColor="@color/clear_blue"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/delete_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="@string/joinEventLabel"
+            android:textColor="@color/clear_blue"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/comment_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="@string/commentEventLabel"
+                android:textColor="@color/clear_blue"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_baseline_add_comment_24"
+                android:drawablePadding="10dp"/>
+
+            <TextView
+                android:id="@+id/rate_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="@string/rateEventLabel"
+                android:textColor="@color/orange"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_baseline_star_24"
+                android:drawablePadding="8dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
