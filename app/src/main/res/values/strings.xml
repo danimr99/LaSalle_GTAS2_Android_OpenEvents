@@ -62,4 +62,5 @@
     <string name="endDateEventCreationHint">Select closure date</string>
     <string name="participantsEventCreationHint">Select number of participants</string>
     <string name="createEvent">CREATE EVENT</string>
+    <string name="separator2">·</string>
 </resources>
