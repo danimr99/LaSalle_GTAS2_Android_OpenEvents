@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary_background"
+    android:orientation="vertical"
     tools:context=".controller.fragments.UsersListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:autofillHints=""
+        android:inputType="text"
+        android:paddingStart="20dp"
+        tools:ignore="RtlSymmetry"
+        android:imeOptions="actionSearch"
+        android:background="@drawable/search_bar_shape"
+        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:drawablePadding="10dp"
+        android:hint="@string/searchUsersHint"
+        android:textColorHint="@color/broken_white"/>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/all_users_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:fadingEdgeLength="30dp"
+        android:requiresFadingEdge="vertical"/>
+
+</LinearLayout>

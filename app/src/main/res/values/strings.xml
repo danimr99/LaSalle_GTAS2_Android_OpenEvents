@@ -6,6 +6,9 @@
     <string name="openEventsLogoDescription">Open Events Logo</string>
     <string name="eventImageDescription">Image of an event</string>
     <string name="addEventButtonDescription">Add Event Button</string>
+    <string name="userImageDescription">Image of a user</string>
+    <string name="acceptRequestButtonDescription">Accept request button</string>
+    <string name="declineRequestButtonDescription">Decline request button</string>
 
     <!-- Titles -->
     <string name="emailTitle">Email</string>
@@ -64,6 +67,7 @@
     <string name="lastNameHint">Your last name</string>
     <string name="searchHint">Search</string>
     <string name="searchEventsHint">Search events</string>
+    <string name="searchUsersHint">Search users</string>
     <string name="eventTitleHint">Event title</string>
     <string name="eventLocationHint">Event location</string>
     <string name="eventStartDateHint">Select start date</string>
@@ -93,8 +97,5 @@
     <!-- Symbols -->
     <string name="dot">·</string>
     <string name="hyphen">-</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 </resources>
