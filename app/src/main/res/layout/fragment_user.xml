@@ -87,11 +87,40 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="100dp"
+                        android:gravity="center"
+                        android:text="@string/informationTitle"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:layout_marginStart="70dp"
+                        android:text="@string/editLabel"
+                        android:textColor="@color/clear_blue"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/firstNameTitle"
                     android:textColor="@color/broken_white"
                     android:textSize="15sp" />
@@ -111,16 +140,6 @@
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/edit_user_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="end"
-                        android:text="@string/editLabel"
-                        android:textColor="@color/clear_blue"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
                 </LinearLayout>
 
 
@@ -148,16 +167,6 @@
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/edit_user_last_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="end"
-                        android:text="@string/editLabel"
-                        android:textColor="@color/clear_blue"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
                 </LinearLayout>
 
 
@@ -185,16 +194,6 @@
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/edit_user_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="end"
-                        android:text="@string/editLabel"
-                        android:textColor="@color/clear_blue"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
                 </LinearLayout>
 
 
@@ -225,16 +224,6 @@
                         android:textStyle="bold"
                         tools:ignore="TextViewEdits" />
 
-                    <TextView
-                        android:id="@+id/edit_user_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="end"
-                        android:text="@string/editLabel"
-                        android:textColor="@color/clear_blue"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -343,7 +332,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="17dp"
-            android:backgroundTint="@color/red_delete"
+            android:backgroundTint="@color/red"
             android:text="@string/deleteAccountLabel"
             android:textColor="@color/white"
             android:textSize="15sp"
