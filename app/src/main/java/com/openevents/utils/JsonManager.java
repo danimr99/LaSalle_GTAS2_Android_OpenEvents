@@ -1,7 +1,7 @@
 package com.openevents.utils;
 
 import com.google.gson.Gson;
-import com.openevents.model.User;
+import com.openevents.api.responses.User;
 
 import java.io.Serializable;
 

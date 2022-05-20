@@ -3,6 +3,7 @@ package com.openevents.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.openevents.api.responses.User;
 import com.openevents.constants.Constants;
 
 import java.util.HashMap;
@@ -50,5 +51,13 @@ public class SharedPrefs {
 
     public String getAuthenticationToken() {
         return this.getStringEntry(Constants.AUTHENTICATION_TOKEN_SHARED_PREFERENCES);
+    }
+
+    public User getUser() {
+        return JsonManager.getUserFromJson(this.getStringEntry(Constants.USER_SHARED_PREFERENCES));
+    }
+
+    public void saveUser(User user) {
+        this.addStringEntry(Constants.USER_SHARED_PREFERENCES, JsonManager.toJSON(user));
     }
 }

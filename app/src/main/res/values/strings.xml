@@ -41,6 +41,8 @@
     <string name="serverConnectionFailed">An error occurred while connecting to the server</string>
     <string name="noPopularEvents">No popular events were found</string>
     <string name="noEvents">No events were found</string>
+    <string name="noAverageScore">No average score yet</string>
+    <string name="noPercentageCommentersBelow">Percentage cannot be calculated yet</string>
 
     <!-- Labels -->
     <string name="signInLabel">SIGN IN</string>
@@ -58,6 +60,7 @@
     <!-- Hints -->
     <string name="emailHint">Your email</string>
     <string name="passwordHint">Your password</string>
+    <string name="repeatPasswordHint">Repeat your password</string>
     <string name="firstNameHint">Your first name</string>
     <string name="lastNameHint">Your last name</string>
     <string name="searchHint">Search</string>

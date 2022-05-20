@@ -56,7 +56,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:text="PruebaUser"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -67,7 +66,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="LastName"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -109,7 +107,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="PruebaUser"
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -147,7 +144,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="PruebaUser"
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -185,7 +181,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="emailDePeruano@gmail.com"
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -225,7 +220,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:inputType="textPassword"
-                        android:text="password"
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold"
@@ -286,7 +280,6 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="15dp"
-                    android:text="4.5"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -306,7 +299,6 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="15dp"
-                    android:text="12"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -326,7 +318,6 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="10dp"
-                    android:text="56%"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -342,7 +333,7 @@
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/clear_blue"
             android:text="@string/logOutLabel"
-            android:textColor="#fff"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:drawableEnd="@drawable/ic_baseline_logout_24"/>
 
@@ -354,7 +345,7 @@
             android:layout_marginTop="17dp"
             android:backgroundTint="@color/red_delete"
             android:text="@string/deleteAccountLabel"
-            android:textColor="#fff"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:drawableEnd="@drawable/ic_baseline_clear_24"/>
 

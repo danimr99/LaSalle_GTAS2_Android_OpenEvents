@@ -1,7 +1,5 @@
 package com.openevents.controller;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +21,6 @@ import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.RegisteredUser;
 import com.openevents.constants.Constants;
 import com.openevents.controller.components.ImageSelectorFragment;
-import com.openevents.model.User;
 import com.openevents.utils.Numbers;
 import com.openevents.utils.ToastNotification;
 
