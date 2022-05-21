@@ -12,9 +12,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.SearchView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.openevents.api.APIManager;
@@ -26,6 +26,7 @@ import com.openevents.model.interfaces.OnEventListener;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,7 +36,9 @@ import retrofit2.Response;
 public class EventsFragment extends Fragment implements ActivityState, OnEventListener {
     // UI Components
     private EditText searchBar;
-    private CheckBox sortByRating;
+    private LinearLayout sortByStartDate;
+    private ImageView sortByStartDateIcon;
+    private TextView sortByStartDateText;
     private TextView eventsStatusText;
     private RecyclerView eventsRecyclerView;
     private EventsAdapter eventsAdapter;
@@ -44,9 +47,11 @@ public class EventsFragment extends Fragment implements ActivityState, OnEventLi
     private APIManager apiManager;
     private SharedPrefs sharedPrefs;
     private ArrayList<Event> events;
+    private boolean ascOrder;
 
     public EventsFragment() {
         this.events = new ArrayList<>();
+        this.ascOrder = true;
     }
 
     @Override
@@ -70,9 +75,11 @@ public class EventsFragment extends Fragment implements ActivityState, OnEventLi
 
         // Get components from view
         this.searchBar = view.findViewById(R.id.events_search_bar);
-        this.sortByRating = view.findViewById(R.id.sort_by_rating_checkbox);
         this.eventsRecyclerView = view.findViewById(R.id.events_recycler_view);
         this.eventsStatusText = view.findViewById(R.id.events_status_text);
+        this.sortByStartDate = view.findViewById(R.id.sort_by_start_date);
+        this.sortByStartDateIcon = view.findViewById(R.id.sort_by_start_date_icon);
+        this.sortByStartDateText = view.findViewById(R.id.sort_by_start_date_label);
 
         // Set activity status to loading
         this.loading();
@@ -80,9 +87,7 @@ public class EventsFragment extends Fragment implements ActivityState, OnEventLi
         // Configure search bar
         this.searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
@@ -90,12 +95,11 @@ public class EventsFragment extends Fragment implements ActivityState, OnEventLi
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
-        // TODO Configure on click listener for the checkbox
+        // Configure on click listener for the sort toggle
+        this.sortByStartDate.setOnClickListener(v -> toggleSortByStartDateOrder());
 
         // Configure horizontal layout for the events recycler view
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),
@@ -103,6 +107,22 @@ public class EventsFragment extends Fragment implements ActivityState, OnEventLi
         this.eventsRecyclerView.setLayoutManager(linearLayoutManager);
 
         return view;
+    }
+
+    private void toggleSortByStartDateOrder() {
+        // Set icon to the corresponding rotation
+        if(this.ascOrder) {
+            this.sortByStartDateIcon.setRotation(90);
+        } else {
+            this.sortByStartDateIcon.setRotation(270);
+        }
+
+        // Change value
+        this.ascOrder = !this.ascOrder;
+
+        // Update EventsAdapter
+        Collections.reverse(this.events);
+        this.eventsAdapter.notifyDataSetChanged();
     }
 
     private void filter(String text) {
