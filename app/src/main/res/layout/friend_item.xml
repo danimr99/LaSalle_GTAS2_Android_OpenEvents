@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:padding="10dp"
     android:layout_gravity="center">
-
+    
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,5 +65,26 @@
             android:layout_marginStart="20dp" />
 
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginEnd="15dp"
+            android:gravity="end">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/accept_request_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_delete_forever_24"
+                app:tint="@android:color/white"
+                android:backgroundTint="@color/red"
+                android:layout_marginEnd="7dp"
+                android:contentDescription="@string/deleteFriendButtonDescription"
+                app:fabCustomSize="38dp"
+                app:borderWidth="0dp"/>
+
+        </LinearLayout>
 
 </LinearLayout>
