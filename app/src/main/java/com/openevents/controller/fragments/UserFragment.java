@@ -116,14 +116,14 @@ public class UserFragment extends Fragment {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.edit_user_information:
-
+                            break;
                         case R.id.logout:
-
+                            logout();
+                            break;
                         case R.id.delete_account:
-
-                        default:
-                            return false;
+                            break;
                     }
+                    return false;
                 });
                 popup.inflate(R.menu.popup_menu);
                 popup.show();

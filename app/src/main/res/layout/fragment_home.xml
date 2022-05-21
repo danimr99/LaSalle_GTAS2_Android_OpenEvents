@@ -24,7 +24,8 @@
         android:drawableStart="@drawable/ic_baseline_search_24"
         android:drawablePadding="10dp"
         android:hint="@string/searchEventsHint"
-        android:textColorHint="@color/broken_white"/>
+        android:textColorHint="@color/broken_white"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
