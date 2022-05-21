@@ -27,8 +27,10 @@
     <string name="popularTitle">Popular</string>
     <string name="allEventsTitle">All Events</string>
     <string name="myStatisticsTitle">My Statistics</string>
+    <string name="statisticsTitle">Statistics</string>
     <string name="informationTitle">Information</string>
     <string name="myAverageScoreTitle">My average score</string>
+    <string name="averageScoreTitle">Average score</string>
     <string name="numberOfCommentTitle">Number of comments</string>
     <string name="percentageOfUsersTitle">Percentage of users with less comments</string>
     <string name="createEventTitle">Create event</string>
@@ -67,6 +69,8 @@
     <string name="deleteAccountLabel">DELETE ACCOUNT</string>
     <string name="deleteEventLabel">DELETE EVENT</string>
     <string name="commentEventLabel">Comment</string>
+    <string name="sendRequestLabel">SEND REQUEST</string>
+    <string name="deleteFriendshipLabel">DELETE FRIENDSHIP</string>
     <string name="rateEventLabel">Rate</string>
 
     <!-- Hints -->
