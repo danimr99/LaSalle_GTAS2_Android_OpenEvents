@@ -9,4 +9,8 @@
     <style name="CustomTabText" parent="TextAppearance.AppCompat.Button">
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="PopupMenuStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@color/secondary_background</item>
+    </style>
 </resources>
