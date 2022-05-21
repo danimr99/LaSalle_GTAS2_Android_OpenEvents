@@ -33,10 +33,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/friend_request_name"
@@ -49,45 +49,52 @@
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/friend_request_last_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/friend_last_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="17sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:ellipsize="end" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/friend_request_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="@color/broken_white"
-                android:textSize="14sp" />
+        <TextView
+            android:id="@+id/friend_request_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:maxWidth="160dp"
+            android:textColor="@color/broken_white"
+            android:layout_marginStart="20dp"
+            android:lines="1"
+            android:scrollHorizontally="true"
+            android:ellipsize="end" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginEnd="15dp"
-            android:gravity="end"
-            android:orientation="horizontal">
+            android:gravity="end">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/accept_request_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="7dp"
-                android:backgroundTint="@color/green"
-                android:contentDescription="@string/addEventButtonDescription"
                 android:src="@drawable/ic_baseline_check_24"
-                app:borderWidth="0dp"
+                app:tint="@android:color/white"
+                android:backgroundTint="@color/green"
+                android:layout_marginEnd="7dp"
+                android:contentDescription="@string/addEventButtonDescription"
                 app:fabCustomSize="37dp"
-                app:tint="@android:color/white" />
+                app:borderWidth="0dp"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/decline_request_button"
@@ -106,9 +113,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="15dp"
+        android:background="@color/white"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:background="@color/white" />
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"/>
 
 </LinearLayout>
