@@ -85,7 +85,7 @@
                 app:tint="@android:color/white"
                 android:backgroundTint="@color/orange"
                 android:layout_marginEnd="7dp"
-                android:contentDescription="@string/addEventButtonDescription"
+                android:contentDescription="@string/sendRequestButtonDescription"
                 app:fabCustomSize="40dp"
                 app:borderWidth="0dp"/>
 
