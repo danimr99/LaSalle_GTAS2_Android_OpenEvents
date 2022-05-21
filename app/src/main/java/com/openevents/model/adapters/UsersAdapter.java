@@ -16,6 +16,7 @@ import com.openevents.controller.fragments.AllUsersFragment;
 import com.openevents.controller.fragments.FriendRequestsFragment;
 import com.openevents.controller.fragments.MyFriendsFragment;
 import com.openevents.model.interfaces.OnListItemListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -59,9 +60,24 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         switch (this.parentFragment) {
             case AllUsersFragment.TAG_ALL_USERS:
+                // Set image from the user
+                if(user.getImage() != null && user.getImage().trim().length() != 0) {
+                    Picasso.get()
+                            .load(user.getImage())
+                            .placeholder(R.drawable.user_placeholder)
+                            .error(R.drawable.user_placeholder)
+                            .into(holder.userImage);
+                } else {
+                    Picasso.get().load(R.drawable.user_placeholder).into(holder.userImage);
+                }
 
+                // Set data to corresponding field
+                holder.userName.setText(user.getName());
+                holder.userLastName.setText(user.getLastName());
+                holder.userEmail.setText(user.getEmail());
                 break;
             case MyFriendsFragment.TAG_MY_FRIENDS:
+
                 break;
             case FriendRequestsFragment.TAG_FRIEND_REQUESTS:
                 break;

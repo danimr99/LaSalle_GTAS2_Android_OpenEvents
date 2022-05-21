@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openevents.R;
+import com.openevents.api.responses.UserProfile;
 
 public class UserProfileFragment extends Fragment {
+    // Variables
+    private UserProfile user;
 
-    public UserProfileFragment() {
-        // Required empty public constructor
+    public UserProfileFragment(UserProfile user) {
+        this.user = user;
     }
 
     @Override

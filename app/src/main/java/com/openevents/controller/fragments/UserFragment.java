@@ -187,6 +187,7 @@ public class UserFragment extends Fragment {
         Picasso.get()
                 .load(user.getImage())
                 .placeholder(R.drawable.user_placeholder)
+                .error(R.drawable.user_placeholder)
                 .into(this.profileImage);
 
         // Set data to corresponding field

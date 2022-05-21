@@ -46,7 +46,7 @@ public class SocialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_friends, container, false);
+        View view = inflater.inflate(R.layout.fragment_social, container, false);
 
         // Get all components from view
         this.tabLayout = view.findViewById(R.id.social_tab);
