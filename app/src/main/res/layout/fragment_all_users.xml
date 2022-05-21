@@ -25,7 +25,8 @@
         android:inputType="text"
         android:paddingStart="20dp"
         android:textColorHint="@color/broken_white"
-        tools:ignore="RtlSymmetry" />
+        tools:ignore="RtlSymmetry"
+        android:textColor="@color/white"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/all_users_recycler_view"
