@@ -14,9 +14,11 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -60,4 +62,37 @@ public interface API {
     @GET("events/{eventID}/assistances")
     Call<ArrayList<Assistance>> getEventAssistances(@Header("Authorization") String authenticationToken,
                                                     @Path("eventID") int eventID);
+
+    @GET("users/{userID}/events/future")
+    Call<ArrayList<Event>> getUserFutureEvents(@Header("Authorization") String authenticationToken,
+                                               @Path("userID") int userID);
+
+    @GET("users/{userID}/events/finished")
+    Call<ArrayList<Event>> getUserFinishedEvents(@Header("Authorization") String authenticationToken,
+                                                 @Path("userID") int userID);
+
+    @GET("users/{userID}/events/current")
+    Call<ArrayList<Event>> getUserCurrentEvents(@Header("Authorization") String authenticationToken,
+                                                @Path("userID") int userID);
+
+    /*
+     * Friends
+     */
+    @GET("friends")
+    Call<ArrayList<User>> getFriends(@Header("Authorization") String authenticationToken);
+
+    @GET("friends/requests")
+    Call<ArrayList<User>> getFriendRequests(@Header("Authorization") String authenticationToken);
+
+    @POST("friends/{userID}")
+    Call<User> addFriend(@Header("Authorization") String authenticationToken,
+                         @Path("userID") int userID);
+
+    @PUT("friends/{userID}")
+    Call<User> acceptFriend(@Header("Authorization") String authenticationToken,
+                            @Path("userID") int userID);
+
+    @DELETE("friends/{userID}")
+    Call<User> declineFriend(@Header("Authorization") String authenticationToken,
+                            @Path("userID") int userID);
 }

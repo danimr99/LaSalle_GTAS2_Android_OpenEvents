@@ -11,6 +11,8 @@
     <string name="declineRequestButtonDescription">Decline request button</string>
     <string name="backArrowDescription">Back arrow button</string>
     <string name="moreActionsDescription">More actions button</string>
+    <string name="sendRequestButtonDescription">Send request button</string>
+    <string name="deleteFriendButtonDescription">Delete friend button</string>
 
     <!-- Titles -->
     <string name="emailTitle">Email</string>

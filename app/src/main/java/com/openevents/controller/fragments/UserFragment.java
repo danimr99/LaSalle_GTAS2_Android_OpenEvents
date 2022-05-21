@@ -2,12 +2,14 @@ package com.openevents.controller.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -104,6 +106,7 @@ public class UserFragment extends Fragment {
 
         //Set onClickListener popup menu when on click of imageButton
         ImageView imageButton = view.findViewById(R.id.more_actions_button);
+
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +115,9 @@ public class UserFragment extends Fragment {
 
             @SuppressLint("NonConstantResourceId")
             private void showPopupMenu(View v) {
-                PopupMenu popup = new PopupMenu(getContext(), v);
+                Context wrapper = new ContextThemeWrapper(getContext(), R.style.PopupMenuStyle);
+                PopupMenu popup = new PopupMenu(wrapper, v);
+
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.edit_user_information:
