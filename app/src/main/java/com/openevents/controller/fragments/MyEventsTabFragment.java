@@ -19,9 +19,9 @@ import com.openevents.ViewPager2Adapter;
 
 import java.util.ArrayList;
 
-public class FriendsFragment extends Fragment {
+public class MyEventsTabFragment extends Fragment {
 
-    public FriendsFragment() {
+    public MyEventsTabFragment() {
         // Required empty public constructor
     }
 
@@ -34,15 +34,15 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_friends, container, false);
-        ViewPager2 viewPager2 = view.findViewById(R.id.friends_pager);
+        View view = inflater.inflate(R.layout.fragment_my_event_lists, container, false);
+        ViewPager2 viewPager2 = view.findViewById(R.id.pager);
 
         ViewPager2Adapter viewPager2Adapter = new
                 ViewPager2Adapter(this);
         ArrayList<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new MyFriendsListFragment());
-        fragmentList.add(new RequestsListFragment());
-        fragmentList.add(new UsersListFragment());
+        fragmentList.add(new MyCreatedEventsFragment());
+        fragmentList.add(new JoinedEventsFragment());
+        fragmentList.add(new FinishedEventsListFragment());
         viewPager2Adapter.setData(fragmentList);
         viewPager2.setAdapter(viewPager2Adapter);
 
@@ -51,20 +51,22 @@ public class FriendsFragment extends Fragment {
 
     @MainThread
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        TabLayout tabLayout = view.findViewById(R.id.friends_tab_layout);
-        ViewPager2 viewPager2 = view.findViewById(R.id.friends_pager);
+        TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+        ViewPager2 viewPager2 = view.findViewById(R.id.pager);
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
             switch (position) {
                 case 0:
-                    tab.setText("Friends");
+                    tab.setText("My Events");
                     break;
                 case 1:
-                    tab.setText("Requests");
+                    tab.setText("Joined");
                     break;
                 case 2:
-                    tab.setText("All users");
+                    tab.setText("Finished");
                     break;
+
             }
         }).attach();
     }
+
 }

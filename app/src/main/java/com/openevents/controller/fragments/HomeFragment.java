@@ -17,7 +17,7 @@ import com.openevents.api.APIManager;
 import com.openevents.api.ActivityState;
 import com.openevents.api.responses.Event;
 import com.openevents.model.adapters.PopularEventsAdapter;
-import com.openevents.model.interfaces.OnEventListener;
+import com.openevents.model.interfaces.OnListItemListener;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeFragment extends Fragment implements ActivityState, OnEventListener {
+public class HomeFragment extends Fragment implements ActivityState, OnListItemListener {
     // UI Components
     private TextView seeAll;
     private TextView popularEventsStatusText;
@@ -143,10 +143,10 @@ public class HomeFragment extends Fragment implements ActivityState, OnEventList
     }
 
     @Override
-    public void onEventClick(int eventPosition) {
+    public void onListItemClicked(int index) {
         getParentFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
-                        new EventDetailsFragment(this.popularEvents.get(eventPosition))).
+                        new EventDetailsFragment(this.popularEvents.get(index))).
                 addToBackStack(this.getClass().getName()).
                 commit();
     }

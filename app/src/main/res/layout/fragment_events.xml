@@ -46,16 +46,6 @@
             android:textStyle="bold"
             tools:ignore="RtlSymmetry" />
 
-        <!-- <CheckBox
-            android:id="@+id/sort_by_rating_checkbox"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="30dp"
-            android:gravity="end|center_vertical"
-            android:text="@string/sortByStartDate"
-            android:textColor="@color/white"
-            android:textSize="15sp" /> -->
-
         <LinearLayout
             android:id="@+id/sort_by_start_date"
             android:layout_width="match_parent"

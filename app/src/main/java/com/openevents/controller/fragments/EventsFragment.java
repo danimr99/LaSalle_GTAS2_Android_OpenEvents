@@ -22,7 +22,8 @@ import com.openevents.api.ActivityState;
 import com.openevents.api.responses.Event;
 import com.openevents.R;
 import com.openevents.model.adapters.EventsAdapter;
-import com.openevents.model.interfaces.OnEventListener;
+import com.openevents.model.interfaces.OnListItemListener;
+import com.openevents.utils.DateParser;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class EventsFragment extends Fragment implements ActivityState, OnEventListener {
+public class EventsFragment extends Fragment implements ActivityState, OnListItemListener {
     // UI Components
     private EditText searchBar;
     private LinearLayout sortByStartDate;
@@ -129,7 +130,20 @@ public class EventsFragment extends Fragment implements ActivityState, OnEventLi
         ArrayList<Event> filteredList = new ArrayList<>();
 
         for (Event event : this.events) {
+            // Check for event name
             if (event.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(event);
+            }
+
+            // Check for event location
+            if(event.getLocation().toLowerCase().contains(text.toLowerCase()) &&
+                    !filteredList.contains(event)) {
+                filteredList.add(event);
+            }
+
+            // Check for start date
+            if(DateParser.toDateTime(event.getEventStartDate()).contains(text.toLowerCase()) &&
+            !filteredList.contains(event)) {
                 filteredList.add(event);
             }
         }
@@ -199,10 +213,10 @@ public class EventsFragment extends Fragment implements ActivityState, OnEventLi
     }
 
     @Override
-    public void onEventClick(int eventPosition) {
+    public void onListItemClicked(int index) {
         getParentFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
-                        new EventDetailsFragment(this.events.get(eventPosition))).
+                        new EventDetailsFragment(this.events.get(index))).
                 addToBackStack(this.getClass().getName()).
                 commit();
     }

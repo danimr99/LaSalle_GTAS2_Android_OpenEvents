@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openevents.R;
 import com.openevents.api.responses.Event;
-import com.openevents.model.interfaces.OnEventListener;
+import com.openevents.model.interfaces.OnListItemListener;
 import com.openevents.utils.DateParser;
 import com.squareup.picasso.Picasso;
 
@@ -23,16 +23,16 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
 
     // Variables
     private final ArrayList<Event> popularEvents;
-    private final OnEventListener eventListener;
+    private final OnListItemListener eventListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView eventTitle;
         public TextView eventStartDate;
         public ImageView eventImage;
 
-        private final OnEventListener eventListener;
+        private final OnListItemListener eventListener;
 
-        public ViewHolder(View view, OnEventListener eventListener) {
+        public ViewHolder(View view, OnListItemListener eventListener) {
             super(view);
 
             // Get elements of the view for each item of the RecyclerView
@@ -49,11 +49,11 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
 
         @Override
         public void onClick(View v) {
-            this.eventListener.onEventClick(getAdapterPosition());
+            this.eventListener.onListItemClicked(getAdapterPosition());
         }
     }
 
-    public PopularEventsAdapter(ArrayList<Event> popularEvents, OnEventListener eventListener) {
+    public PopularEventsAdapter(ArrayList<Event> popularEvents, OnListItemListener eventListener) {
         this.popularEvents = popularEvents;
         this.eventListener = eventListener;
     }

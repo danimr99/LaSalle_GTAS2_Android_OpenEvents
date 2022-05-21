@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 
 import com.openevents.R;
 
-public class MyFriendsListFragment extends Fragment {
+public class MyFriendsFragment extends Fragment {
+    // Constants
+    public static final String TAG_MY_FRIENDS = "MY_FRIENDS";
 
-    public MyFriendsListFragment() {
+    public MyFriendsFragment() {
         // Required empty public constructor
     }
 

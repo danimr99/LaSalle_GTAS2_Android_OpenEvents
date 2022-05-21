@@ -19,10 +19,22 @@ import com.openevents.ViewPager2Adapter;
 
 import java.util.ArrayList;
 
-public class MyEventListsFragment extends Fragment {
+public class SocialFragment extends Fragment {
+    // UI Components
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager;
 
-    public MyEventListsFragment() {
-        // Required empty public constructor
+    // Variables
+    private ViewPager2Adapter viewPagerAdapter;
+    private ArrayList<Fragment> tabs;
+
+    public SocialFragment() {
+        this.tabs = new ArrayList<>();
+
+        // Add tabs to list
+        this.tabs.add(new AllUsersFragment());
+        this.tabs.add(new MyFriendsFragment());
+        this.tabs.add(new FriendRequestsFragment());
     }
 
     @Override
@@ -34,39 +46,34 @@ public class MyEventListsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_event_lists, container, false);
-        ViewPager2 viewPager2 = view.findViewById(R.id.pager);
+        View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        ViewPager2Adapter viewPager2Adapter = new
-                ViewPager2Adapter(this);
-        ArrayList<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new MyCreatedEventsFragment());
-        fragmentList.add(new JoinedEventsFragment());
-        fragmentList.add(new FinishedEventsListFragment());
-        viewPager2Adapter.setData(fragmentList);
-        viewPager2.setAdapter(viewPager2Adapter);
+        // Get all components from view
+        this.tabLayout = view.findViewById(R.id.social_tab);
+        this.viewPager = view.findViewById(R.id.social_pager);
+
+        // Configure view pager adapter
+        this.viewPagerAdapter = new ViewPager2Adapter(this);
+        this.viewPagerAdapter.setData(this.tabs);
+        this.viewPager.setAdapter(this.viewPagerAdapter);
 
         return view;
     }
 
     @MainThread
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        TabLayout tabLayout = view.findViewById(R.id.tab_layout);
-        ViewPager2 viewPager2 = view.findViewById(R.id.pager);
-        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+        new TabLayoutMediator(this.tabLayout, this.viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
-                    tab.setText("My Events");
+                    tab.setText(getText(R.string.allUsersLabel));
                     break;
                 case 1:
-                    tab.setText("Joined");
+                    tab.setText(getText(R.string.friendsLabel));
                     break;
                 case 2:
-                    tab.setText("Finished");
+                    tab.setText(getText(R.string.friendRequestsLabel));
                     break;
-
             }
         }).attach();
     }
-
 }
