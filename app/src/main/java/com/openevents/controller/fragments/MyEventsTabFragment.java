@@ -19,9 +19,9 @@ import com.openevents.ViewPager2Adapter;
 
 import java.util.ArrayList;
 
-public class MyEventListsFragment extends Fragment {
+public class MyEventsTabFragment extends Fragment {
 
-    public MyEventListsFragment() {
+    public MyEventsTabFragment() {
         // Required empty public constructor
     }
 

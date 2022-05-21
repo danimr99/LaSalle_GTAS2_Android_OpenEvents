@@ -25,12 +25,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+    // UI Components
     private TextInputLayout emailLayout;
     private TextInputEditText email;
     private TextInputLayout passwordLayout;
     private TextInputEditText password;
     private Button signInButton;
     private TextView signUpTextView;
+
+    // Variables
     private APIManager apiManager;
 
     @Override

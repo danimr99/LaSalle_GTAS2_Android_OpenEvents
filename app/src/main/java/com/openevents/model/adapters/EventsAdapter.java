@@ -11,33 +11,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openevents.R;
 import com.openevents.api.responses.Event;
+import com.openevents.model.interfaces.OnListItemListener;
 import com.openevents.utils.DateParser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
+    // Variables
     private ArrayList<Event> events;
+    private OnListItemListener eventListener;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView eventTitle;
-        public TextView eventLocation;
-        public TextView eventStartDate;
-        public ImageView eventImage;
-
-        public ViewHolder(View view) {
-            super(view);
-
-            // Get elements of the view for each item of the RecyclerView
-            this.eventTitle = view.findViewById(R.id.event_title);
-            this.eventLocation = view.findViewById(R.id.event_location);
-            this.eventStartDate = view.findViewById(R.id.event_start_date);
-            this.eventImage = view.findViewById(R.id.event_image);
-        }
+    public EventsAdapter(ArrayList<Event> events, OnListItemListener eventListener) {
+        this.events = events;
+        this.eventListener = eventListener;
     }
 
-    public EventsAdapter(ArrayList<Event> events) {
-        this.events = events;
+    public void filter(ArrayList<Event> filteredList) {
+        this.events = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -46,7 +39,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_item,
                 parent, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view, this.eventListener);
     }
 
     @Override
@@ -73,5 +66,37 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return this.events.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        // UI Components
+        public TextView eventTitle;
+        public TextView eventLocation;
+        public TextView eventStartDate;
+        public ImageView eventImage;
+
+        // Variables
+        private final OnListItemListener eventListener;
+
+        public ViewHolder(View view, OnListItemListener eventListener) {
+            super(view);
+
+            // Get elements of the view for each item of the RecyclerView
+            this.eventTitle = view.findViewById(R.id.event_title);
+            this.eventLocation = view.findViewById(R.id.event_location);
+            this.eventStartDate = view.findViewById(R.id.event_start_date);
+            this.eventImage = view.findViewById(R.id.event_image);
+
+            // Get event listener
+            this.eventListener = eventListener;
+
+            // Configure on click listener of the view
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            this.eventListener.onListItemClicked(getAdapterPosition());
+        }
     }
 }

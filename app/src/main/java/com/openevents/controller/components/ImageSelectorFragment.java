@@ -21,6 +21,7 @@ import in.mayanknagwanshi.imagepicker.ImageSelectActivity;
 
 
 public class ImageSelectorFragment extends Fragment {
+    // UI Components
     private CircleImageView imageSelector;
 
     public ImageSelectorFragment() {

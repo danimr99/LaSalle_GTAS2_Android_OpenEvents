@@ -17,7 +17,7 @@ import com.openevents.api.APIManager;
 import com.openevents.api.ActivityState;
 import com.openevents.api.responses.Event;
 import com.openevents.model.adapters.PopularEventsAdapter;
-import com.openevents.model.interfaces.OnEventListener;
+import com.openevents.model.interfaces.OnListItemListener;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -27,11 +27,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeFragment extends Fragment implements ActivityState, OnEventListener {
+public class HomeFragment extends Fragment implements ActivityState, OnListItemListener {
+    // UI Components
     private TextView seeAll;
     private TextView popularEventsStatusText;
     private RecyclerView popularEventsRecyclerView;
     private RecyclerView.Adapter popularEventsAdapter;
+
+    // Variables
     private APIManager apiManager;
     private SharedPrefs sharedPrefs;
     private ArrayList<Event> popularEvents;
@@ -69,7 +72,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnEventList
 
         // Set on click listener to "See all" label
         this.seeAll.setOnClickListener(v -> getParentFragmentManager().beginTransaction().
-                replace(R.id.home_fragment_container, new EventsFragment(this.popularEvents)).commit());
+                replace(R.id.home_fragment_container, new EventsFragment()).commit());
 
         // Configure horizontal layout for the events recycler view
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),
@@ -140,10 +143,11 @@ public class HomeFragment extends Fragment implements ActivityState, OnEventList
     }
 
     @Override
-    public void onEventClick(int eventPosition) {
+    public void onListItemClicked(int index) {
         getParentFragmentManager().beginTransaction().
-                replace(R.id.home_fragment_container,
-                        new EventDetailsFragment(this.popularEvents.get(eventPosition))).
+                add(R.id.home_fragment_container,
+                        new EventDetailsFragment(this.popularEvents.get(index))).
+                addToBackStack(this.getClass().getName()).
                 commit();
     }
 }

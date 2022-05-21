@@ -18,8 +18,9 @@
         android:paddingBottom="25dp">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:src="@drawable/ic_baseline_arrow_back_24"
             android:contentDescription="@string/backArrowDescription">
@@ -162,7 +163,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/event_participants_text_view"
+            android:id="@+id/event_details_participants"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="17sp"
@@ -179,7 +180,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/event_description_text_view"
+            android:id="@+id/event_details_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="17sp"
@@ -255,16 +256,8 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/broken_grey"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginStart="70dp"
-            android:layout_marginEnd="70dp"/>
-
         <LinearLayout
+            android:id="@+id/event_details_feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

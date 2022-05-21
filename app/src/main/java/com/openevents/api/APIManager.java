@@ -1,6 +1,7 @@
 package com.openevents.api;
 
 import com.openevents.api.requests.CreatedUser;
+import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.Event;
 import com.openevents.api.responses.RegisteredUser;
 import com.openevents.api.responses.UserProfile;
@@ -90,6 +91,11 @@ public class APIManager {
     public void getPopularEvents(String authenticationToken, Callback<ArrayList<Event>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.getPopularEvents(authentication).enqueue(callback);
+    }
+
+    public void getEventAssistants(String authenticationToken, int eventID, Callback<ArrayList<Assistance>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getEventAssistances(authentication, eventID).enqueue(callback);
     }
 
     public void getUserFutureEvents(String authenticationToken, int userID,

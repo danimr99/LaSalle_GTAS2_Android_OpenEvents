@@ -60,4 +60,10 @@ public class SharedPrefs {
     public void saveUser(User user) {
         this.addStringEntry(Constants.USER_SHARED_PREFERENCES, JsonManager.toJSON(user));
     }
+
+    public void logout() {
+        this.removeStringEntry(Constants.USER_SHARED_PREFERENCES);
+        this.removeStringEntry(Constants.USER_EMAIL_SHARED_PREFERENCES);
+        this.removeStringEntry(Constants.AUTHENTICATION_TOKEN_SHARED_PREFERENCES);
+    }
 }

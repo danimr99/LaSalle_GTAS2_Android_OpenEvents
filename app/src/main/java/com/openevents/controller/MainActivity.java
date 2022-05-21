@@ -3,9 +3,9 @@ package com.openevents.controller;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.constants.Constants;
-import com.openevents.controller.fragments.FriendsFragment;
+import com.openevents.controller.fragments.SocialFragment;
 import com.openevents.controller.fragments.HomeFragment;
-import com.openevents.controller.fragments.MyEventListsFragment;
+import com.openevents.controller.fragments.MyEventsTabFragment;
 import com.openevents.R;
 
 import androidx.annotation.NonNull;
@@ -14,7 +14,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.openevents.controller.fragments.UserFragment;
 import com.openevents.api.responses.User;
 import com.openevents.utils.SharedPrefs;
-import com.openevents.utils.ToastNotification;
 
 import android.annotation.SuppressLint;
 
@@ -30,6 +29,7 @@ import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
+    // Variables
     private APIManager apiManager;
     private SharedPrefs sharedPrefs;
     private Fragment fragment;
@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
                     this.fragment = new HomeFragment();
                     break;
                 case R.id.navBarEventsIcon:
-                    this.fragment = new MyEventListsFragment();
+                    this.fragment = new MyEventsTabFragment();
                     break;
                 case R.id.navBarFriendsIcon:
-                    this.fragment = new FriendsFragment();
+                    this.fragment = new SocialFragment();
                     break;
                 case R.id.navBarUserIcon:
                     this.fragment = new UserFragment();
@@ -103,9 +103,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) {
-                ToastNotification.showServerConnectionError(getApplicationContext());
-            }
+            public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) { }
         });
     }
 
