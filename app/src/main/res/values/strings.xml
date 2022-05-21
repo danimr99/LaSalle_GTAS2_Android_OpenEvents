@@ -10,6 +10,7 @@
     <string name="acceptRequestButtonDescription">Accept request button</string>
     <string name="declineRequestButtonDescription">Decline request button</string>
     <string name="backArrowDescription">Back arrow button</string>
+    <string name="moreActionsDescription">More actions button</string>
 
     <!-- Titles -->
     <string name="emailTitle">Email</string>
@@ -27,8 +28,10 @@
     <string name="popularTitle">Popular</string>
     <string name="allEventsTitle">All Events</string>
     <string name="myStatisticsTitle">My Statistics</string>
+    <string name="statisticsTitle">Statistics</string>
     <string name="informationTitle">Information</string>
     <string name="myAverageScoreTitle">My average score</string>
+    <string name="averageScoreTitle">Average score</string>
     <string name="numberOfCommentTitle">Number of comments</string>
     <string name="percentageOfUsersTitle">Percentage of users with less comments</string>
     <string name="createEventTitle">Create event</string>
@@ -41,6 +44,9 @@
     <string name="eventDescriptionTitle">Description</string>
     <string name="eventDateTitle">Start date - Closure date</string>
     <string name="myFriendsTitle">Social</string>
+    <string name="popupEditInfo">Edit information</string>
+    <string name="popupLogout">Log out</string>
+    <string name="popupDeleteAccount">Delete account</string>
 
     <!-- Texts -->
     <string name="notAccountText">Don\'t have an account?</string>
@@ -67,6 +73,8 @@
     <string name="deleteAccountLabel">DELETE ACCOUNT</string>
     <string name="deleteEventLabel">DELETE EVENT</string>
     <string name="commentEventLabel">Comment</string>
+    <string name="sendRequestLabel">SEND REQUEST</string>
+    <string name="deleteFriendshipLabel">DELETE FRIENDSHIP</string>
     <string name="rateEventLabel">Rate</string>
 
     <!-- Hints -->
