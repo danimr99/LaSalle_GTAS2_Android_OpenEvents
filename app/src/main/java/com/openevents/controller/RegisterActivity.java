@@ -33,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
-    private APIManager apiManager;
+    // UI Components
     private ImageSelectorFragment fragment;
     private CircleImageView profileImage;
     private TextInputLayout emailLayout;
@@ -47,6 +47,9 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout repeatPasswordLayout;
     private TextInputEditText repeatPassword;
     private Button createAccountButton;
+
+    // Variables
+    private APIManager apiManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -8,7 +8,7 @@
     tools:context=".controller.fragments.HomeFragment">
 
     <EditText
-        android:id="@+id/search_bar"
+        android:id="@+id/users_search_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -24,7 +24,8 @@
         android:drawableStart="@drawable/ic_baseline_search_24"
         android:drawablePadding="10dp"
         android:hint="@string/searchEventsHint"
-        android:textColorHint="@color/broken_white"/>
+        android:textColorHint="@color/broken_white"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +61,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/popular_events_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp" />
+        android:layout_height="400dp"
+        android:nestedScrollingEnabled="false"/>
 
     <TextView
         android:id="@+id/events_status_text"

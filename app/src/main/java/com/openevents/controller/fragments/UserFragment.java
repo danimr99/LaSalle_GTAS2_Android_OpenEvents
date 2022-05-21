@@ -1,6 +1,7 @@
 package com.openevents.controller.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -23,11 +24,13 @@ import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.User;
 import com.openevents.api.responses.UserStats;
 import com.openevents.constants.Constants;
+import com.openevents.controller.LoginActivity;
 import com.openevents.controller.components.ImageSelectorFragment;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -35,6 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserFragment extends Fragment {
+    // UI Components
     private ImageSelectorFragment fragment;
     private CircleImageView profileImage;
     private TextView profileNameTitle;
@@ -46,6 +50,8 @@ public class UserFragment extends Fragment {
     private TextView profileAverageScore;
     private TextView profileNumberOfComments;
     private TextView profilePercentageLessComments;
+
+    // Variables
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
@@ -115,14 +121,14 @@ public class UserFragment extends Fragment {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.edit_user_information:
-
+                            break;
                         case R.id.logout:
-
+                            logout();
+                            break;
                         case R.id.delete_account:
-
-                        default:
-                            return false;
+                            break;
                     }
+                    return false;
                 });
                 popup.inflate(R.menu.popup_menu);
                 popup.show();
@@ -181,6 +187,7 @@ public class UserFragment extends Fragment {
         Picasso.get()
                 .load(user.getImage())
                 .placeholder(R.drawable.user_placeholder)
+                .error(R.drawable.user_placeholder)
                 .into(this.profileImage);
 
         // Set data to corresponding field
@@ -198,7 +205,7 @@ public class UserFragment extends Fragment {
 
         this.apiManager.getUserStats(this.authenticationToken.getAccessToken(), userID, new Callback<UserStats>() {
             @Override
-            public void onResponse(Call<UserStats> call, Response<UserStats> response) {
+            public void onResponse(@NonNull Call<UserStats> call, @NonNull Response<UserStats> response) {
                 if(response.isSuccessful()) {
                     if(response.body() != null) {
                         UserStats stats = response.body();
@@ -210,7 +217,7 @@ public class UserFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<UserStats> call, Throwable t) {}
+            public void onFailure(@NonNull Call<UserStats> call, @NonNull Throwable t) {}
         });
     }
 
@@ -227,5 +234,16 @@ public class UserFragment extends Fragment {
         this.profileAverageScore.setText(averageScore);
         this.profileNumberOfComments.setText(stats.getNumberOfComments());
         this.profilePercentageLessComments.setText(percentageCommentersBelow);
+    }
+
+    private void logout() {
+        // Remove data from SharedPreferences
+        this.sharedPrefs.logout();
+
+        // Redirect user to LoginActivity
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        requireActivity().finish();
     }
 }

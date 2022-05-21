@@ -7,10 +7,12 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.openevents.R;
+import com.openevents.api.APIManager;
 import com.openevents.constants.Constants;
 import com.openevents.utils.SharedPrefs;
 
 public class SplashActivity extends AppCompatActivity {
+    // Variables
     private SharedPrefs sharedPrefs;
     private String authenticationToken;
     private Intent intent;

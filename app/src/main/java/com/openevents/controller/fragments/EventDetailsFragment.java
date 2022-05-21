@@ -3,9 +3,10 @@ package com.openevents.controller.fragments;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +32,7 @@ import retrofit2.Response;
 
 public class EventDetailsFragment extends Fragment {
     // UI Components
+    private ImageView backArrow;
     private ImageView eventImage;
     private TextView eventTitle;
     private TextView eventOwner;
@@ -38,18 +41,19 @@ public class EventDetailsFragment extends Fragment {
     private TextView eventEndDate;
     private TextView eventCategory;
     private TextView eventParticipants;
+    private TextView eventDescription;
 
     // Variables
-    private Event event;
+    private final Event event;
     private User owner;
-    private ArrayList<Assistance> participants;
+    private ArrayList<Assistance> assistants;
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
 
     public EventDetailsFragment(Event event) {
         this.event = event;
-        this.participants = new ArrayList<>();
+        this.assistants = new ArrayList<>();
     }
 
     @Override
@@ -76,6 +80,7 @@ public class EventDetailsFragment extends Fragment {
         this.getEventParticipants(this.event.getId());
 
         // Get components from view
+        this.backArrow = view.findViewById(R.id.back_arrow);
         this.eventImage = view.findViewById(R.id.event_details_image);
         this.eventTitle = view.findViewById(R.id.event_details_title);
         this.eventOwner = view.findViewById(R.id.event_details_owner);
@@ -83,6 +88,11 @@ public class EventDetailsFragment extends Fragment {
         this.eventStartDate = view.findViewById(R.id.event_details_start_date);
         this.eventEndDate = view.findViewById(R.id.event_details_end_date);
         this.eventCategory = view.findViewById(R.id.event_details_category);
+        this.eventParticipants = view.findViewById(R.id.event_details_participants);
+        this.eventDescription = view.findViewById(R.id.event_details_description);
+
+        // Configure back arrow on click
+        this.backArrow.setOnClickListener(v -> this.navigateBack());
 
         // Update event details UI
         this.updateEventDetailsUI(this.event, null);
@@ -113,13 +123,22 @@ public class EventDetailsFragment extends Fragment {
         this.eventStartDate.setText(DateParser.toDateTime(event.getEventStartDate()));
         this.eventEndDate.setText(DateParser.toDateTime(event.getEventEndDate()));
         this.eventCategory.setText(event.getType());
+
+        if(assistants.isEmpty()) {
+            this.eventParticipants.setText("0/" + event.getParticipatorsQuantity());
+        } else {
+            this.eventParticipants.setText(this.assistants.size() + "/" +
+                    event.getParticipatorsQuantity());
+        }
+
+        this.eventDescription.setText(event.getDescription());
     }
 
     private void getEventOwner(int userID) {
         this.apiManager.getUserById(this.authenticationToken.getAccessToken(), userID,
                 new Callback<ArrayList<User>>() {
             @Override
-            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
+            public void onResponse(@NonNull Call<ArrayList<User>> call, @NonNull Response<ArrayList<User>> response) {
                 if(response.isSuccessful()) {
                     if(response.body() != null) {
                         // Get event owner
@@ -132,11 +151,34 @@ public class EventDetailsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ArrayList<User>> call, Throwable t) { }
+            public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) { }
         });
     }
 
     private void getEventParticipants(int eventID) {
-        // this.apiManager.getEventAssistances()
+        this.apiManager.getEventAssistants(this.authenticationToken.getAccessToken(), eventID,
+                new Callback<ArrayList<Assistance>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<Assistance>> call, @NonNull Response<ArrayList<Assistance>> response) {
+                if(response.isSuccessful()) {
+                    if(response.body() != null) {
+                        // Get list of assistance
+                        assistants = response.body();
+
+                        // Update event details UI
+                        updateEventDetailsUI(event, owner);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<Assistance>> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
+    private void navigateBack() {
+        getParentFragmentManager().popBackStack();
     }
 }

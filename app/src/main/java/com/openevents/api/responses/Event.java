@@ -1,6 +1,7 @@
 package com.openevents.api.responses;
 
 import com.google.gson.annotations.SerializedName;
+import com.openevents.utils.DateParser;
 
 import java.io.Serializable;
 

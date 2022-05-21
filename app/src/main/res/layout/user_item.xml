@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_send_24"
                 app:tint="@android:color/white"
-                android:backgroundTint="@color/orange"
+                android:backgroundTint="@color/secondary_background"
                 android:layout_marginEnd="7dp"
                 android:contentDescription="@string/sendRequestButtonDescription"
                 app:fabCustomSize="40dp"
@@ -104,7 +104,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/white"
+        android:background="@color/secondary_background"
         android:layout_marginTop="10dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"/>

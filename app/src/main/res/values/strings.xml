@@ -53,7 +53,6 @@
     <!-- Texts -->
     <string name="notAccountText">Don\'t have an account?</string>
     <string name="loading">Loading…</string>
-    <string name="response">Loading…</string>
     <string name="serverConnectionFailed">An error occurred while connecting to the server</string>
     <string name="noPopularEvents">No popular events were found</string>
     <string name="noEvents">No events were found</string>
@@ -75,9 +74,12 @@
     <string name="deleteAccountLabel">DELETE ACCOUNT</string>
     <string name="deleteEventLabel">DELETE EVENT</string>
     <string name="commentEventLabel">Comment</string>
+    <string name="rateEventLabel">Rate</string>
     <string name="sendRequestLabel">SEND REQUEST</string>
     <string name="deleteFriendshipLabel">DELETE FRIENDSHIP</string>
-    <string name="rateEventLabel">Rate</string>
+    <string name="allUsersLabel">All users</string>
+    <string name="friendsLabel">Friends</string>
+    <string name="friendRequestsLabel">Requests</string>
 
     <!-- Hints -->
     <string name="emailHint">Your email</string>

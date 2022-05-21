@@ -22,7 +22,6 @@ import com.openevents.R;
 import java.util.Calendar;
 
 public class EventCreationFragment extends Fragment {
-
     DatePickerDialog startPicker;
     EditText startText;
     DatePickerDialog endPicker;
