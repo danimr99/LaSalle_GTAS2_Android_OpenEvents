@@ -44,7 +44,7 @@ public class EventDetailsFragment extends Fragment {
     private TextView eventDescription;
 
     // Variables
-    private Event event;
+    private final Event event;
     private User owner;
     private ArrayList<Assistance> assistants;
     private SharedPrefs sharedPrefs;

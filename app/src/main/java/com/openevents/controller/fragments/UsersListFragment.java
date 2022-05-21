@@ -13,7 +13,6 @@ import com.openevents.R;
 
 public class UsersListFragment extends Fragment {
 
-
     public UsersListFragment() {
         // Required empty public constructor
     }

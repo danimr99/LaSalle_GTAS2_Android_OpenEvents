@@ -30,6 +30,7 @@ import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
+    // Variables
     private APIManager apiManager;
     private SharedPrefs sharedPrefs;
     private Fragment fragment;
@@ -103,9 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) {
-                ToastNotification.showServerConnectionError(getApplicationContext());
-            }
+            public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) { }
         });
     }
 

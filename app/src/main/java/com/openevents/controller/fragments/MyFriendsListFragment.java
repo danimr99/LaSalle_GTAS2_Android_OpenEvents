@@ -12,7 +12,6 @@ import com.openevents.R;
 
 public class MyFriendsListFragment extends Fragment {
 
-
     public MyFriendsListFragment() {
         // Required empty public constructor
     }

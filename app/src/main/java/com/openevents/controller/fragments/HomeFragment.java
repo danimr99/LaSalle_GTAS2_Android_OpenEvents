@@ -28,10 +28,13 @@ import retrofit2.Response;
 
 
 public class HomeFragment extends Fragment implements ActivityState, OnEventListener {
+    // UI Components
     private TextView seeAll;
     private TextView popularEventsStatusText;
     private RecyclerView popularEventsRecyclerView;
     private RecyclerView.Adapter popularEventsAdapter;
+
+    // Variables
     private APIManager apiManager;
     private SharedPrefs sharedPrefs;
     private ArrayList<Event> popularEvents;
@@ -69,7 +72,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnEventList
 
         // Set on click listener to "See all" label
         this.seeAll.setOnClickListener(v -> getParentFragmentManager().beginTransaction().
-                replace(R.id.home_fragment_container, new EventsFragment(this.popularEvents)).commit());
+                replace(R.id.home_fragment_container, new EventsFragment()).commit());
 
         // Configure horizontal layout for the events recycler view
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),

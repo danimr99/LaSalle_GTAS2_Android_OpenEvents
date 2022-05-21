@@ -241,7 +241,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -315,7 +316,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/logOutButton"
+            android:id="@+id/logout_button"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
@@ -327,7 +328,7 @@
             android:drawableEnd="@drawable/ic_baseline_logout_24"/>
 
         <Button
-            android:id="@+id/deleteAccountButton"
+            android:id="@+id/delete_account_button"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"

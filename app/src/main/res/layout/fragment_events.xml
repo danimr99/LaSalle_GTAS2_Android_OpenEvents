@@ -15,14 +15,15 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/search_bar_shape"
         android:hint="@string/searchEventsHint"
+        android:background="@drawable/search_bar_shape"
+        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:drawablePadding="10dp"
         android:autofillHints=""
         android:inputType="text"
         android:paddingStart="20dp"
         android:textColor="@color/white"
         android:textColorHint="@color/broken_white"
-        android:textSize="20sp"
         tools:ignore="RtlSymmetry" />
 
     <LinearLayout

@@ -1,5 +1,6 @@
 package com.openevents.controller.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.openevents.R;
@@ -17,11 +19,13 @@ import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.User;
 import com.openevents.api.responses.UserStats;
 import com.openevents.constants.Constants;
+import com.openevents.controller.LoginActivity;
 import com.openevents.controller.components.ImageSelectorFragment;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -29,6 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserFragment extends Fragment {
+    // UI Components
     private ImageSelectorFragment fragment;
     private CircleImageView profileImage;
     private TextView profileNameTitle;
@@ -40,6 +45,10 @@ public class UserFragment extends Fragment {
     private TextView profileAverageScore;
     private TextView profileNumberOfComments;
     private TextView profilePercentageLessComments;
+    private Button logoutButton;
+    private Button deleteAccountButton;
+
+    // Variables
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
@@ -91,6 +100,13 @@ public class UserFragment extends Fragment {
         this.profileAverageScore = view.findViewById(R.id.user_average_score);
         this.profileNumberOfComments = view.findViewById(R.id.user_number_comments);
         this.profilePercentageLessComments = view.findViewById(R.id.user_percentage_users_less_comments);
+        this.logoutButton = view.findViewById(R.id.logout_button);
+        this.deleteAccountButton = view.findViewById(R.id.delete_account_button);
+
+        // Set on click listener to logout button
+        this.logoutButton.setOnClickListener(v -> this.logout());
+
+        // Set on click listener to delete account button
 
         return view;
     }
@@ -161,7 +177,7 @@ public class UserFragment extends Fragment {
 
         this.apiManager.getUserStats(this.authenticationToken.getAccessToken(), userID, new Callback<UserStats>() {
             @Override
-            public void onResponse(Call<UserStats> call, Response<UserStats> response) {
+            public void onResponse(@NonNull Call<UserStats> call, @NonNull Response<UserStats> response) {
                 if(response.isSuccessful()) {
                     if(response.body() != null) {
                         UserStats stats = response.body();
@@ -173,7 +189,7 @@ public class UserFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<UserStats> call, Throwable t) {}
+            public void onFailure(@NonNull Call<UserStats> call, @NonNull Throwable t) {}
         });
     }
 
@@ -190,5 +206,16 @@ public class UserFragment extends Fragment {
         this.profileAverageScore.setText(averageScore);
         this.profileNumberOfComments.setText(stats.getNumberOfComments());
         this.profilePercentageLessComments.setText(percentageCommentersBelow);
+    }
+
+    private void logout() {
+        // Remove data from SharedPreferences
+        this.sharedPrefs.logout();
+
+        // Redirect user to LoginActivity
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        requireActivity().finish();
     }
 }

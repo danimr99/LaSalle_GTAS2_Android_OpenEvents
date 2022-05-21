@@ -7,10 +7,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.openevents.api.APIManager;
@@ -29,15 +33,19 @@ import retrofit2.Response;
 
 
 public class EventsFragment extends Fragment implements ActivityState, OnEventListener {
+    // UI Components
+    private EditText searchBar;
     private CheckBox sortByRating;
     private TextView eventsStatusText;
     private RecyclerView eventsRecyclerView;
-    private RecyclerView.Adapter eventsAdapter;
+    private EventsAdapter eventsAdapter;
+
+    // Variables
     private APIManager apiManager;
     private SharedPrefs sharedPrefs;
     private ArrayList<Event> events;
 
-    public EventsFragment(ArrayList<Event> events) {
+    public EventsFragment() {
         this.events = new ArrayList<>();
     }
 
@@ -61,12 +69,31 @@ public class EventsFragment extends Fragment implements ActivityState, OnEventLi
         this.getEvents();
 
         // Get components from view
+        this.searchBar = view.findViewById(R.id.events_search_bar);
         this.sortByRating = view.findViewById(R.id.sort_by_rating_checkbox);
         this.eventsRecyclerView = view.findViewById(R.id.events_recycler_view);
         this.eventsStatusText = view.findViewById(R.id.events_status_text);
 
         // Set activity status to loading
         this.loading();
+
+        // Configure search bar
+        this.searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                filter(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         // TODO Configure on click listener for the checkbox
 
@@ -76,6 +103,18 @@ public class EventsFragment extends Fragment implements ActivityState, OnEventLi
         this.eventsRecyclerView.setLayoutManager(linearLayoutManager);
 
         return view;
+    }
+
+    private void filter(String text) {
+        ArrayList<Event> filteredList = new ArrayList<>();
+
+        for (Event event : this.events) {
+            if (event.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(event);
+            }
+        }
+
+        eventsAdapter.filter(filteredList);
     }
 
     private void getEvents() {

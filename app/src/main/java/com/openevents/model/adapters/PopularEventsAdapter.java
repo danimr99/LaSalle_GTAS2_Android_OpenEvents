@@ -18,16 +18,19 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdapter.ViewHolder> {
+    // Constants
     private static final int TOP_10_POPULAR_EVENTS = 10;
+
+    // Variables
     private final ArrayList<Event> popularEvents;
-    private OnEventListener eventListener;
+    private final OnEventListener eventListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView eventTitle;
         public TextView eventStartDate;
         public ImageView eventImage;
 
-        private OnEventListener eventListener;
+        private final OnEventListener eventListener;
 
         public ViewHolder(View view, OnEventListener eventListener) {
             super(view);
