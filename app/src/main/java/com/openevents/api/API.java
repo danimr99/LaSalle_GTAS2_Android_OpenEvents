@@ -47,6 +47,12 @@ public interface API {
     Call<UserStats> getUserStats(@Header("Authorization") String authenticationToken,
                                  @Path("userID") int userID);
 
+    @GET("friends")
+    Call<ArrayList<User>> getFriends(@Header("Authorization") String authenticationToken);
+
+    @GET("friends/requests")
+    Call<ArrayList<User>> getFriendRequests(@Header("Authorization") String authenticationToken);
+
     /*
      * Events
      */
@@ -55,4 +61,17 @@ public interface API {
 
     @GET("events/best")
     Call<ArrayList<Event>> getPopularEvents(@Header("Authorization") String authenticationToken);
+
+    @GET("users/{userID}/events/future")
+    Call<ArrayList<Event>> getUserFutureEvents(@Header("Authorization") String authenticationToken,
+                                               @Path("userID") int userID);
+
+    @GET("users/{userID}/events/finished")
+    Call<ArrayList<Event>> getUserFinishedEvents(@Header("Authorization") String authenticationToken,
+                                                 @Path("userID") int userID);
+
+    @GET("users/{userID}/events/current")
+    Call<ArrayList<Event>> getUserCurrentEvents(@Header("Authorization") String authenticationToken,
+                                                @Path("userID") int userID);
+
 }

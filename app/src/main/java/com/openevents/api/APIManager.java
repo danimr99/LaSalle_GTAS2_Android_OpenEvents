@@ -79,6 +79,17 @@ public class APIManager {
         this.service.getUserStats(authentication, userID).enqueue(callback);
     }
 
+    public void getFriends(String authenticationToken, Callback<ArrayList<User>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getFriends(authentication).enqueue(callback);
+    }
+
+    public void getFriendRequests(String authenticationToken, Callback<ArrayList<User>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getFriendRequests(authentication).enqueue(callback);
+    }
+
+
     /*
      * Events
      */
@@ -90,5 +101,23 @@ public class APIManager {
     public void getPopularEvents(String authenticationToken, Callback<ArrayList<Event>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.getPopularEvents(authentication).enqueue(callback);
+    }
+
+    public void getUserFutureEvents(String authenticationToken, int userID,
+                                    Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getUserFutureEvents(authentication, userID).enqueue(callback);
+    }
+
+    public void getUserFinishedEvents(String authenticationToken, int userID,
+                                    Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getUserFinishedEvents(authentication, userID).enqueue(callback);
+    }
+
+    public void getUserCurrentEvents(String authenticationToken, int userID,
+                                    Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getUserCurrentEvents(authentication, userID).enqueue(callback);
     }
 }
