@@ -1,5 +1,6 @@
 package com.openevents.controller.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,9 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.openevents.R;
@@ -45,8 +48,6 @@ public class UserFragment extends Fragment {
     private TextView profileAverageScore;
     private TextView profileNumberOfComments;
     private TextView profilePercentageLessComments;
-    private Button logoutButton;
-    private Button deleteAccountButton;
 
     // Variables
     private SharedPrefs sharedPrefs;
@@ -100,13 +101,34 @@ public class UserFragment extends Fragment {
         this.profileAverageScore = view.findViewById(R.id.user_average_score);
         this.profileNumberOfComments = view.findViewById(R.id.user_number_comments);
         this.profilePercentageLessComments = view.findViewById(R.id.user_percentage_users_less_comments);
-        this.logoutButton = view.findViewById(R.id.logout_button);
-        this.deleteAccountButton = view.findViewById(R.id.delete_account_button);
 
-        // Set on click listener to logout button
-        this.logoutButton.setOnClickListener(v -> this.logout());
+        //Set onClickListener popup menu when on click of imageButton
+        ImageView imageButton = view.findViewById(R.id.more_actions_button);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
 
-        // Set on click listener to delete account button
+            @SuppressLint("NonConstantResourceId")
+            private void showPopupMenu(View v) {
+                PopupMenu popup = new PopupMenu(getContext(), v);
+                popup.setOnMenuItemClickListener(item -> {
+                    switch (item.getItemId()) {
+                        case R.id.edit_user_information:
+
+                        case R.id.logout:
+
+                        case R.id.delete_account:
+
+                        default:
+                            return false;
+                    }
+                });
+                popup.inflate(R.menu.popup_menu);
+                popup.show();
+            }
+        });
 
         return view;
     }
