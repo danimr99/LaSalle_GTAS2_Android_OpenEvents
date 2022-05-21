@@ -10,6 +10,7 @@
     <string name="acceptRequestButtonDescription">Accept request button</string>
     <string name="declineRequestButtonDescription">Decline request button</string>
     <string name="backArrowDescription">Back arrow button</string>
+    <string name="moreActionsDescription">More actions button</string>
 
     <!-- Titles -->
     <string name="emailTitle">Email</string>
@@ -43,6 +44,9 @@
     <string name="eventDescriptionTitle">Description</string>
     <string name="eventDateTitle">Start date - Closure date</string>
     <string name="myFriendsTitle">Social</string>
+    <string name="popupEditInfo">Edit information</string>
+    <string name="popupLogout">Log out</string>
+    <string name="popupDeleteAccount">Delete account</string>
 
     <!-- Texts -->
     <string name="notAccountText">Don\'t have an account?</string>
