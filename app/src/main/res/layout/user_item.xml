@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="260dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -56,7 +56,10 @@
                     android:layout_marginTop="5dp"
                     android:textSize="17sp"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:lines="1"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="end"/>
 
             </LinearLayout>
 
@@ -65,8 +68,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
+                android:maxWidth="250dp"
                 android:textColor="@color/broken_white"
-                android:layout_marginStart="20dp" />
+                android:layout_marginStart="20dp"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"/>
 
         </LinearLayout>
 
@@ -87,7 +94,8 @@
                 android:layout_marginEnd="7dp"
                 android:contentDescription="@string/sendRequestButtonDescription"
                 app:fabCustomSize="40dp"
-                app:borderWidth="0dp"/>
+                app:borderWidth="0dp"
+                android:elevation="10dp"/>
 
         </LinearLayout>
 
