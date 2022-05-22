@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openevents.R;
+import com.openevents.api.responses.Event;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.controller.fragments.AllUsersFragment;
 import com.openevents.controller.fragments.FriendRequestsFragment;
@@ -45,6 +46,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 this.userItemResource = R.layout.friend_request_user_item;
                 break;
         }
+    }
+
+    public void filter(ArrayList<UserProfile> filteredList) {
+        this.users = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull

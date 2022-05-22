@@ -60,7 +60,7 @@
     <string name="noAverageScore">No average score yet</string>
     <string name="noPercentageCommentersBelow">Percentage cannot be calculated yet</string>
     <string name="friendRequestSent">Friend request sent successfully</string>
-    <string name="friendRequestNotSent">Friend request could not be sent</string>
+    <string name="friendRequestAlreadySent">Friend request was already sent</string>
     <string name="isNowYourFriend">is now your friend!</string>
 
     <!-- Labels -->

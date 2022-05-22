@@ -87,6 +87,11 @@ public class APIManager {
         this.service.getUserFriends(authentication, userID).enqueue(callback);
     }
 
+    public void deleteAccount(String authenticationToken, Callback<Void> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.deleteAccount(authentication).enqueue(callback);
+    }
+
     /*
      * Events
      */

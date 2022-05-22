@@ -47,11 +47,15 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         final Event item = this.events.get(position);
 
         // Set image from the event
-        Picasso.get()
-                .load(item.getImage())
-                .placeholder(R.drawable.event_placeholder)
-                .error(R.drawable.event_placeholder)
-                .into(holder.eventImage);
+        if(item.getImage() != null && item.getImage().trim().length() != 0) {
+            Picasso.get()
+                    .load(item.getImage())
+                    .placeholder(R.drawable.event_placeholder)
+                    .error(R.drawable.event_placeholder)
+                    .into(holder.eventImage);
+        } else {
+            Picasso.get().load(R.drawable.event_placeholder).into(holder.eventImage);
+        }
 
         // Set event name
         holder.eventTitle.setText(item.getName());

@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/event_card_image"
             android:layout_width="270dp"
-            android:layout_height="365dp"
+            android:layout_height="320dp"
             android:contentDescription="@string/eventImageDescription"
             android:scaleType="centerCrop" />
 

@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +17,15 @@ import android.widget.EditText;
 import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
+import com.openevents.api.responses.Event;
 import com.openevents.api.responses.UserProfile;
-import com.openevents.model.adapters.EventsAdapter;
 import com.openevents.model.adapters.UsersAdapter;
 import com.openevents.model.interfaces.OnListItemListener;
+import com.openevents.utils.DateParser;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,18 +37,20 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
     public static final String TAG_ALL_USERS = "ALL_USERS";
 
     // UI Components
-    private EditText usersSearchBar;
+    private EditText searchBar;
     private RecyclerView allUsersRecyclerView;
-    private RecyclerView.Adapter allUsersAdapter;
+    private UsersAdapter allUsersAdapter;
 
     // Variables
     private ArrayList<UserProfile> users;
+    private ArrayList<UserProfile> usersFiltered;
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
 
     public AllUsersFragment() {
         this.users = new ArrayList<>();
+        this.usersFiltered = new ArrayList<>();
     }
 
     @Override
@@ -71,8 +76,26 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
         this.getUsers();
 
         // Get all components from view
-        this.usersSearchBar = view.findViewById(R.id.users_search_bar);
+        this.searchBar = view.findViewById(R.id.users_search_bar);
         this.allUsersRecyclerView = view.findViewById(R.id.all_users_recycler_view);
+
+        // Configure search bar
+        this.searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if(charSequence.length() == 0) {
+                    usersFiltered = users;
+                } else {
+                    filter(charSequence.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         // Configure horizontal layout for the events recycler view
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),
@@ -80,6 +103,35 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
         this.allUsersRecyclerView.setLayoutManager(linearLayoutManager);
 
         return view;
+    }
+
+    private void filter(String text) {
+        ArrayList<UserProfile> filteredList = new ArrayList<>();
+
+        for (UserProfile profile : this.users) {
+            // Check for profile name
+            if (profile.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(profile);
+            }
+
+            // Check for profile last name
+            if(profile.getLastName().toLowerCase().contains(text.toLowerCase()) &&
+                    !filteredList.contains(profile)) {
+                filteredList.add(profile);
+            }
+
+            // Check for profile email
+            if(profile.getEmail().toLowerCase().contains(text.toLowerCase()) &&
+                    !filteredList.contains(profile)) {
+                filteredList.add(profile);
+            }
+        }
+
+        // Save list of filtered popular events
+        this.usersFiltered = filteredList;
+
+        // Update adapter
+        allUsersAdapter.filter(filteredList);
     }
 
     private void getUsers() {
@@ -92,9 +144,10 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
                     if(response.body() != null) {
                         // Get users from API
                         users = response.body();
+                        usersFiltered = users;
 
                         // Create UsersAdapter and pass it to the users recycler view
-                        allUsersAdapter = new UsersAdapter(users, AllUsersFragment.this,
+                        allUsersAdapter = new UsersAdapter(usersFiltered, AllUsersFragment.this,
                                 TAG_ALL_USERS);
                         allUsersRecyclerView.setAdapter(allUsersAdapter);
 
@@ -113,7 +166,7 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
     public void onListItemClicked(int index) {
         requireActivity().getSupportFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
-                        new UserProfileFragment(this.users.get(index))).
+                        new UserProfileFragment(this.usersFiltered.get(index))).
                 addToBackStack(this.getClass().getName()).
                 commit();
     }

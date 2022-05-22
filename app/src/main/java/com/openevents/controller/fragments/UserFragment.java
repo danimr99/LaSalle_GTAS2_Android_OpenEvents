@@ -119,11 +119,15 @@ public class UserFragment extends Fragment {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.edit_user_information:
+                            // TODO Edit user information
                             break;
                         case R.id.logout:
+                            // Log out
                             logout();
                             break;
                         case R.id.delete_account:
+                            // Delete account
+                            deleteAccount();
                             break;
                     }
                     return false;
@@ -182,11 +186,15 @@ public class UserFragment extends Fragment {
 
     private void updateUserDataUI(User user) {
         // Set image from the user
-        Picasso.get()
-                .load(user.getImage())
-                .placeholder(R.drawable.user_placeholder)
-                .error(R.drawable.user_placeholder)
-                .into(this.profileImage);
+        if(user.getImage() != null && user.getImage().trim().length() != 0) {
+            Picasso.get()
+                    .load(user.getImage())
+                    .placeholder(R.drawable.user_placeholder)
+                    .error(R.drawable.user_placeholder)
+                    .into(this.profileImage);
+        } else {
+            Picasso.get().load(R.drawable.user_placeholder).into(this.profileImage);
+        }
 
         // Set data to corresponding field
         this.profileNameTitle.setText(user.getName());
@@ -243,5 +251,20 @@ public class UserFragment extends Fragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         requireActivity().finish();
+    }
+
+    private void deleteAccount() {
+        this.apiManager.deleteAccount(this.authenticationToken.getAccessToken(),
+                new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.isSuccessful()) {
+                    logout();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {}
+        });
     }
 }
