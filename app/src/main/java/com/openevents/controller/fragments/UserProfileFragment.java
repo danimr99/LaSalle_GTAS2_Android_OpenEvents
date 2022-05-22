@@ -91,11 +91,15 @@ public class UserProfileFragment extends Fragment {
         this.sendFriendRequestButton = view.findViewById(R.id.send_friend_request_button);
 
         // Set image from the user
-        Picasso.get()
-                .load(user.getImage())
-                .placeholder(R.drawable.user_placeholder)
-                .error(R.drawable.user_placeholder)
-                .into(this.profileImage);
+        if(user.getImage() != null && user.getImage().trim().length() != 0) {
+            Picasso.get()
+                    .load(user.getImage())
+                    .placeholder(R.drawable.user_placeholder)
+                    .error(R.drawable.user_placeholder)
+                    .into(this.profileImage);
+        } else {
+            Picasso.get().load(R.drawable.user_placeholder).into(this.profileImage);
+        }
 
         // Set data to each component
         this.profileName.setText(this.user.getName() + " " + this.user.getLastName());

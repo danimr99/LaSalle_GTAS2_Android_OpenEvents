@@ -186,11 +186,15 @@ public class UserFragment extends Fragment {
 
     private void updateUserDataUI(User user) {
         // Set image from the user
-        Picasso.get()
-                .load(user.getImage())
-                .placeholder(R.drawable.user_placeholder)
-                .error(R.drawable.user_placeholder)
-                .into(this.profileImage);
+        if(user.getImage() != null && user.getImage().trim().length() != 0) {
+            Picasso.get()
+                    .load(user.getImage())
+                    .placeholder(R.drawable.user_placeholder)
+                    .error(R.drawable.user_placeholder)
+                    .into(this.profileImage);
+        } else {
+            Picasso.get().load(R.drawable.user_placeholder).into(this.profileImage);
+        }
 
         // Set data to corresponding field
         this.profileNameTitle.setText(user.getName());
