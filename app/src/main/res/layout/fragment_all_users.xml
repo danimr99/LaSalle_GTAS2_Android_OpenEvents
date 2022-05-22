@@ -18,7 +18,7 @@
         android:layout_marginBottom="20dp"
         android:autofillHints=""
         android:background="@drawable/search_bar_shape"
-        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:drawableStart="@drawable/search_icon"
         android:drawablePadding="10dp"
         android:hint="@string/searchUsersHint"
         android:imeOptions="actionSearch"

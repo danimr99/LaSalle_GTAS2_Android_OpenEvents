@@ -21,7 +21,7 @@
         tools:ignore="RtlSymmetry"
         android:imeOptions="actionSearch"
         android:background="@drawable/search_bar_shape"
-        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:drawableStart="@drawable/search_icon"
         android:drawablePadding="10dp"
         android:hint="@string/searchEventsHint"
         android:textColorHint="@color/broken_white"

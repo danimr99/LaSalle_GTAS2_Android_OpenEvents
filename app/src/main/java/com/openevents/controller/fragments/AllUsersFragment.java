@@ -22,6 +22,7 @@ import com.openevents.model.interfaces.OnListItemListener;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -104,18 +105,16 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<UserProfile>> call, @NonNull Throwable t) {
-
-            }
+            public void onFailure(@NonNull Call<ArrayList<UserProfile>> call, @NonNull Throwable t) {}
         });
     }
 
     @Override
     public void onListItemClicked(int index) {
-        /*getParentFragmentManager().beginTransaction().
+        requireActivity().getSupportFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
                         new UserProfileFragment(this.users.get(index))).
                 addToBackStack(this.getClass().getName()).
-                commit();*/
+                commit();
     }
 }
