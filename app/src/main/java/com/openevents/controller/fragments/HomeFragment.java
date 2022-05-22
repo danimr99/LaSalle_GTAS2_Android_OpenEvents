@@ -1,5 +1,6 @@
 package com.openevents.controller.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.ActivityState;
 import com.openevents.api.responses.Event;
+import com.openevents.model.adapters.CategoriesAdapter;
 import com.openevents.model.adapters.PopularEventsAdapter;
 import com.openevents.model.interfaces.OnListItemListener;
 import com.openevents.utils.SharedPrefs;
@@ -32,7 +34,9 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
     private TextView seeAll;
     private TextView popularEventsStatusText;
     private RecyclerView popularEventsRecyclerView;
+    private RecyclerView categoriesRecyclerView;
     private RecyclerView.Adapter popularEventsAdapter;
+    private static final String[] categories = { "Education", "Sports", "Nightlife", "Art", "Food", "Music", "Culture", "Other" };
 
     // Variables
     private APIManager apiManager;
@@ -66,6 +70,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
         this.seeAll = view.findViewById(R.id.see_all_label);
         this.popularEventsRecyclerView = view.findViewById(R.id.popular_events_recycler_view);
         this.popularEventsStatusText = view.findViewById(R.id.events_status_text);
+        this.categoriesRecyclerView = view.findViewById(R.id.event_type_recycler_view);
 
         // Set activity status to loading
         this.loading();
@@ -78,6 +83,14 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         this.popularEventsRecyclerView.setLayoutManager(linearLayoutManager);
+        this.categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        // Set adapter to the categories recycler view
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        categoriesRecyclerView.setLayoutManager(layoutManager);
+
+        CategoriesAdapter mAdapter = new CategoriesAdapter(categories);
+        categoriesRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
@@ -85,6 +98,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
     private void getPopularEvents() {
         this.apiManager.getPopularEvents(this.sharedPrefs.getAuthenticationToken(),
                 new Callback<ArrayList<Event>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(@NonNull Call<ArrayList<Event>> call, @NonNull Response<ArrayList<Event>> response) {
                 if (response.isSuccessful()) {
