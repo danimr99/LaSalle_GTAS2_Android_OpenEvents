@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,6 @@ import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -80,7 +78,7 @@ public class EventDetailsFragment extends Fragment {
         this.getEventParticipants(this.event.getId());
 
         // Get components from view
-        this.backArrow = view.findViewById(R.id.back_arrow);
+        this.backArrow = view.findViewById(R.id.event_details_back_arrow);
         this.eventImage = view.findViewById(R.id.event_details_image);
         this.eventTitle = view.findViewById(R.id.event_details_title);
         this.eventOwner = view.findViewById(R.id.event_details_owner);

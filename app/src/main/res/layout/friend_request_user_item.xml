@@ -50,7 +50,7 @@
                     android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/friend_last_name"
+                android:id="@+id/friend_request_last_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -88,7 +88,7 @@
                 android:id="@+id/accept_request_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_check_24"
+                android:src="@drawable/check_icon"
                 app:tint="@android:color/white"
                 android:backgroundTint="@color/green"
                 android:layout_marginEnd="7dp"
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/red"
                 android:contentDescription="@string/declineRequestButtonDescription"
-                android:src="@drawable/ic_baseline_clear_24"
+                android:src="@drawable/clear_icon"
                 app:borderWidth="0dp"
                 app:fabCustomSize="37dp"
                 app:tint="@android:color/white" />

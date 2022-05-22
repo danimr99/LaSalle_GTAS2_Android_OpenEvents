@@ -105,9 +105,7 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<UserProfile>> call, @NonNull Throwable t) {
-
-            }
+            public void onFailure(@NonNull Call<ArrayList<UserProfile>> call, @NonNull Throwable t) {}
         });
     }
 

@@ -24,7 +24,7 @@
         android:layout_gravity="end|bottom"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_baseline_add_24"
+        android:src="@drawable/plus_icon"
         app:tint="@android:color/white"
         android:contentDescription="@string/addEventButtonDescription"
         android:layout_margin="20dp"
