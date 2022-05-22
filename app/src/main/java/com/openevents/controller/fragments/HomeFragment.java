@@ -48,9 +48,11 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
     private APIManager apiManager;
     private SharedPrefs sharedPrefs;
     private ArrayList<Event> popularEvents;
+    private ArrayList<Event> popularEventsFiltered;
 
     public HomeFragment() {
         this.popularEvents = new ArrayList<>();
+        this.popularEventsFiltered = new ArrayList<>();
     }
 
     @Override
@@ -93,7 +95,11 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                filter(charSequence.toString());
+                if(charSequence.length() == 0) {
+                    popularEventsFiltered = popularEvents;
+                } else {
+                    filter(charSequence.toString());
+                }
             }
 
             @Override
@@ -109,9 +115,8 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
         // Set adapter to the categories recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         categoriesRecyclerView.setLayoutManager(layoutManager);
-
-        CategoriesAdapter mAdapter = new CategoriesAdapter(Constants.CATEGORIES);
-        categoriesRecyclerView.setAdapter(mAdapter);
+        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(Constants.CATEGORIES);
+        categoriesRecyclerView.setAdapter(categoriesAdapter);
 
         return view;
     }
@@ -138,7 +143,11 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
             }
         }
 
-        popularEventsAdapter.filter(filteredList);
+        // Save list of filtered popular events
+        this.popularEventsFiltered = filteredList;
+
+        // Update adapter
+        this.popularEventsAdapter.filter(filteredList);
     }
 
     private void getPopularEvents() {
@@ -152,10 +161,13 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
                     if(response.body() != null) {
                         // Get events from response
                         popularEvents = response.body();
+                        popularEventsFiltered = popularEvents;
 
                         // Create EventsAdapter and pass it to the events recycler view
-                        popularEventsAdapter = new PopularEventsAdapter(popularEvents, HomeFragment.this);
+                        popularEventsAdapter = new PopularEventsAdapter(popularEventsFiltered, HomeFragment.this);
                         popularEventsRecyclerView.setAdapter(popularEventsAdapter);
+
+                        // Update dataset and view
                         popularEventsAdapter.notifyDataSetChanged();
                         onDataReceived();
                     } else {
@@ -207,7 +219,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
     public void onListItemClicked(int index) {
         getParentFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
-                        new EventDetailsFragment(this.popularEvents.get(index))).
+                        new EventDetailsFragment(this.popularEventsFiltered.get(index))).
                 addToBackStack(this.getClass().getName()).
                 commit();
     }

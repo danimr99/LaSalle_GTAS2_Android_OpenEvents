@@ -119,11 +119,15 @@ public class UserFragment extends Fragment {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.edit_user_information:
+                            // TODO Edit user information
                             break;
                         case R.id.logout:
+                            // Log out
                             logout();
                             break;
                         case R.id.delete_account:
+                            // Delete account
+                            deleteAccount();
                             break;
                     }
                     return false;
@@ -243,5 +247,20 @@ public class UserFragment extends Fragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         requireActivity().finish();
+    }
+
+    private void deleteAccount() {
+        this.apiManager.deleteAccount(this.authenticationToken.getAccessToken(),
+                new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.isSuccessful()) {
+                    logout();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {}
+        });
     }
 }

@@ -48,9 +48,11 @@ public class EventsFragment extends Fragment implements ActivityState, OnListIte
     private APIManager apiManager;
     private SharedPrefs sharedPrefs;
     private ArrayList<Event> events;
+    private ArrayList<Event> eventsFiltered;
     private boolean ascOrder;
 
     public EventsFragment() {
+        this.events = new ArrayList<>();
         this.events = new ArrayList<>();
         this.ascOrder = true;
     }
@@ -92,7 +94,11 @@ public class EventsFragment extends Fragment implements ActivityState, OnListIte
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                filter(charSequence.toString());
+                if(charSequence.length() == 0) {
+                    eventsFiltered = events;
+                } else {
+                    filter(charSequence.toString());
+                }
             }
 
             @Override
@@ -113,16 +119,16 @@ public class EventsFragment extends Fragment implements ActivityState, OnListIte
     private void toggleSortByStartDateOrder() {
         // Set icon to the corresponding rotation
         if(this.ascOrder) {
-            this.sortByStartDateIcon.setRotation(90);
-        } else {
             this.sortByStartDateIcon.setRotation(270);
+        } else {
+            this.sortByStartDateIcon.setRotation(90);
         }
 
         // Change value
         this.ascOrder = !this.ascOrder;
 
         // Update EventsAdapter
-        Collections.reverse(this.events);
+        Collections.reverse(this.eventsFiltered);
         this.eventsAdapter.notifyDataSetChanged();
     }
 
@@ -148,20 +154,27 @@ public class EventsFragment extends Fragment implements ActivityState, OnListIte
             }
         }
 
+        // Save list of filtered popular events
+        this.eventsFiltered = filteredList;
+
+        // Update adapter
         eventsAdapter.filter(filteredList);
     }
 
     private void getEvents() {
-        this.apiManager.getEvents(this.sharedPrefs.getAuthenticationToken(), new Callback<ArrayList<Event>>() {
+        this.apiManager.getEvents(this.sharedPrefs.getAuthenticationToken(),
+                new Callback<ArrayList<Event>>() {
             @Override
-            public void onResponse(@NonNull Call<ArrayList<Event>> call, @NonNull Response<ArrayList<Event>> response) {
+            public void onResponse(@NonNull Call<ArrayList<Event>> call,
+                                   @NonNull Response<ArrayList<Event>> response) {
                 if (response.isSuccessful()) {
                     if(response.body() != null) {
                         // Get events from response
                         events = response.body();
+                        eventsFiltered = events;
 
                         // Create EventsAdapter and pass it to the events recycler view
-                        eventsAdapter = new EventsAdapter(events, EventsFragment.this);
+                        eventsAdapter = new EventsAdapter(eventsFiltered, EventsFragment.this);
                         eventsRecyclerView.setAdapter(eventsAdapter);
 
                         // Update dataset and view
@@ -216,7 +229,7 @@ public class EventsFragment extends Fragment implements ActivityState, OnListIte
     public void onListItemClicked(int index) {
         getParentFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
-                        new EventDetailsFragment(this.events.get(index))).
+                        new EventDetailsFragment(this.eventsFiltered.get(index))).
                 addToBackStack(this.getClass().getName()).
                 commit();
     }
