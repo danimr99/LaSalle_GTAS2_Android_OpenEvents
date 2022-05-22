@@ -8,18 +8,24 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.ActivityState;
 import com.openevents.api.responses.Event;
+import com.openevents.constants.Constants;
 import com.openevents.model.adapters.CategoriesAdapter;
 import com.openevents.model.adapters.PopularEventsAdapter;
 import com.openevents.model.interfaces.OnListItemListener;
+import com.openevents.utils.DateParser;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -31,12 +37,12 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements ActivityState, OnListItemListener {
     // UI Components
+    private EditText searchBar;
     private TextView seeAll;
     private TextView popularEventsStatusText;
     private RecyclerView popularEventsRecyclerView;
     private RecyclerView categoriesRecyclerView;
-    private RecyclerView.Adapter popularEventsAdapter;
-    private static final String[] categories = { "Education", "Sports", "Nightlife", "Art", "Food", "Music", "Culture", "Other" };
+    private PopularEventsAdapter popularEventsAdapter;
 
     // Variables
     private APIManager apiManager;
@@ -67,10 +73,11 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
         this.getPopularEvents();
 
         // Get components from view
+        this.searchBar = view.findViewById(R.id.users_search_bar);
         this.seeAll = view.findViewById(R.id.see_all_label);
         this.popularEventsRecyclerView = view.findViewById(R.id.popular_events_recycler_view);
         this.popularEventsStatusText = view.findViewById(R.id.events_status_text);
-        this.categoriesRecyclerView = view.findViewById(R.id.event_type_recycler_view);
+        this.categoriesRecyclerView = view.findViewById(R.id.categories_recycler_view);
 
         // Set activity status to loading
         this.loading();
@@ -78,6 +85,20 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
         // Set on click listener to "See all" label
         this.seeAll.setOnClickListener(v -> getParentFragmentManager().beginTransaction().
                 replace(R.id.home_fragment_container, new EventsFragment()).commit());
+
+        // Configure search bar
+        this.searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                filter(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         // Configure horizontal layout for the events recycler view
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),
@@ -89,10 +110,35 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         categoriesRecyclerView.setLayoutManager(layoutManager);
 
-        CategoriesAdapter mAdapter = new CategoriesAdapter(categories);
+        CategoriesAdapter mAdapter = new CategoriesAdapter(Constants.CATEGORIES);
         categoriesRecyclerView.setAdapter(mAdapter);
 
         return view;
+    }
+
+    private void filter(String text) {
+        ArrayList<Event> filteredList = new ArrayList<>();
+
+        for (Event event : this.popularEvents) {
+            // Check for event name
+            if (event.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(event);
+            }
+
+            // Check for event location
+            if(event.getLocation().toLowerCase().contains(text.toLowerCase()) &&
+                    !filteredList.contains(event)) {
+                filteredList.add(event);
+            }
+
+            // Check for start date
+            if(DateParser.toDateTime(event.getEventStartDate()).contains(text.toLowerCase()) &&
+                    !filteredList.contains(event)) {
+                filteredList.add(event);
+            }
+        }
+
+        popularEventsAdapter.filter(filteredList);
     }
 
     private void getPopularEvents() {
@@ -100,7 +146,8 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
                 new Callback<ArrayList<Event>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onResponse(@NonNull Call<ArrayList<Event>> call, @NonNull Response<ArrayList<Event>> response) {
+            public void onResponse(@NonNull Call<ArrayList<Event>> call,
+                                   @NonNull Response<ArrayList<Event>> response) {
                 if (response.isSuccessful()) {
                     if(response.body() != null) {
                         // Get events from response
