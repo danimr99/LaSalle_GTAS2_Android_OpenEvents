@@ -52,7 +52,7 @@ public interface API {
                                  @Path("userID") int userID);
 
     @GET("users/{userID}/friends")
-    Call<ArrayList<User>> getUserFriends(@Header("Authorization") String authenticationToken,
+    Call<ArrayList<UserProfile>> getUserFriends(@Header("Authorization") String authenticationToken,
                                          @Path("userID") int userID);
 
     @DELETE("users")
@@ -79,9 +79,13 @@ public interface API {
                                                @Path("userID") int userID);
 
     @GET("friends/requests")
-    Call<ArrayList<User>> getFriendRequests(@Header("Authorization") String authenticationToken);
+    Call<ArrayList<UserProfile>> getFriendRequests(@Header("Authorization") String authenticationToken);
 
     @PUT("friends/{userID}")
     Call<FriendshipResponse> acceptFriendRequest(@Header("Authorization") String authenticationToken,
                             @Path("userID") int userID);
+
+    @DELETE("friends/{userID}")
+    Call<FriendshipResponse> declineFriendRequest(@Header("Authorization") String authenticationToken,
+                                                  @Path("userID") int userID);
 }

@@ -16,7 +16,7 @@ import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.constants.Constants;
 import com.openevents.api.requests.UserSession;
 import com.openevents.utils.SharedPrefs;
-import com.openevents.utils.ToastNotification;
+import com.openevents.utils.Notification;
 
 import java.util.Objects;
 
@@ -142,13 +142,15 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         }
                     } else {
-                        ToastNotification.showNotification(getApplicationContext(), R.string.invalidCredentialsError);
+                        Notification.showDialogNotification(getApplicationContext(),
+                                getText(R.string.invalidCredentialsError).toString());
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<AuthenticationToken> call, @NonNull Throwable t) {
-                    ToastNotification.showServerConnectionError(getApplicationContext());
+                    Notification.showDialogNotification(getApplicationContext(),
+                            getText(R.string.cannotConnectToServerError).toString());
                 }
             });
         }

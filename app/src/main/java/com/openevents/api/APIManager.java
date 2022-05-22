@@ -82,7 +82,7 @@ public class APIManager {
     }
 
     public void getUserFriends(String authenticationToken, int userID,
-                               Callback<ArrayList<User>> callback) {
+                               Callback<ArrayList<UserProfile>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.getUserFriends(authentication, userID).enqueue(callback);
     }
@@ -120,7 +120,7 @@ public class APIManager {
         this.service.sendFriendRequest(authentication, userID).enqueue(callback);
     }
 
-    public void getFriendRequests(String authenticationToken, Callback<ArrayList<User>> callback) {
+    public void getFriendRequests(String authenticationToken, Callback<ArrayList<UserProfile>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.getFriendRequests(authentication).enqueue(callback);
     }
@@ -129,5 +129,11 @@ public class APIManager {
                                     Callback<FriendshipResponse> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.acceptFriendRequest(authentication, userID).enqueue(callback);
+    }
+
+    public void declineFriendRequest(String authenticationToken, int userID,
+                                     Callback<FriendshipResponse> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.declineFriendRequest(authentication, userID).enqueue(callback);
     }
 }

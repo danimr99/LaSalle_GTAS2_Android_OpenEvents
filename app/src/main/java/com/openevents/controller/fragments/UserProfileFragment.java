@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.openevents.R;
@@ -21,10 +22,12 @@ import com.openevents.api.responses.FriendshipResponse;
 import com.openevents.api.responses.User;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.api.responses.UserStats;
+import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +42,8 @@ public class UserProfileFragment extends Fragment {
     private TextView profileAverageScore;
     private TextView profileNumberOfComments;
     private TextView profilePercentageLessComments;
+    private LinearLayout sendFriendRequestLinearLayout;
+    private View profileSeparator;
     private TextView sendFriendRequestButton;
 
     // Variables
@@ -89,6 +94,8 @@ public class UserProfileFragment extends Fragment {
         this.profileNumberOfComments = view.findViewById(R.id.profile_number_comments);
         this.profilePercentageLessComments = view.findViewById(R.id.profile_percentage_users_less_comments);
         this.sendFriendRequestButton = view.findViewById(R.id.send_friend_request_button);
+        this.sendFriendRequestLinearLayout = view.findViewById(R.id.user_profile_send_friend_request_linear_layout);
+        this.profileSeparator = view.findViewById(R.id.user_profile_separator);
 
         // Set image from the user
         if(user.getImage() != null && user.getImage().trim().length() != 0) {
@@ -166,24 +173,27 @@ public class UserProfileFragment extends Fragment {
 
         // Check if the user from the profile is a friend of the user logged in
         this.apiManager.getUserFriends(this.authenticationToken.getAccessToken(), loggedInUserID,
-                new Callback<ArrayList<User>>() {
+                new Callback<ArrayList<UserProfile>>() {
                     @Override
-                    public void onResponse(@NonNull Call<ArrayList<User>> call,
-                                           @NonNull Response<ArrayList<User>> response) {
+                    public void onResponse(@NonNull Call<ArrayList<UserProfile>> call,
+                                           @NonNull Response<ArrayList<UserProfile>> response) {
                         if (response.isSuccessful()) {
                             if (response.body() != null) {
                                 // Get all friends from the logged in user
-                                ArrayList<User> friends = response.body();
+                                ArrayList<UserProfile> friends = response.body();
 
                                 // Check if exists the user from the profile in the list of friends
-                                for (User friend : friends) {
-                                    if (friend.getId().equals(user.getId())) {
+                                for (UserProfile friend : friends) {
+                                    if (friend.getId() == user.getId()) {
                                         isFriend = true;
+                                        break;
                                     }
                                 }
 
                                 // Set visibility off to send request button if profile user is a friend
                                 if (isFriend) {
+                                    sendFriendRequestLinearLayout.setVisibility(View.GONE);
+                                    profileSeparator.setVisibility(View.GONE);
                                     sendFriendRequestButton.setVisibility(View.GONE);
                                 }
                             }
@@ -191,24 +201,29 @@ public class UserProfileFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) {}
+                    public void onFailure(@NonNull Call<ArrayList<UserProfile>> call,
+                                          @NonNull Throwable t) {
+                        Notification.showDialogNotification(getContext(),
+                                getText(R.string.cannotConnectToServerError).toString());
+                    }
                 });
 
         // Check if the user from the profile has sent a friend request to the user logged in
         this.apiManager.getFriendRequests(this.authenticationToken.getAccessToken(),
-                new Callback<ArrayList<User>>() {
+                new Callback<ArrayList<UserProfile>>() {
                     @Override
-                    public void onResponse(@NonNull Call<ArrayList<User>> call,
-                                           @NonNull Response<ArrayList<User>> response) {
+                    public void onResponse(@NonNull Call<ArrayList<UserProfile>> call,
+                                           @NonNull Response<ArrayList<UserProfile>> response) {
                         if (response.isSuccessful()) {
                             if (response.body() != null) {
                                 // Getting all friend requests
-                                ArrayList<User> friendRequests = response.body();
+                                ArrayList<UserProfile> friendRequests = response.body();
 
                                 // Check if exists a friend request made by the user from the profile
-                                for (User friendRequest : friendRequests) {
-                                    if (friendRequest.getId().equals(user.getId())) {
+                                for (UserProfile friendRequest : friendRequests) {
+                                    if (friendRequest.getId() == user.getId()) {
                                         existsFriendRequestSentByProfileUser = true;
+                                        break;
                                     }
                                 }
                             }
@@ -216,7 +231,10 @@ public class UserProfileFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ArrayList<UserProfile>> call,
+                                          @NonNull Throwable t) {
+                        Notification.showDialogNotification(getContext(),
+                                getText(R.string.cannotConnectToServerError).toString());
                     }
                 });
     }
@@ -229,16 +247,25 @@ public class UserProfileFragment extends Fragment {
                                            @NonNull Response<FriendshipResponse> response) {
                         if (response.isSuccessful()) {
                             // Display dialog informing that friend request has been sent
-                            showDialogNotification(getText(R.string.friendRequestSent).toString());
+                            Notification.showDialogNotification(getContext(),
+                                    getText(R.string.friendRequestSent).toString());
                         } else {
                             // Display dialog informing that friend request has been sent
-                            showDialogNotification(getText(R.string.friendRequestAlreadySent).toString());
-                            sendFriendRequestButton.setVisibility(View.GONE);
+                            Notification.showDialogNotification(getContext(),
+                                    getText(R.string.friendRequestAlreadySent).toString());
                         }
+
+                        // Disable button
+                        sendFriendRequestLinearLayout.setVisibility(View.GONE);
+                        profileSeparator.setVisibility(View.GONE);
+                        sendFriendRequestButton.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<FriendshipResponse> call, @NonNull Throwable t) {}
+                    public void onFailure(@NonNull Call<FriendshipResponse> call, @NonNull Throwable t) {
+                        Notification.showDialogNotification(getContext(),
+                                requireContext().getText(R.string.cannotConnectToServerError).toString());
+                    }
                 });
     }
 
@@ -249,33 +276,27 @@ public class UserProfileFragment extends Fragment {
                     public void onResponse(@NonNull Call<FriendshipResponse> call,
                                            @NonNull Response<FriendshipResponse> response) {
                         if (response.isSuccessful()) {
-                            showDialogNotification(user.getName() + " " +
-                                    getText(R.string.isNowYourFriend));
+                            Notification.showDialogNotification(getContext(),
+                                    user.getName() + " " + getText(R.string.isNowYourFriend));
                         } else {
                             // Display dialog informing that friend request has been sent
-                            showDialogNotification(getText(R.string.friendRequestSent).toString());
+                            Notification.showDialogNotification(getContext(),
+                                    getText(R.string.friendRequestSent).toString());
                         }
 
                         // Disable button
+                        sendFriendRequestLinearLayout.setVisibility(View.GONE);
+                        profileSeparator.setVisibility(View.GONE);
                         sendFriendRequestButton.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<FriendshipResponse> call, @NonNull Throwable t) {}
+                    public void onFailure(@NonNull Call<FriendshipResponse> call,
+                                          @NonNull Throwable t) {
+                        Notification.showDialogNotification(getContext(),
+                                requireContext().getText(R.string.cannotConnectToServerError).toString());
+                    }
                 });
-    }
-
-    private void showDialogNotification(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.requireContext());
-        builder.setMessage(message);
-        builder.setCancelable(true);
-
-        builder.setPositiveButton(R.string.acceptLabel, (dialog, button) -> dialog.dismiss());
-
-        builder.setOnDismissListener(DialogInterface::dismiss);
-
-        AlertDialog alert = builder.create();
-        alert.show();
     }
 
     private void navigateBack() {

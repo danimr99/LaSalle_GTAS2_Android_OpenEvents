@@ -84,6 +84,8 @@
     <string name="allUsersLabel">All users</string>
     <string name="friendsLabel">Friends</string>
     <string name="friendRequestsLabel">Requests</string>
+    <string name="friendRequestAccepted">Friend request accepted successfully</string>
+    <string name="friendRequestDeclined">Friend request declined successfully</string>
 
     <!-- Hints -->
     <string name="emailHint">Your email</string>

@@ -8,7 +8,7 @@
     tools:context=".controller.fragments.FriendRequestsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/requests_recycler_view"
+        android:id="@+id/friend_requests_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
