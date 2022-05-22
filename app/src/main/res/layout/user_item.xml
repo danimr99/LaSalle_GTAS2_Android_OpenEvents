@@ -88,7 +88,7 @@
                 android:id="@+id/accept_request_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_person_add_24"
+                android:src="@drawable/add_person_icon"
                 app:tint="@android:color/white"
                 android:backgroundTint="@color/secondary_background"
                 android:layout_marginEnd="7dp"

@@ -13,6 +13,7 @@
     <string name="moreActionsDescription">More actions button</string>
     <string name="sendRequestButtonDescription">Send request button</string>
     <string name="deleteFriendButtonDescription">Delete friend button</string>
+    <string name="sortByStartDateIconDescription">ASC/DESC arrow icon</string>
 
     <!-- Titles -->
     <string name="emailTitle">Email</string>
@@ -58,25 +59,28 @@
     <string name="noEvents">No events were found</string>
     <string name="noAverageScore">No average score yet</string>
     <string name="noPercentageCommentersBelow">Percentage cannot be calculated yet</string>
+    <string name="friendRequestSent">Friend request sent successfully</string>
+    <string name="friendRequestNotSent">Friend request could not be sent</string>
+    <string name="isNowYourFriend">is now your friend!</string>
 
     <!-- Labels -->
-    <string name="signInLabel">SIGN IN</string>
-    <string name="createAccountLabel">CREATE ACCOUNT</string>
-    <string name="updateInfoLabel">UPDATE INFORMATION</string>
+    <string name="signInLabel">Sign in</string>
+    <string name="createAccountLabel">Create account</string>
+    <string name="updateInfoLabel">Update information</string>
     <string name="seeAllLabel">See all</string>
     <string name="sortByStartDate">Sort by start date</string>
     <string name="editLabel">Edit</string>
     <string name="acceptLabel">Accept</string>
     <string name="cancelLabel">Cancel</string>
-    <string name="createEventLabel">CREATE EVENT</string>
-    <string name="joinEventLabel">JOIN EVENT</string>
-    <string name="logOutLabel">LOG OUT</string>
-    <string name="deleteAccountLabel">DELETE ACCOUNT</string>
-    <string name="deleteEventLabel">DELETE EVENT</string>
+    <string name="createEventLabel">Create event</string>
+    <string name="joinEventLabel">Join event</string>
+    <string name="logOutLabel">Log out</string>
+    <string name="deleteAccountLabel">Delete account</string>
+    <string name="deleteEventLabel">Delete event</string>
     <string name="commentEventLabel">Comment</string>
     <string name="rateEventLabel">Rate</string>
-    <string name="sendRequestLabel">SEND REQUEST</string>
-    <string name="deleteFriendshipLabel">DELETE FRIENDSHIP</string>
+    <string name="sendFriendRequestLabel">Send friend request</string>
+    <string name="deleteFriendshipLabel">Delete friendship</string>
     <string name="allUsersLabel">All users</string>
     <string name="friendsLabel">Friends</string>
     <string name="friendRequestsLabel">Requests</string>

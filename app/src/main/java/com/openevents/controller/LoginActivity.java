@@ -119,9 +119,10 @@ public class LoginActivity extends AppCompatActivity {
             // Attempt login to the API
             this.apiManager.login(userSession, new Callback<AuthenticationToken>() {
                 @Override
-                public void onResponse(@NonNull Call<AuthenticationToken> call, @NonNull Response<AuthenticationToken> response) {
-                    if(response.body() != null) {
-                        if(response.isSuccessful()) {
+                public void onResponse(@NonNull Call<AuthenticationToken> call,
+                                       @NonNull Response<AuthenticationToken> response) {
+                    if(response.isSuccessful()) {
+                        if(response.body() != null) {
                             // Get response body parsing it to AuthenticationToken
                             AuthenticationToken authenticationToken = response.body();
 
