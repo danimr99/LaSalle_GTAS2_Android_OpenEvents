@@ -91,11 +91,15 @@ public class UserProfileFragment extends Fragment {
         this.sendFriendRequestButton = view.findViewById(R.id.send_friend_request_button);
 
         // Set image from the user
-        Picasso.get()
-                .load(user.getImage())
-                .placeholder(R.drawable.user_placeholder)
-                .error(R.drawable.user_placeholder)
-                .into(this.profileImage);
+        if(user.getImage() != null && user.getImage().trim().length() != 0) {
+            Picasso.get()
+                    .load(user.getImage())
+                    .placeholder(R.drawable.user_placeholder)
+                    .error(R.drawable.user_placeholder)
+                    .into(this.profileImage);
+        } else {
+            Picasso.get().load(R.drawable.user_placeholder).into(this.profileImage);
+        }
 
         // Set data to each component
         this.profileName.setText(this.user.getName() + " " + this.user.getLastName());
@@ -105,7 +109,17 @@ public class UserProfileFragment extends Fragment {
         this.backArrow.setOnClickListener(v -> this.navigateBack());
 
         // Configure friendship buttons
-        this.sendFriendRequestButton.setOnClickListener(v -> this.sendFriendRequest());
+        this.sendFriendRequestButton.setOnClickListener(v -> {
+            // Check if is a friend
+            if(!isFriend) {
+                // Accept friend request made previously by the profile user if exists
+                if (existsFriendRequestSentByProfileUser) {
+                    acceptFriendRequest();
+                } else {
+                    sendFriendRequest();
+                }
+            }
+        });
 
         return view;
     }
@@ -197,13 +211,6 @@ public class UserProfileFragment extends Fragment {
                                         existsFriendRequestSentByProfileUser = true;
                                     }
                                 }
-
-                                // Accept friend request made previously by the profile user
-                                if (!isFriend && existsFriendRequestSentByProfileUser) {
-                                    acceptFriendRequest();
-                                } else {
-                                    sendFriendRequest();
-                                }
                             }
                         }
                     }
@@ -225,7 +232,8 @@ public class UserProfileFragment extends Fragment {
                             showDialogNotification(getText(R.string.friendRequestSent).toString());
                         } else {
                             // Display dialog informing that friend request has been sent
-                            showDialogNotification(getText(R.string.friendRequestNotSent).toString());
+                            showDialogNotification(getText(R.string.friendRequestAlreadySent).toString());
+                            sendFriendRequestButton.setVisibility(View.GONE);
                         }
                     }
 
@@ -247,6 +255,9 @@ public class UserProfileFragment extends Fragment {
                             // Display dialog informing that friend request has been sent
                             showDialogNotification(getText(R.string.friendRequestSent).toString());
                         }
+
+                        // Disable button
+                        sendFriendRequestButton.setVisibility(View.GONE);
                     }
 
                     @Override

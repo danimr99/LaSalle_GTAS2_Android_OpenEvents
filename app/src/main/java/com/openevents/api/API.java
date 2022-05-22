@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -54,6 +55,9 @@ public interface API {
     Call<ArrayList<User>> getUserFriends(@Header("Authorization") String authenticationToken,
                                          @Path("userID") int userID);
 
+    @DELETE("users")
+    Call<Void> deleteAccount(@Header("Authorization") String authenticationToken);
+
     /*
      * Events
      */
@@ -80,5 +84,4 @@ public interface API {
     @PUT("friends/{userID}")
     Call<FriendshipResponse> acceptFriendRequest(@Header("Authorization") String authenticationToken,
                             @Path("userID") int userID);
-
 }

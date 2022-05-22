@@ -17,7 +17,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
         public TextView textView;
         public ViewHolder(ViewGroup parent) {
-            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.event_type_item, parent, false));
+            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.category_item, parent, false));
             textView = itemView.findViewById(R.id.type_title);
         }
     }

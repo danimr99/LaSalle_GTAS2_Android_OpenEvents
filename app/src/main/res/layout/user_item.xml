@@ -24,7 +24,8 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:contentDescription="@string/userImageDescription"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                android:background="@color/secondary_background"/>
 
         </androidx.cardview.widget.CardView>
 

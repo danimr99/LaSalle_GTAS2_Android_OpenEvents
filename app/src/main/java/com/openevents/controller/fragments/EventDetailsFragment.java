@@ -100,12 +100,16 @@ public class EventDetailsFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void updateEventDetailsUI(Event event, User eventOwner) {
-        // Set image from the user
-        Picasso.get()
-                .load(event.getImage())
-                .placeholder(R.drawable.event_placeholder)
-                .error(R.drawable.event_placeholder)
-                .into(this.eventImage);
+        // Set image from the event
+        if(event.getImage() != null && event.getImage().trim().length() != 0) {
+            Picasso.get()
+                    .load(event.getImage())
+                    .placeholder(R.drawable.event_placeholder)
+                    .error(R.drawable.event_placeholder)
+                    .into(this.eventImage);
+        } else {
+            Picasso.get().load(R.drawable.event_placeholder).into(this.eventImage);
+        }
 
         // Set data to corresponding field
         this.eventTitle.setText(event.getName());
