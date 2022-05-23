@@ -50,6 +50,8 @@
     <string name="popupEditInfo">Edit information</string>
     <string name="popupLogout">Log out</string>
     <string name="popupDeleteAccount">Delete account</string>
+    <string name="joinedEventTitle">Joined</string>
+    <string name="finishedEventTitle">Finished</string>
 
     <!-- Texts -->
     <string name="notAccountText">Don\'t have an account?</string>
@@ -59,9 +61,6 @@
     <string name="noEvents">No events were found</string>
     <string name="noAverageScore">No average score yet</string>
     <string name="noPercentageCommentersBelow">Percentage cannot be calculated yet</string>
-    <string name="friendRequestSent">Friend request sent successfully</string>
-    <string name="friendRequestAlreadySent">Friend request was already sent</string>
-    <string name="isNowYourFriend">is now your friend!</string>
 
     <!-- Labels -->
     <string name="signInLabel">Sign in</string>
@@ -101,10 +100,10 @@
     <string name="searchUsersHint">Search users</string>
     <string name="eventTitleHint">Event title</string>
     <string name="eventLocationHint">Event location</string>
-    <string name="eventStartDateHint">Select start date</string>
-    <string name="eventEndDateHint">Select end date</string>
-    <string name="numberOfParticipantsHint">Select number of participants</string>
-    <string name="eventTypeHint">Event category</string>
+    <string name="eventStartDateHint">Select a start date</string>
+    <string name="eventEndDateHint">Select an end date</string>
+    <string name="numberOfParticipantsHint">Select a number of participants</string>
+    <string name="eventTypeHint">Select an event category</string>
     <string name="eventDescriptionHint">Event description</string>
 
     <!-- Errors -->
@@ -115,15 +114,24 @@
     <string name="invalidEmailError">ERROR: Invalid email</string>
     <string name="passwordsNotMatchError">ERROR: Passwords do not match</string>
     <string name="passwordMinLengthError">ERROR: Password length must be at least 8 characters long</string>
+    <string name="locationMinLengthError">ERROR: Location length must be at least 5 characters long</string>
     <string name="alreadyExistsEmailError">ERROR: A user with the introduced email already exists</string>
     <string name="registerError">ERROR: Sign up failed</string>
     <string name="cannotGetUsersError">ERROR: Cannot get users</string>
     <string name="cannotGetUserError">ERROR: Cannot get user</string>
     <string name="cannotGetEventsError">ERROR: Cannot get events</string>
     <string name="cannotGetEventError">ERROR: Cannot get event</string>
+    <string name="endDateBeforeStartDateEventError">ERROR: Start date must be before end date</string>
+    <string name="minAssistantsEventError">ERROR: Minimum of 2 assistants for an event</string>
 
     <!-- Notifications -->
+    <string name="friendRequestAccepted">Friend request accepted successfully</string>
+    <string name="friendRequestDeclined">Friend request declined successfully</string>
     <string name="registerSuccessful">Signed up successfully</string>
+    <string name="eventCreatedSuccessfully">Event created successfully</string>
+    <string name="friendRequestSent">Friend request sent successfully</string>
+    <string name="friendRequestAlreadySent">Friend request was already sent</string>
+    <string name="isNowYourFriend">is now your friend!</string>
 
     <!-- Symbols -->
     <string name="dot">·</string>

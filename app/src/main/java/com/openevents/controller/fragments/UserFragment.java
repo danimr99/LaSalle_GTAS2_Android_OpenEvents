@@ -87,7 +87,7 @@ public class UserFragment extends Fragment {
 
         // Inflate view with the ImageSelectorFragment
         if (this.fragment == null) {
-            this.fragment = new ImageSelectorFragment();
+            this.fragment = new ImageSelectorFragment(true);
             fm.beginTransaction().add(R.id.image_selector_fragment_container, this.fragment).commit();
         }
 
@@ -191,6 +191,7 @@ public class UserFragment extends Fragment {
                     .load(user.getImage())
                     .placeholder(R.drawable.user_placeholder)
                     .error(R.drawable.user_placeholder)
+                    .resize(Constants.MAX_IMAGE_WIDTH, Constants.MAX_IMAGE_HEIGHT)
                     .into(this.profileImage);
         } else {
             Picasso.get().load(R.drawable.user_placeholder).into(this.profileImage);

@@ -1,4 +1,4 @@
-package com.openevents;
+package com.openevents.model.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -7,10 +7,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
 
-public class ViewPager2Adapter extends FragmentStateAdapter {
+public class ViewPagerAdapter extends FragmentStateAdapter {
     private ArrayList<Fragment> fragments;
 
-    public ViewPager2Adapter(@NonNull Fragment fragmentActivity) {
+    public ViewPagerAdapter(@NonNull Fragment fragmentActivity) {
         super(fragmentActivity);
     }
 

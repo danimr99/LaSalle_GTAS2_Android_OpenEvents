@@ -11,27 +11,48 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openevents.R;
-import com.openevents.api.responses.Event;
+import com.openevents.api.APIManager;
+import com.openevents.api.responses.AuthenticationToken;
+import com.openevents.api.responses.FriendshipResponse;
 import com.openevents.api.responses.UserProfile;
+import com.openevents.constants.Constants;
 import com.openevents.controller.fragments.AllUsersFragment;
 import com.openevents.controller.fragments.FriendRequestsFragment;
 import com.openevents.controller.fragments.MyFriendsFragment;
-import com.openevents.model.interfaces.OnListItemListener;
-import com.openevents.utils.ToastNotification;
+import com.openevents.model.interfaces.OnListUserListener;
+import com.openevents.utils.Notification;
+import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
     // Variables
     private ArrayList<UserProfile> users;
-    private OnListItemListener usersListener;
+    private OnListUserListener usersListener;
     private String parentFragment;
     private Integer userItemResource;
+    private SharedPrefs sharedPrefs;
+    private AuthenticationToken authenticationToken;
+    private APIManager apiManager;
+    private boolean isFriend;
 
-    public UsersAdapter(ArrayList<UserProfile> users, OnListItemListener usersListener, String parentFragment) {
+    public UsersAdapter(ArrayList<UserProfile> users, OnListUserListener usersListener, String parentFragment) {
         this.users = users;
         this.usersListener = usersListener;
+        this.isFriend = false;
+
+        // Sort users by name and last name
+        this.users.sort(Comparator.comparing(UserProfile::getName)
+                .thenComparing(UserProfile::getLastName));
+
+        // Get an instance of APIManager and get the user and his/her stats from API
+        this.apiManager = APIManager.getInstance();
 
         // Check which user item layout must be used
         this.parentFragment = parentFragment;
@@ -58,6 +79,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public UsersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(this.userItemResource,
                 parent, false);
+
+        // Get instance of SharedPrefs
+        this.sharedPrefs = SharedPrefs.getInstance(view.getContext());
+
+        // Get user authentication token
+        this.authenticationToken =
+                new AuthenticationToken(this.sharedPrefs.getAuthenticationToken());
+
         return new ViewHolder(view, this.usersListener, this.parentFragment);
     }
 
@@ -71,26 +100,19 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                     .load(user.getImage())
                     .placeholder(R.drawable.user_placeholder)
                     .error(R.drawable.user_placeholder)
+                    .resize(Constants.MAX_IMAGE_WIDTH, Constants.MAX_IMAGE_HEIGHT)
                     .into(holder.userImage);
         } else {
             Picasso.get().load(R.drawable.user_placeholder).into(holder.userImage);
         }
 
         // Set data to corresponding field
-        holder.userName.setText(user.getName());
-        holder.userLastName.setText(user.getLastName());
+        holder.userName.setText(user.getName() + " " + user.getLastName());
         holder.userEmail.setText(user.getEmail());
 
-        switch (this.parentFragment) {
-            case AllUsersFragment.TAG_ALL_USERS:
-                break;
-            case MyFriendsFragment.TAG_MY_FRIENDS:
-                holder.deleteFriend.setOnClickListener(v -> deleteFriend(v));
-                break;
-            case FriendRequestsFragment.TAG_FRIEND_REQUESTS:
-                holder.acceptRequest.setOnClickListener(v -> acceptFriendRequest(v));
-                holder.declineRequest.setOnClickListener(v -> declineFriendRequest(v));
-                break;
+        if(this.parentFragment.equals(FriendRequestsFragment.TAG_FRIEND_REQUESTS)) {
+            holder.acceptRequest.setOnClickListener(v -> acceptFriendRequest(v, position));
+            holder.declineRequest.setOnClickListener(v -> declineFriendRequest(v, position));
         }
     }
 
@@ -99,33 +121,79 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         return this.users.size();
     }
 
-    private void deleteFriend(View view) {
-        ToastNotification.showError(view.getContext(), "Delete friend");
+    private void acceptFriendRequest(View view, int itemPosition) {
+        // Get user from the item
+        final UserProfile profile = this.users.get(itemPosition);
+
+        this.apiManager.acceptFriendRequest(this.authenticationToken.getAccessToken(),
+                profile.getId(), new Callback<FriendshipResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<FriendshipResponse> call,
+                                   @NonNull Response<FriendshipResponse> response) {
+                if(response.isSuccessful()) {
+                    Notification.showDialogNotification(view.getContext(),
+                            profile.getName() + " " +
+                                    view.getContext().getText(R.string.isNowYourFriend).toString());
+
+                    // Update adapter
+                    users.removeIf(userProfile -> userProfile.getId() == profile.getId());
+                    notifyItemRemoved(itemPosition);
+                } else {
+                    Notification.showDialogNotification(view.getContext(),
+                            view.getContext().getText(R.string.serverConnectionFailed).toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<FriendshipResponse> call, @NonNull Throwable t) {
+                Notification.showDialogNotification(view.getContext(),
+                        view.getContext().getText(R.string.cannotConnectToServerError).toString());
+            }
+        });
     }
 
-    private void acceptFriendRequest(View view) {
-        ToastNotification.showError(view.getContext(), "Accept friend request");
-    }
+    private void declineFriendRequest(View view, int itemPosition) {
+        // Get user from the item
+        final UserProfile profile = this.users.get(itemPosition);
 
-    private void declineFriendRequest(View view) {
-        ToastNotification.showError(view.getContext(), "Delete friend request");
+        this.apiManager.declineFriendRequest(this.authenticationToken.getAccessToken(),
+                profile.getId(), new Callback<FriendshipResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<FriendshipResponse> call, @NonNull Response<FriendshipResponse> response) {
+                if(response.isSuccessful()) {
+                    Notification.showDialogNotification(view.getContext(),
+                            view.getContext().getText(R.string.friendRequestDeclined).toString());
+
+                    // Update adapter
+                    users.removeIf(userProfile -> userProfile.getId() == profile.getId());
+                    notifyItemRemoved(itemPosition);
+                } else {
+                    Notification.showDialogNotification(view.getContext(),
+                            view.getContext().getText(R.string.serverConnectionFailed).toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<FriendshipResponse> call, @NonNull Throwable t) {
+                Notification.showDialogNotification(view.getContext(),
+                        view.getContext().getText(R.string.cannotConnectToServerError).toString());
+            }
+        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // UI Components
         public ImageView userImage;
         public TextView userName;
-        public TextView userLastName;
         public TextView userEmail;
-        public FloatingActionButton deleteFriend;
         public FloatingActionButton acceptRequest;
         public FloatingActionButton declineRequest;
 
         // Variables
-        private final OnListItemListener userListener;
+        private final OnListUserListener userListener;
         private final String parentFragment;
 
-        public ViewHolder(View view, OnListItemListener userListener, String parentFragment) {
+        public ViewHolder(View view, OnListUserListener userListener, String parentFragment) {
             super(view);
 
             // Get user listener
@@ -139,20 +207,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                 case AllUsersFragment.TAG_ALL_USERS:
                     this.userImage = view.findViewById(R.id.user_image);
                     this.userName = view.findViewById(R.id.user_name);
-                    this.userLastName = view.findViewById(R.id.user_last_name);
                     this.userEmail = view.findViewById(R.id.user_email);
                     break;
                 case MyFriendsFragment.TAG_MY_FRIENDS:
                     this.userImage = view.findViewById(R.id.friend_image);
                     this.userName = view.findViewById(R.id.friend_name);
-                    this.userLastName = view.findViewById(R.id.friend_last_name);
                     this.userEmail = view.findViewById(R.id.friend_email);
-                    this.deleteFriend = view.findViewById(R.id.delete_friend_button);
                     break;
                 case FriendRequestsFragment.TAG_FRIEND_REQUESTS:
                     this.userImage = view.findViewById(R.id.friend_request_image);
                     this.userName = view.findViewById(R.id.friend_request_name);
-                    this.userLastName = view.findViewById(R.id.friend_request_last_name);
                     this.userEmail = view.findViewById(R.id.friend_request_email);
                     this.acceptRequest = view.findViewById(R.id.accept_request_button);
                     this.declineRequest = view.findViewById(R.id.decline_request_button);
@@ -165,7 +229,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            this.userListener.onListItemClicked(getAdapterPosition());
+            this.userListener.onUserClicked(getAdapterPosition());
         }
     }
 }

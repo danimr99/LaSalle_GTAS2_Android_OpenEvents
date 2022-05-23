@@ -15,20 +15,20 @@ import android.view.ViewGroup;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.openevents.R;
-import com.openevents.ViewPager2Adapter;
+import com.openevents.model.adapters.ViewPagerAdapter;
 
 import java.util.ArrayList;
 
-public class SocialFragment extends Fragment {
+public class SocialTabFragment extends Fragment {
     // UI Components
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
 
     // Variables
-    private ViewPager2Adapter viewPagerAdapter;
     private ArrayList<Fragment> tabs;
+    private ViewPagerAdapter viewPagerAdapter;
 
-    public SocialFragment() {
+    public SocialTabFragment() {
         this.tabs = new ArrayList<>();
 
         // Add tabs to list
@@ -53,7 +53,7 @@ public class SocialFragment extends Fragment {
         this.viewPager = view.findViewById(R.id.social_pager);
 
         // Configure view pager adapter
-        this.viewPagerAdapter = new ViewPager2Adapter(this);
+        this.viewPagerAdapter = new ViewPagerAdapter(this);
         this.viewPagerAdapter.setData(this.tabs);
         this.viewPager.setAdapter(this.viewPagerAdapter);
 

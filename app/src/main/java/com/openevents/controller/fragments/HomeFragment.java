@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,20 +21,22 @@ import com.openevents.api.APIManager;
 import com.openevents.api.ActivityState;
 import com.openevents.api.responses.Event;
 import com.openevents.constants.Constants;
-import com.openevents.model.adapters.CategoriesAdapter;
+import com.openevents.model.adapters.PillAdapter;
 import com.openevents.model.adapters.PopularEventsAdapter;
-import com.openevents.model.interfaces.OnListItemListener;
-import com.openevents.utils.DateParser;
+import com.openevents.model.interfaces.OnListEventListener;
+import com.openevents.model.interfaces.OnListPillListener;
+import com.openevents.utils.DateHandler;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeFragment extends Fragment implements ActivityState, OnListItemListener {
+public class HomeFragment extends Fragment implements ActivityState, OnListEventListener, OnListPillListener {
     // UI Components
     private EditText searchBar;
     private TextView seeAll;
@@ -49,10 +50,14 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
     private SharedPrefs sharedPrefs;
     private ArrayList<Event> popularEvents;
     private ArrayList<Event> popularEventsFiltered;
+    private ArrayList<Boolean> categoriesStatus;
 
     public HomeFragment() {
         this.popularEvents = new ArrayList<>();
         this.popularEventsFiltered = new ArrayList<>();
+
+        this.categoriesStatus = new ArrayList<>();
+        Arrays.asList(Constants.CATEGORIES).forEach(category -> categoriesStatus.add(true));
     }
 
     @Override
@@ -115,8 +120,9 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
         // Set adapter to the categories recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         categoriesRecyclerView.setLayoutManager(layoutManager);
-        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(Constants.CATEGORIES);
-        categoriesRecyclerView.setAdapter(categoriesAdapter);
+        PillAdapter pillAdapter = new PillAdapter(Constants.CATEGORIES, this.categoriesStatus,
+                HomeFragment.this);
+        categoriesRecyclerView.setAdapter(pillAdapter);
 
         return view;
     }
@@ -137,7 +143,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
             }
 
             // Check for start date
-            if(DateParser.toDateTime(event.getEventStartDate()).contains(text.toLowerCase()) &&
+            if(DateHandler.toDateTime(event.getEventStartDate()).contains(text.toLowerCase()) &&
                     !filteredList.contains(event)) {
                 filteredList.add(event);
             }
@@ -216,11 +222,16 @@ public class HomeFragment extends Fragment implements ActivityState, OnListItemL
     }
 
     @Override
-    public void onListItemClicked(int index) {
+    public void onEventClicked(int index) {
         getParentFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
                         new EventDetailsFragment(this.popularEventsFiltered.get(index))).
                 addToBackStack(this.getClass().getName()).
                 commit();
+    }
+
+    @Override
+    public void onPillClicked(int index, boolean status) {
+        this.categoriesStatus.set(index, status);
     }
 }
