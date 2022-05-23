@@ -33,6 +33,7 @@ import com.openevents.utils.Numbers;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -266,8 +267,11 @@ public class EventCreationFragment extends Fragment {
         // Check if start and end dates are valid (start is before end)
         if(!startDate.isEmpty() && !endDate.isEmpty()) {
             areValidEventDates = DateHandler.compareDates(startDate, endDate);
-            this.startDateText.setError(getText(R.string.endDateBeforeStartDateEventError));
-            this.endDateLayout.setError(getText(R.string.endDateBeforeStartDateEventError));
+
+            if(!areValidEventDates) {
+                this.startDateLayout.setError(getText(R.string.endDateBeforeStartDateEventError));
+                this.endDateLayout.setError(getText(R.string.endDateBeforeStartDateEventError));
+            }
         }
 
         // Check event number of assistants
@@ -279,7 +283,7 @@ public class EventCreationFragment extends Fragment {
         // Check event category
         if(category.isEmpty()) {
             isAnyFieldBlank = true;
-            this.category.setError(getText(R.string.requiredFieldError));
+            this.categoryLayout.setError(getText(R.string.requiredFieldError));
         }
 
         // Check event description
@@ -344,6 +348,7 @@ public class EventCreationFragment extends Fragment {
     }
 
     private void navigateBack() {
-        getParentFragmentManager().popBackStack();
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.home_fragment_container, new MyEventsTabFragment()).commit();
     }
 }

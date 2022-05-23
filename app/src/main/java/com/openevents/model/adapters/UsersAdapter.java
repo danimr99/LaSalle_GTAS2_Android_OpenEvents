@@ -15,10 +15,10 @@ import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.FriendshipResponse;
 import com.openevents.api.responses.UserProfile;
+import com.openevents.constants.Constants;
 import com.openevents.controller.fragments.AllUsersFragment;
 import com.openevents.controller.fragments.FriendRequestsFragment;
 import com.openevents.controller.fragments.MyFriendsFragment;
-import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListUserListener;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
@@ -100,6 +100,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
                     .load(user.getImage())
                     .placeholder(R.drawable.user_placeholder)
                     .error(R.drawable.user_placeholder)
+                    .resize(Constants.MAX_IMAGE_WIDTH, Constants.MAX_IMAGE_HEIGHT)
                     .into(holder.userImage);
         } else {
             Picasso.get().load(R.drawable.user_placeholder).into(holder.userImage);

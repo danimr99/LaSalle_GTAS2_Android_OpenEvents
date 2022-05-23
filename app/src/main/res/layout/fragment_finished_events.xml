@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary_background"
     android:orientation="vertical"
-    tools:context=".controller.fragments.FinishedEventsListFragment">
+    tools:context=".controller.fragments.FinishedEventsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/finished_events_recycler_view"

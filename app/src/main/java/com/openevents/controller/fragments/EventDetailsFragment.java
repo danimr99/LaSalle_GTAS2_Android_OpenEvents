@@ -18,6 +18,7 @@ import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.Event;
 import com.openevents.api.responses.User;
+import com.openevents.constants.Constants;
 import com.openevents.utils.DateHandler;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
@@ -106,6 +107,7 @@ public class EventDetailsFragment extends Fragment {
                     .load(event.getImage())
                     .placeholder(R.drawable.event_placeholder)
                     .error(R.drawable.event_placeholder)
+                    .resize(Constants.MAX_IMAGE_WIDTH, Constants.MAX_IMAGE_HEIGHT)
                     .into(this.eventImage);
         } else {
             Picasso.get().load(R.drawable.event_placeholder).into(this.eventImage);

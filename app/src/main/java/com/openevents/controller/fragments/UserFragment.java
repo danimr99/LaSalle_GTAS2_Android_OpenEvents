@@ -191,6 +191,7 @@ public class UserFragment extends Fragment {
                     .load(user.getImage())
                     .placeholder(R.drawable.user_placeholder)
                     .error(R.drawable.user_placeholder)
+                    .resize(Constants.MAX_IMAGE_WIDTH, Constants.MAX_IMAGE_HEIGHT)
                     .into(this.profileImage);
         } else {
             Picasso.get().load(R.drawable.user_placeholder).into(this.profileImage);

@@ -248,7 +248,11 @@ public class MyCreatedEventsFragment extends Fragment implements OnListEventList
 
     @Override
     public void onEventClicked(int index) {
-
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                add(R.id.home_fragment_container,
+                        new EventDetailsFragment(this.myCreatedEvents.get(index))).
+                addToBackStack(this.getClass().getName()).
+                commit();
     }
 
     @Override

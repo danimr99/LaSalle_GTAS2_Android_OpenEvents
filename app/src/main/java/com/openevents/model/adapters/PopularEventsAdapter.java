@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openevents.R;
 import com.openevents.api.responses.Event;
+import com.openevents.constants.Constants;
 import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.utils.DateHandler;
 import com.squareup.picasso.Picasso;
@@ -55,6 +56,7 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
                     .load(item.getImage())
                     .placeholder(R.drawable.event_placeholder)
                     .error(R.drawable.event_placeholder)
+                    .resize(Constants.MAX_IMAGE_WIDTH, Constants.MAX_IMAGE_HEIGHT)
                     .into(holder.eventImage);
         } else {
             Picasso.get().load(R.drawable.event_placeholder).into(holder.eventImage);

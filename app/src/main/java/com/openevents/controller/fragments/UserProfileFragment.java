@@ -19,15 +19,14 @@ import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.FriendshipResponse;
-import com.openevents.api.responses.User;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.api.responses.UserStats;
+import com.openevents.constants.Constants;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -103,6 +102,7 @@ public class UserProfileFragment extends Fragment {
                     .load(user.getImage())
                     .placeholder(R.drawable.user_placeholder)
                     .error(R.drawable.user_placeholder)
+                    .resize(Constants.MAX_IMAGE_WIDTH, Constants.MAX_IMAGE_HEIGHT)
                     .into(this.profileImage);
         } else {
             Picasso.get().load(R.drawable.user_placeholder).into(this.profileImage);

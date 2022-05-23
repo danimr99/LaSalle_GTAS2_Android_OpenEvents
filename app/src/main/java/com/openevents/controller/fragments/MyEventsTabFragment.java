@@ -34,7 +34,7 @@ public class MyEventsTabFragment extends Fragment {
         // Add tabs to list
         this.tabs.add(new MyCreatedEventsFragment());
         this.tabs.add(new JoinedEventsFragment());
-        this.tabs.add(new FinishedEventsListFragment());
+        this.tabs.add(new FinishedEventsFragment());
     }
 
     @Override

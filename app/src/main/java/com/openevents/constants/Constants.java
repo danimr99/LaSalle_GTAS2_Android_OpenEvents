@@ -21,8 +21,10 @@ public class Constants {
     public static final int MIN_LENGTH_PASSWORD = 8;
     public static final int MIN_LENGTH_EVENT_LOCATION = 5;
     public static final int MIN_NUMBER_ASSISTANTS_EVENT = 2;
+    public static final int MAX_IMAGE_WIDTH = 540;
+    public static final int MAX_IMAGE_HEIGHT = 360;
     public static final String[] CATEGORIES = {
-            "Education", "Sports", "Nightlife", "Art", "Food", "Music", "Culture", "Other"
+            "Education", "Sports", "Nightlife", "Arts", "Food", "Music", "Culture", "Other"
     };
     public static final String[] EVENT_TIME_STATES = {
             "Finished", "Active", "Future"
