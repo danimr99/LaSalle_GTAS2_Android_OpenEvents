@@ -25,4 +25,16 @@ public class Constants {
     public static final String[] EVENT_TIME_STATES = {
             "Finished", "Active", "Future"
     };
+    public static final String[] EXAMPLE_EVENT_IMAGES_URL = {
+            "https://images.pexels.com/photos/2263436/pexels-photo-2263436.jpeg",
+            "https://images.pexels.com/photos/1708936/pexels-photo-1708936.jpeg",
+            "https://images.pexels.com/photos/1983046/pexels-photo-1983046.jpeg",
+            "https://images.pexels.com/photos/2403753/pexels-photo-2403753.jpeg",
+            "https://images.pexels.com/photos/2477377/pexels-photo-2477377.jpeg",
+            "https://images.pexels.com/photos/1395062/pexels-photo-1395062.jpeg",
+            "https://images.pexels.com/photos/2869373/pexels-photo-2869373.jpeg",
+            "https://images.pexels.com/photos/3048347/pexels-photo-3048347.jpeg",
+            "https://images.pexels.com/photos/3428289/pexels-photo-3428289.jpeg",
+            "https://images.pexels.com/photos/1524620/pexels-photo-1524620.jpeg"
+    };
 }

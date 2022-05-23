@@ -31,8 +31,8 @@
 
         <FrameLayout
             android:id="@+id/create_event_image_selector"
-            android:layout_width="150dp"
-            android:layout_height="120dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
         <TextView
@@ -186,7 +186,7 @@
             app:hintEnabled="false">
 
             <EditText
-                android:id="@+id/event_number_input"
+                android:id="@+id/event_number_participants_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -221,13 +221,16 @@
             app:errorEnabled="true"
             app:hintEnabled="false">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/event_type_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/primary_background"
                 android:hint="@string/eventTypeHint"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="@color/broken_white"
@@ -252,21 +255,21 @@
             app:errorEnabled="true"
             app:hintEnabled="false">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/event_description_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/primary_background"
                 android:hint="@string/eventDescriptionHint"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 android:textColor="@color/white"
                 android:textColorHint="@color/broken_white"
                 android:textSize="17sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/signInButton"
+            android:id="@+id/create_event_button"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"

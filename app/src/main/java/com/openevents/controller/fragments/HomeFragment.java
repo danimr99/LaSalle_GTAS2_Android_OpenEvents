@@ -26,12 +26,10 @@ import com.openevents.model.adapters.PopularEventsAdapter;
 import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListPillListener;
 import com.openevents.utils.DateParser;
-import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
