@@ -50,6 +50,8 @@
     <string name="popupEditInfo">Edit information</string>
     <string name="popupLogout">Log out</string>
     <string name="popupDeleteAccount">Delete account</string>
+    <string name="joinedEventTitle">Joined</string>
+    <string name="finishedEventTitle">Finished</string>
 
     <!-- Texts -->
     <string name="notAccountText">Don\'t have an account?</string>

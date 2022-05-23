@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,8 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openevents.R;
 import com.openevents.api.responses.Event;
-import com.openevents.controller.fragments.EventDetailsFragment;
-import com.openevents.model.interfaces.OnListItemListener;
+import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.utils.DateParser;
 import com.squareup.picasso.Picasso;
 
@@ -25,10 +23,10 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
 
     // Variables
     private ArrayList<Event> popularEvents;
-    private final OnListItemListener eventListener;
+    private final OnListEventListener eventListener;
 
 
-    public PopularEventsAdapter(ArrayList<Event> popularEvents, OnListItemListener eventListener) {
+    public PopularEventsAdapter(ArrayList<Event> popularEvents, OnListEventListener eventListener) {
         this.popularEvents = popularEvents;
         this.eventListener = eventListener;
     }
@@ -79,9 +77,9 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
         public TextView eventStartDate;
         public ImageView eventImage;
 
-        private final OnListItemListener eventListener;
+        private final OnListEventListener eventListener;
 
-        public ViewHolder(View view, OnListItemListener eventListener) {
+        public ViewHolder(View view, OnListEventListener eventListener) {
             super(view);
 
             // Get elements of the view for each item of the RecyclerView
@@ -98,7 +96,7 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
 
         @Override
         public void onClick(View v) {
-            this.eventListener.onListItemClicked(getAdapterPosition());
+            this.eventListener.onEventClicked(getAdapterPosition());
         }
     }
 }

@@ -14,12 +14,12 @@ import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.FriendshipResponse;
-import com.openevents.api.responses.User;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.controller.fragments.AllUsersFragment;
 import com.openevents.controller.fragments.FriendRequestsFragment;
 import com.openevents.controller.fragments.MyFriendsFragment;
-import com.openevents.model.interfaces.OnListItemListener;
+import com.openevents.model.interfaces.OnListEventListener;
+import com.openevents.model.interfaces.OnListUserListener;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
@@ -34,7 +34,7 @@ import retrofit2.Response;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
     // Variables
     private ArrayList<UserProfile> users;
-    private OnListItemListener usersListener;
+    private OnListUserListener usersListener;
     private String parentFragment;
     private Integer userItemResource;
     private SharedPrefs sharedPrefs;
@@ -42,7 +42,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private APIManager apiManager;
     private boolean isFriend;
 
-    public UsersAdapter(ArrayList<UserProfile> users, OnListItemListener usersListener, String parentFragment) {
+    public UsersAdapter(ArrayList<UserProfile> users, OnListUserListener usersListener, String parentFragment) {
         this.users = users;
         this.usersListener = usersListener;
         this.isFriend = false;
@@ -189,10 +189,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         public FloatingActionButton declineRequest;
 
         // Variables
-        private final OnListItemListener userListener;
+        private final OnListUserListener userListener;
         private final String parentFragment;
 
-        public ViewHolder(View view, OnListItemListener userListener, String parentFragment) {
+        public ViewHolder(View view, OnListUserListener userListener, String parentFragment) {
             super(view);
 
             // Get user listener
@@ -228,7 +228,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            this.userListener.onListItemClicked(getAdapterPosition());
+            this.userListener.onUserClicked(getAdapterPosition());
         }
     }
 }

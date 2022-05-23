@@ -111,6 +111,24 @@ public class APIManager {
         this.service.getEventAssistances(authentication, eventID).enqueue(callback);
     }
 
+    public void getFinishedEventsCreatedByUser(String authenticationToken, int ownerID,
+                                         Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getFinishedEventsCreatedByUser(authentication, ownerID).enqueue(callback);
+    }
+
+    public void getActiveEventsCreatedByUser(String authenticationToken, int ownerID,
+                                               Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getActiveEventsCreatedByUser(authentication, ownerID).enqueue(callback);
+    }
+
+    public void getFutureEventsCreatedByUser(String authenticationToken, int ownerID,
+                                               Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getFutureEventsCreatedByUser(authentication, ownerID).enqueue(callback);
+    }
+
     /*
      * Friends
      */

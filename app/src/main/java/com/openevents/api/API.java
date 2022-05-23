@@ -58,6 +58,18 @@ public interface API {
     @DELETE("users")
     Call<Void> deleteAccount(@Header("Authorization") String authenticationToken);
 
+    @GET("users/{ownerID}/events/finished")
+    Call<ArrayList<Event>> getFinishedEventsCreatedByUser(@Header("Authorization") String authenticationToken,
+                                                          @Path("ownerID") int ownerID);
+
+    @GET("users/{ownerID}/events/current")
+    Call<ArrayList<Event>> getActiveEventsCreatedByUser(@Header("Authorization") String authenticationToken,
+                                                          @Path("ownerID") int ownerID);
+
+    @GET("users/{ownerID}/events/future")
+    Call<ArrayList<Event>> getFutureEventsCreatedByUser(@Header("Authorization") String authenticationToken,
+                                                          @Path("ownerID") int ownerID);
+
     /*
      * Events
      */

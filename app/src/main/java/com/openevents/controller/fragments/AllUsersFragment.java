@@ -17,23 +17,21 @@ import android.widget.EditText;
 import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
-import com.openevents.api.responses.Event;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.adapters.UsersAdapter;
-import com.openevents.model.interfaces.OnListItemListener;
-import com.openevents.utils.DateParser;
+import com.openevents.model.interfaces.OnListEventListener;
+import com.openevents.model.interfaces.OnListUserListener;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class AllUsersFragment extends Fragment implements OnListItemListener {
+public class AllUsersFragment extends Fragment implements OnListUserListener {
     // Constants
     public static final String TAG_ALL_USERS = "ALL_USERS";
 
@@ -181,7 +179,7 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
     }
 
     @Override
-    public void onListItemClicked(int index) {
+    public void onUserClicked(int index) {
         requireActivity().getSupportFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
                         new UserProfileFragment(this.usersFiltered.get(index))).

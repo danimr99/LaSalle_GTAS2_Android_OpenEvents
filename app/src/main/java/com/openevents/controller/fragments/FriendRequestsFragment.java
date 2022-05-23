@@ -16,7 +16,8 @@ import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.adapters.UsersAdapter;
-import com.openevents.model.interfaces.OnListItemListener;
+import com.openevents.model.interfaces.OnListEventListener;
+import com.openevents.model.interfaces.OnListUserListener;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 
@@ -27,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class FriendRequestsFragment extends Fragment implements OnListItemListener {
+public class FriendRequestsFragment extends Fragment implements OnListUserListener {
     // Constants
     public static final String TAG_FRIEND_REQUESTS = "FRIEND_REQUESTS";
 
@@ -54,7 +55,7 @@ public class FriendRequestsFragment extends Fragment implements OnListItemListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_friend_requests, container, false);
+        View view = inflater.inflate(R.layout.fragment_friend_requests, container, false);
 
         // Get instance of SharedPrefs
         this.sharedPrefs = SharedPrefs.getInstance(getContext());
@@ -116,7 +117,7 @@ public class FriendRequestsFragment extends Fragment implements OnListItemListen
     }
 
     @Override
-    public void onListItemClicked(int index) {
+    public void onUserClicked(int index) {
         requireActivity().getSupportFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
                         new UserProfileFragment(this.friendRequests.get(index))).

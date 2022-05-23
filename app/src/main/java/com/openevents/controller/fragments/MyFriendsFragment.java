@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
-import com.openevents.api.responses.User;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.adapters.UsersAdapter;
-import com.openevents.model.interfaces.OnListItemListener;
+import com.openevents.model.interfaces.OnListEventListener;
+import com.openevents.model.interfaces.OnListUserListener;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 
@@ -27,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyFriendsFragment extends Fragment implements OnListItemListener {
+public class MyFriendsFragment extends Fragment implements OnListUserListener {
     // Constants
     public static final String TAG_MY_FRIENDS = "MY_FRIENDS";
 
@@ -120,7 +120,7 @@ public class MyFriendsFragment extends Fragment implements OnListItemListener {
     }
 
     @Override
-    public void onListItemClicked(int index) {
+    public void onUserClicked(int index) {
         requireActivity().getSupportFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
                         new UserProfileFragment(this.friends.get(index))).

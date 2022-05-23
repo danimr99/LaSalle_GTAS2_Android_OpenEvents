@@ -22,4 +22,7 @@ public class Constants {
     public static final String[] CATEGORIES = {
             "Education", "Sports", "Nightlife", "Art", "Food", "Music", "Culture", "Other"
     };
+    public static final String[] EVENT_TIME_STATES = {
+            "Finished", "Active", "Future"
+    };
 }

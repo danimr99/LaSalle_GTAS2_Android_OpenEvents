@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openevents.R;
 import com.openevents.api.responses.Event;
-import com.openevents.model.interfaces.OnListItemListener;
+import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.utils.DateParser;
 import com.squareup.picasso.Picasso;
 
@@ -21,16 +21,16 @@ import java.util.ArrayList;
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
     // Variables
     private ArrayList<Event> events;
-    private OnListItemListener eventListener;
+    private OnListEventListener eventListener;
 
-    public EventsAdapter(ArrayList<Event> events, OnListItemListener eventListener) {
+    public EventsAdapter(ArrayList<Event> events, OnListEventListener eventListener) {
         this.events = events;
         this.eventListener = eventListener;
     }
 
-    public void filter(ArrayList<Event> filteredList) {
-        this.events = filteredList;
-        notifyDataSetChanged();
+    public void updateDataset(ArrayList<Event> events) {
+        this.events = events;
+        this.notifyDataSetChanged();
     }
 
     @NonNull
@@ -80,9 +80,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         public ImageView eventImage;
 
         // Variables
-        private final OnListItemListener eventListener;
+        private final OnListEventListener eventListener;
 
-        public ViewHolder(View view, OnListItemListener eventListener) {
+        public ViewHolder(View view, OnListEventListener eventListener) {
             super(view);
 
             // Get elements of the view for each item of the RecyclerView
@@ -100,7 +100,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
-            this.eventListener.onListItemClicked(getAdapterPosition());
+            this.eventListener.onEventClicked(getAdapterPosition());
         }
     }
 }

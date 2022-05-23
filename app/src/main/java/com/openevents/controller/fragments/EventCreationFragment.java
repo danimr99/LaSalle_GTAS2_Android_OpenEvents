@@ -32,7 +32,6 @@ public class EventCreationFragment extends Fragment {
         // Required empty public constructor
     }
 
-    //create onCreate method and create an onClickListener for the date EditText
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
