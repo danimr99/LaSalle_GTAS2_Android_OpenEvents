@@ -11,15 +11,33 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/edit_profile_back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="25dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/arrow_back_icon"
+            android:contentDescription="@string/backArrowDescription">
+
+        </ImageView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="30dp"
             android:text="@string/editUserInfoTitle"
             android:textColor="@color/white"
             android:textSize="28sp"
             android:textStyle="bold" />
+
+        <FrameLayout
+            android:id="@+id/image_selector_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -182,7 +200,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/register_button"
+            android:id="@+id/update_user_info_button"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"

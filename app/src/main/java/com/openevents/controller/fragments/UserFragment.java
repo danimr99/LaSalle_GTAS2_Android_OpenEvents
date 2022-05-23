@@ -119,7 +119,8 @@ public class UserFragment extends Fragment {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.edit_user_information:
-                            // TODO Edit user information
+                            // Edit user information
+                            editUser();
                             break;
                         case R.id.logout:
                             // Log out
@@ -241,6 +242,11 @@ public class UserFragment extends Fragment {
         this.profileAverageScore.setText(averageScore);
         this.profileNumberOfComments.setText(stats.getNumberOfComments());
         this.profilePercentageLessComments.setText(percentageCommentersBelow);
+    }
+
+    private void editUser() {
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.home_fragment_container, new EditUserInfoFragment()).commit();
     }
 
     private void logout() {
