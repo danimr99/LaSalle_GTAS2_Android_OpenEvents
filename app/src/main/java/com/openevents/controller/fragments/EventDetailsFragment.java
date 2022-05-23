@@ -198,20 +198,25 @@ public class EventDetailsFragment extends Fragment {
         }
 
         // Check if there are still places to assist
-        if(assistants.size() < event.getParticipatorsQuantity()
-                && !Objects.equals(owner.getId(), loggedInUser.getId())) {
-            // Check if logged in user is a participant
-            if (assistants.stream().anyMatch(assistance ->
-                    assistance.getAssistantID() == loggedInUser.getId())) {
-                // Logged in user is a participant
-                this.joinButton.setVisibility(View.GONE);
-                this.leaveButton.setVisibility(View.VISIBLE);
+        try {
+            if(assistants.size() < event.getParticipatorsQuantity()
+                    && !Objects.equals(owner.getId(), loggedInUser.getId())) {
+                // Check if logged in user is a participant
+                if (assistants.stream().anyMatch(assistance ->
+                        assistance.getAssistantID() == loggedInUser.getId())) {
+                    // Logged in user is a participant
+                    this.joinButton.setVisibility(View.GONE);
+                    this.leaveButton.setVisibility(View.VISIBLE);
+                } else {
+                    this.joinButton.setVisibility(View.VISIBLE);
+                    this.leaveButton.setVisibility(View.GONE);
+                }
             } else {
-                this.joinButton.setVisibility(View.VISIBLE);
-                this.leaveButton.setVisibility(View.GONE);
+                this.joinButton.setVisibility(View.GONE);
             }
-        } else {
+        } catch (NullPointerException exception) {
             this.joinButton.setVisibility(View.GONE);
+            this.leaveButton.setVisibility(View.GONE);
         }
     }
 
