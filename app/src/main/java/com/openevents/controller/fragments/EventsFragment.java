@@ -22,8 +22,8 @@ import com.openevents.api.ActivityState;
 import com.openevents.api.responses.Event;
 import com.openevents.R;
 import com.openevents.model.adapters.EventsAdapter;
-import com.openevents.model.interfaces.OnListItemListener;
-import com.openevents.utils.DateParser;
+import com.openevents.model.interfaces.OnListEventListener;
+import com.openevents.utils.DateHandler;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class EventsFragment extends Fragment implements ActivityState, OnListItemListener {
+public class EventsFragment extends Fragment implements ActivityState, OnListEventListener {
     // UI Components
     private EditText searchBar;
     private LinearLayout sortByStartDate;
@@ -148,7 +148,7 @@ public class EventsFragment extends Fragment implements ActivityState, OnListIte
             }
 
             // Check for start date
-            if(DateParser.toDateTime(event.getEventStartDate()).contains(text.toLowerCase()) &&
+            if(DateHandler.toDateTime(event.getEventStartDate()).contains(text.toLowerCase()) &&
             !filteredList.contains(event)) {
                 filteredList.add(event);
             }
@@ -158,7 +158,7 @@ public class EventsFragment extends Fragment implements ActivityState, OnListIte
         this.eventsFiltered = filteredList;
 
         // Update adapter
-        eventsAdapter.filter(filteredList);
+        eventsAdapter.updateDataset(filteredList);
     }
 
     private void getEvents() {
@@ -226,7 +226,7 @@ public class EventsFragment extends Fragment implements ActivityState, OnListIte
     }
 
     @Override
-    public void onListItemClicked(int index) {
+    public void onEventClicked(int index) {
         getParentFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
                         new EventDetailsFragment(this.eventsFiltered.get(index))).

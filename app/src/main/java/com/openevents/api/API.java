@@ -1,5 +1,6 @@
 package com.openevents.api;
 
+import com.openevents.api.requests.CreatedEvent;
 import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.AuthenticationToken;
@@ -52,11 +53,23 @@ public interface API {
                                  @Path("userID") int userID);
 
     @GET("users/{userID}/friends")
-    Call<ArrayList<User>> getUserFriends(@Header("Authorization") String authenticationToken,
+    Call<ArrayList<UserProfile>> getUserFriends(@Header("Authorization") String authenticationToken,
                                          @Path("userID") int userID);
 
     @DELETE("users")
     Call<Void> deleteAccount(@Header("Authorization") String authenticationToken);
+
+    @GET("users/{ownerID}/events/finished")
+    Call<ArrayList<Event>> getFinishedEventsCreatedByUser(@Header("Authorization") String authenticationToken,
+                                                          @Path("ownerID") int ownerID);
+
+    @GET("users/{ownerID}/events/current")
+    Call<ArrayList<Event>> getActiveEventsCreatedByUser(@Header("Authorization") String authenticationToken,
+                                                          @Path("ownerID") int ownerID);
+
+    @GET("users/{ownerID}/events/future")
+    Call<ArrayList<Event>> getFutureEventsCreatedByUser(@Header("Authorization") String authenticationToken,
+                                                          @Path("ownerID") int ownerID);
 
     /*
      * Events
@@ -71,6 +84,10 @@ public interface API {
     Call<ArrayList<Assistance>> getEventAssistances(@Header("Authorization") String authenticationToken,
                                                     @Path("eventID") int eventID);
 
+    @POST("events")
+    Call<Event> createEvent(@Header("Authorization") String authenticationToken,
+                            @Body CreatedEvent event);
+
     /*
      * Friends
      */
@@ -79,9 +96,13 @@ public interface API {
                                                @Path("userID") int userID);
 
     @GET("friends/requests")
-    Call<ArrayList<User>> getFriendRequests(@Header("Authorization") String authenticationToken);
+    Call<ArrayList<UserProfile>> getFriendRequests(@Header("Authorization") String authenticationToken);
 
     @PUT("friends/{userID}")
     Call<FriendshipResponse> acceptFriendRequest(@Header("Authorization") String authenticationToken,
                             @Path("userID") int userID);
+
+    @DELETE("friends/{userID}")
+    Call<FriendshipResponse> declineFriendRequest(@Header("Authorization") String authenticationToken,
+                                                  @Path("userID") int userID);
 }

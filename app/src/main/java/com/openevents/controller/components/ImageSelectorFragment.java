@@ -1,5 +1,7 @@
 package com.openevents.controller.components;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,8 +15,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.openevents.R;
+
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.mayanknagwanshi.imagepicker.ImageSelectActivity;
@@ -22,10 +27,15 @@ import in.mayanknagwanshi.imagepicker.ImageSelectActivity;
 
 public class ImageSelectorFragment extends Fragment {
     // UI Components
-    private CircleImageView imageSelector;
+    private CircleImageView imageSelectorRounded;
+    private ImageView imageSelectorSquared;
 
-    public ImageSelectorFragment() {
-        // Required empty public constructor
+    // Variables
+    private final boolean isRounded;
+    private ActivityResultLauncher<Intent> startActivityForResult;
+
+    public ImageSelectorFragment(boolean isRounded) {
+        this.isRounded = isRounded;
     }
 
     @Override
@@ -37,11 +47,17 @@ public class ImageSelectorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_image_selector, container, false);
+        // Inflate the layout for this fragment depending on the shape
+        View view;
+
+        if(this.isRounded) {
+            view = inflater.inflate(R.layout.fragment_rounded_image_selector, container, false);
+        } else {
+            view = inflater.inflate(R.layout.fragment_squared_image_selector, container, false);
+        }
 
         // Register an intent to gallery or camera and get the image selected
-        ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+         this.startActivityForResult = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     // Get result received from the intent once completed
@@ -58,23 +74,35 @@ public class ImageSelectorFragment extends Fragment {
                             Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
 
                             // Set bitmap to ImageView
-                            this.imageSelector.setImageBitmap(selectedImage);
+                            if(isRounded) {
+                                this.imageSelectorRounded.setImageBitmap(selectedImage);
+                            } else {
+                                this.imageSelectorSquared.setImageBitmap(selectedImage);
+                            }
                         }
                     }
                 }
         );
 
         // Set onClickListener to the ImageView
-        this.imageSelector = view.findViewById(R.id.image_selector);
-        this.imageSelector.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), ImageSelectActivity.class);
-            intent.putExtra(ImageSelectActivity.FLAG_COMPRESS, false);
-            intent.putExtra(ImageSelectActivity.FLAG_CAMERA, true);
-            intent.putExtra(ImageSelectActivity.FLAG_GALLERY, true);
-            intent.putExtra(ImageSelectActivity.FLAG_CROP, true);
-            startActivityForResult.launch(intent);
-        });
+        if(this.isRounded) {
+            this.imageSelectorRounded = view.findViewById(R.id.image_selector);
+            this.imageSelectorRounded.setOnClickListener(v -> launchImageSelector(v.getContext()));
+        } else {
+            this.imageSelectorSquared = view.findViewById(R.id.image_selector);
+            this.imageSelectorSquared.setOnClickListener(v -> launchImageSelector(v.getContext()));
+        }
+
 
         return view;
+    }
+
+    private void launchImageSelector(Context context) {
+        Intent intent = new Intent(context, ImageSelectActivity.class);
+        intent.putExtra(ImageSelectActivity.FLAG_COMPRESS, false);
+        intent.putExtra(ImageSelectActivity.FLAG_CAMERA, true);
+        intent.putExtra(ImageSelectActivity.FLAG_GALLERY, true);
+        intent.putExtra(ImageSelectActivity.FLAG_CROP, true);
+        startActivityForResult.launch(intent);
     }
 }

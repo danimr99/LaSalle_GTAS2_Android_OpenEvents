@@ -1,5 +1,6 @@
 package com.openevents.api;
 
+import com.openevents.api.requests.CreatedEvent;
 import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.Event;
@@ -82,7 +83,7 @@ public class APIManager {
     }
 
     public void getUserFriends(String authenticationToken, int userID,
-                               Callback<ArrayList<User>> callback) {
+                               Callback<ArrayList<UserProfile>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.getUserFriends(authentication, userID).enqueue(callback);
     }
@@ -111,6 +112,29 @@ public class APIManager {
         this.service.getEventAssistances(authentication, eventID).enqueue(callback);
     }
 
+    public void getFinishedEventsCreatedByUser(String authenticationToken, int ownerID,
+                                         Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getFinishedEventsCreatedByUser(authentication, ownerID).enqueue(callback);
+    }
+
+    public void getActiveEventsCreatedByUser(String authenticationToken, int ownerID,
+                                               Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getActiveEventsCreatedByUser(authentication, ownerID).enqueue(callback);
+    }
+
+    public void getFutureEventsCreatedByUser(String authenticationToken, int ownerID,
+                                               Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getFutureEventsCreatedByUser(authentication, ownerID).enqueue(callback);
+    }
+
+    public void createEvent(String authenticationToken, CreatedEvent event, Callback<Event> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.createEvent(authentication, event).enqueue(callback);
+    }
+
     /*
      * Friends
      */
@@ -120,7 +144,7 @@ public class APIManager {
         this.service.sendFriendRequest(authentication, userID).enqueue(callback);
     }
 
-    public void getFriendRequests(String authenticationToken, Callback<ArrayList<User>> callback) {
+    public void getFriendRequests(String authenticationToken, Callback<ArrayList<UserProfile>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.getFriendRequests(authentication).enqueue(callback);
     }
@@ -129,5 +153,11 @@ public class APIManager {
                                     Callback<FriendshipResponse> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.acceptFriendRequest(authentication, userID).enqueue(callback);
+    }
+
+    public void declineFriendRequest(String authenticationToken, int userID,
+                                     Callback<FriendshipResponse> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.declineFriendRequest(authentication, userID).enqueue(callback);
     }
 }

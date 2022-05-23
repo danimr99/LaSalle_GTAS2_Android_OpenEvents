@@ -17,22 +17,21 @@ import android.widget.EditText;
 import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
-import com.openevents.api.responses.Event;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.adapters.UsersAdapter;
-import com.openevents.model.interfaces.OnListItemListener;
-import com.openevents.utils.DateParser;
+import com.openevents.model.interfaces.OnListEventListener;
+import com.openevents.model.interfaces.OnListUserListener;
+import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class AllUsersFragment extends Fragment implements OnListItemListener {
+public class AllUsersFragment extends Fragment implements OnListUserListener {
     // Constants
     public static final String TAG_ALL_USERS = "ALL_USERS";
 
@@ -105,6 +104,13 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        this.getUsers();
+    }
+
     private void filter(String text) {
         ArrayList<UserProfile> filteredList = new ArrayList<>();
 
@@ -135,6 +141,9 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
     }
 
     private void getUsers() {
+        // Get logged in user ID
+        final int loggedInUserID = this.sharedPrefs.getUser().getId();
+
         this.apiManager.getUsers(this.authenticationToken.getAccessToken(),
                 new Callback<ArrayList<UserProfile>>() {
             @Override
@@ -144,6 +153,9 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
                     if(response.body() != null) {
                         // Get users from API
                         users = response.body();
+
+                        // Remove logged in user from the list of users
+                        users.removeIf(userProfile -> userProfile.getId() == loggedInUserID);
                         usersFiltered = users;
 
                         // Create UsersAdapter and pass it to the users recycler view
@@ -158,12 +170,16 @@ public class AllUsersFragment extends Fragment implements OnListItemListener {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<UserProfile>> call, @NonNull Throwable t) {}
+            public void onFailure(@NonNull Call<ArrayList<UserProfile>> call,
+                                  @NonNull Throwable t) {
+                Notification.showDialogNotification(getContext(),
+                        getText(R.string.cannotConnectToServerError).toString());
+            }
         });
     }
 
     @Override
-    public void onListItemClicked(int index) {
+    public void onUserClicked(int index) {
         requireActivity().getSupportFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
                         new UserProfileFragment(this.usersFiltered.get(index))).

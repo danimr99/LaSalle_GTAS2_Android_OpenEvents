@@ -22,7 +22,7 @@ import com.openevents.api.responses.RegisteredUser;
 import com.openevents.constants.Constants;
 import com.openevents.controller.components.ImageSelectorFragment;
 import com.openevents.utils.Numbers;
-import com.openevents.utils.ToastNotification;
+import com.openevents.utils.Notification;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Inflate view with the ImageSelectorFragment
         if (this.fragment == null) {
-            this.fragment = new ImageSelectorFragment();
+            this.fragment = new ImageSelectorFragment(true);
             fm.beginTransaction().add(R.id.image_selector_fragment_container, this.fragment).commit();
         }
 
@@ -222,15 +222,16 @@ public class RegisterActivity extends AppCompatActivity {
                                 emailLayout.setError(getText(R.string.alreadyExistsEmailError));
                             }
                         } catch (IOException e) {
-                            ToastNotification.showNotification(getApplicationContext(),
-                                    R.string.registerError);
+                            Notification.showDialogNotification(getApplicationContext(),
+                                    getText(R.string.registerError).toString());
                         }
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<RegisteredUser> call, @NonNull Throwable t) {
-                    ToastNotification.showServerConnectionError(getApplicationContext());
+                    Notification.showDialogNotification(getApplicationContext(),
+                            getText(R.string.cannotConnectToServerError).toString());
                 }
             });
         }

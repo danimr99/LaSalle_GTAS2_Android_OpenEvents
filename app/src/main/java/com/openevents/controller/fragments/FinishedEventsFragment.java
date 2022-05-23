@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import com.openevents.R;
 
-public class FinishedEventsListFragment extends Fragment {
+public class FinishedEventsFragment extends Fragment {
 
-    public FinishedEventsListFragment() {
+    public FinishedEventsFragment() {
         // Required empty public constructor
     }
 
@@ -26,6 +26,6 @@ public class FinishedEventsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_finished_events_list, container, false);
+        return inflater.inflate(R.layout.fragment_finished_events, container, false);
     }
 }
