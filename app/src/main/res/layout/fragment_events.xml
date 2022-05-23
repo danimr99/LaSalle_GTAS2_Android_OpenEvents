@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_background"
+    android:orientation="vertical"
+    tools:context=".controller.fragments.HomeFragment">
+
+    <EditText
+        android:id="@+id/events_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        android:autofillHints=""
+        android:background="@drawable/search_bar_shape"
+        android:drawableStart="@drawable/search_icon"
+        android:drawablePadding="10dp"
+        android:hint="@string/searchEventsHint"
+        android:inputType="text"
+        android:paddingStart="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/broken_white"
+        tools:ignore="RtlSymmetry" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="25dp"
+            android:gravity="center_vertical"
+            android:paddingEnd="47dp"
+            android:text="@string/allEventsTitle"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
+
+        <LinearLayout
+            android:id="@+id/sort_by_start_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end|center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/sort_by_start_date_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/arrow_back_icon"
+                android:layout_marginEnd="10dp"
+                android:rotation="90"
+                android:contentDescription="@string/sortByStartDateIconDescription" />
+
+            <TextView
+                android:id="@+id/sort_by_start_date_label"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sortByStartDate"
+                android:layout_marginEnd="30dp"
+                android:textColor="@color/clear_blue"
+                android:textSize="15sp"
+                android:lines="2"
+                android:textAlignment="textStart"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/events_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:fadingEdgeLength="30dp"
+        android:requiresFadingEdge="vertical" />
+
+    <TextView
+        android:id="@+id/events_status_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/broken_white"
+        android:textSize="20sp"/>
+
+</LinearLayout>
