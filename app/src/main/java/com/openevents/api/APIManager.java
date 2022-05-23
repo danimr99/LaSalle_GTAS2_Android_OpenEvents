@@ -93,6 +93,11 @@ public class APIManager {
         this.service.deleteAccount(authentication).enqueue(callback);
     }
 
+    public void updateUser(String authenticationToken, CreatedUser user, Callback<User> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.updateUser(authentication, user).enqueue(callback);
+    }
+
     /*
      * Events
      */
