@@ -18,7 +18,7 @@ import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.Event;
 import com.openevents.api.responses.User;
-import com.openevents.utils.DateParser;
+import com.openevents.utils.DateHandler;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
@@ -122,8 +122,8 @@ public class EventDetailsFragment extends Fragment {
         }
 
         this.eventLocation.setText(event.getLocation());
-        this.eventStartDate.setText(DateParser.toDateTime(event.getEventStartDate()));
-        this.eventEndDate.setText(DateParser.toDateTime(event.getEventEndDate()));
+        this.eventStartDate.setText(DateHandler.toDateTime(event.getEventStartDate()));
+        this.eventEndDate.setText(DateHandler.toDateTime(event.getEventEndDate()));
         this.eventCategory.setText(event.getType());
 
         if(assistants.isEmpty()) {

@@ -18,6 +18,14 @@
         android:paddingEnd="25dp"
         android:paddingBottom="25dp">
 
+        <ImageView
+            android:id="@+id/create_event_back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:contentDescription="@string/backArrowDescription"
+            android:src="@drawable/arrow_back_icon" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -33,7 +41,7 @@
             android:id="@+id/create_event_image_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -218,8 +226,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="30dp"
-            app:errorEnabled="true"
-            app:hintEnabled="false">
+            app:hintEnabled="false"
+            app:errorEnabled="true">
 
             <EditText
                 android:id="@+id/event_type_input"
@@ -227,10 +235,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/primary_background"
-                android:hint="@string/eventTypeHint"
                 android:clickable="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
+                android:hint="@string/eventTypeHint"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="@color/broken_white"

@@ -19,6 +19,8 @@ public class Constants {
             "https://images.pexels.com/photos/3665468/pexels-photo-3665468.jpeg"
     };
     public static final int MIN_LENGTH_PASSWORD = 8;
+    public static final int MIN_LENGTH_EVENT_LOCATION = 5;
+    public static final int MIN_NUMBER_ASSISTANTS_EVENT = 2;
     public static final String[] CATEGORIES = {
             "Education", "Sports", "Nightlife", "Art", "Food", "Music", "Culture", "Other"
     };

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.openevents.R;
 import com.openevents.api.responses.Event;
 import com.openevents.model.interfaces.OnListEventListener;
-import com.openevents.utils.DateParser;
+import com.openevents.utils.DateHandler;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
         }
 
         // Set event name
-        holder.eventStartDate.setText(DateParser.toDate(item.getEventStartDate()));
+        holder.eventStartDate.setText(DateHandler.toDate(item.getEventStartDate()));
 
         // Set event name
         holder.eventTitle.setText(item.getName());

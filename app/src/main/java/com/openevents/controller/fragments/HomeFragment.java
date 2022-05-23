@@ -25,7 +25,7 @@ import com.openevents.model.adapters.PillAdapter;
 import com.openevents.model.adapters.PopularEventsAdapter;
 import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListPillListener;
-import com.openevents.utils.DateParser;
+import com.openevents.utils.DateHandler;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -143,7 +143,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
             }
 
             // Check for start date
-            if(DateParser.toDateTime(event.getEventStartDate()).contains(text.toLowerCase()) &&
+            if(DateHandler.toDateTime(event.getEventStartDate()).contains(text.toLowerCase()) &&
                     !filteredList.contains(event)) {
                 filteredList.add(event);
             }

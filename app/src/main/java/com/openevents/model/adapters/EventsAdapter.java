@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.openevents.R;
 import com.openevents.api.responses.Event;
 import com.openevents.model.interfaces.OnListEventListener;
-import com.openevents.utils.DateParser;
+import com.openevents.utils.DateHandler;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         holder.eventLocation.setText(item.getLocation());
 
         // Set event start date
-        holder.eventStartDate.setText(DateParser.toDate(item.getEventStartDate()));
+        holder.eventStartDate.setText(DateHandler.toDate(item.getEventStartDate()));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.openevents.api;
 
+import com.openevents.api.requests.CreatedEvent;
 import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.AuthenticationToken;
@@ -82,6 +83,10 @@ public interface API {
     @GET("events/{eventID}/assistances")
     Call<ArrayList<Assistance>> getEventAssistances(@Header("Authorization") String authenticationToken,
                                                     @Path("eventID") int eventID);
+
+    @POST("events")
+    Call<Event> createEvent(@Header("Authorization") String authenticationToken,
+                            @Body CreatedEvent event);
 
     /*
      * Friends

@@ -1,5 +1,6 @@
 package com.openevents.api;
 
+import com.openevents.api.requests.CreatedEvent;
 import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.Event;
@@ -127,6 +128,11 @@ public class APIManager {
                                                Callback<ArrayList<Event>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.getFutureEventsCreatedByUser(authentication, ownerID).enqueue(callback);
+    }
+
+    public void createEvent(String authenticationToken, CreatedEvent event, Callback<Event> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.createEvent(authentication, event).enqueue(callback);
     }
 
     /*
