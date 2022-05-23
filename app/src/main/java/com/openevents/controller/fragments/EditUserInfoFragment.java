@@ -4,20 +4,35 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.openevents.R;
 import com.openevents.api.APIManager;
+import com.openevents.api.requests.CreatedUser;
+import com.openevents.api.responses.AuthenticationToken;
+import com.openevents.api.responses.User;
 import com.openevents.constants.Constants;
+import com.openevents.controller.components.ImageSelectorFragment;
+import com.openevents.utils.Notification;
+import com.openevents.utils.Numbers;
 import com.openevents.utils.SharedPrefs;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class EditUserInfoFragment extends Fragment {
+    private ImageSelectorFragment fragment;
     private TextInputLayout emailLayout;
     private EditText email;
     private TextInputLayout firstNameLayout;
@@ -29,7 +44,11 @@ public class EditUserInfoFragment extends Fragment {
     private TextInputLayout passwordConfirmLayout;
     private EditText passwordConfirm;
     private Button submitInfo;
+    private ImageView profileImage;
+
+    // Variables
     private SharedPrefs sharedPrefs;
+    private AuthenticationToken authenticationToken;
 
     //API Manager
     private APIManager apiManager;
@@ -54,6 +73,20 @@ public class EditUserInfoFragment extends Fragment {
 
         // Get user from shared preferences
         this.sharedPrefs = SharedPrefs.getInstance(getContext());
+
+        // Get user authentication token
+        this.authenticationToken =
+                new AuthenticationToken(this.sharedPrefs.getAuthenticationToken());
+
+        // Create ImageSelectorFragment
+        FragmentManager fm = this.getChildFragmentManager();
+        this.fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.image_selector_fragment_container);
+
+        // Inflate view with the ImageSelectorFragment
+        if (this.fragment == null) {
+            this.fragment = new ImageSelectorFragment(false);
+            fm.beginTransaction().add(R.id.image_selector_fragment_container, this.fragment).commit();
+        }
 
         // Get each component from the view
         this.emailLayout = view.findViewById(R.id.email_input_layout);
@@ -88,17 +121,6 @@ public class EditUserInfoFragment extends Fragment {
         this.password.setText(getString(R.string.changePasswordHint));
 
         // Set the onClickListener for the submitInfo button
-        this.submitInfo.setOnClickListener(v -> {
-            // Get the user input
-            String emailInput = email.getText().toString();
-            String firstNameInput = firstName.getText().toString();
-            String lastNameInput = lastName.getText().toString();
-            String passwordInput = password.getText().toString();
-            String passwordConfirmInput = passwordConfirm.getText().toString();
-
-            isFormValid(emailInput, firstNameInput, lastNameInput, passwordInput, passwordConfirmInput);
-        });
-
         this.submitInfo.setOnClickListener(v -> editUser());
     }
 
@@ -172,6 +194,56 @@ public class EditUserInfoFragment extends Fragment {
     }
 
     private void editUser() {
+        // Get random image
+        int imageIndex = Numbers.generateRandomNumber(0,
+                Constants.EXAMPLE_PROFILE_IMAGES_URL.length - 1);
+        String image = Constants.EXAMPLE_PROFILE_IMAGES_URL[imageIndex];
+
+        // Get all inputs fields
+        String email = this.email.getText().toString();
+        String name = this.firstName.getText().toString();
+        String lastName = this.lastName.getText().toString();
+        String password = this.password.getText().toString();
+        String repeatedPassword = this.passwordConfirm.getText().toString();
+
+        // Check if all fields are valid
+        if (this.isFormValid(email, name, lastName, password, repeatedPassword)) {
+
+            // Create new CreatedUser
+            CreatedUser createdUser = new CreatedUser(email, name, lastName, password, image);
+
+            // Call API to edit user
+            this.apiManager.updateUser(this.authenticationToken.getAccessToken(), createdUser, new Callback<User>() {
+                @Override
+                public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                    Log.i("OpenEventrs", "onResponse: " + response.toString());
+                    if (response.isSuccessful()) {
+                        // Get user from response
+                        User user = response.body();
+
+                        // Save user in shared preferences
+                        SharedPrefs.getInstance(getContext()).saveUser(user);
+
+                        // Show success message
+                        Toast.makeText(getContext(), R.string.userUpdatedSuccessfully, Toast.LENGTH_SHORT).show();
+
+                        // Go back to profile fragment
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    } else {
+                        // Show error message
+                        Toast.makeText(getContext(), R.string.userUpdateError, Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                    Notification.showDialogNotification(getContext(),
+                            getText(R.string.cannotConnectToServerError).toString());
+                }
+            });
+
+        }
 
     }
 }

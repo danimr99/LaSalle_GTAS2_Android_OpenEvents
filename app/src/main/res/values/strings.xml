@@ -125,6 +125,7 @@
     <string name="cannotGetEventError">ERROR: Cannot get event</string>
     <string name="endDateBeforeStartDateEventError">ERROR: Start date must be before end date</string>
     <string name="minAssistantsEventError">ERROR: Minimum of 2 assistants for an event</string>
+    <string name="userUpdateError">ERROR: Cannot update the user</string>
 
     <!-- Notifications -->
     <string name="friendRequestAccepted">Friend request accepted successfully</string>
@@ -134,6 +135,7 @@
     <string name="friendRequestSent">Friend request sent successfully</string>
     <string name="friendRequestAlreadySent">Friend request was already sent</string>
     <string name="isNowYourFriend">is now your friend!</string>
+    <string name="userUpdatedSuccessfully">User updated successfully</string>
 
     <!-- Symbols -->
     <string name="dot">·</string>

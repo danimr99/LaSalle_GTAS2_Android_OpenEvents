@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -119,7 +120,8 @@ public class UserFragment extends Fragment {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.edit_user_information:
-                            // TODO Edit user information
+                            // Go to EditUserInformationFragment
+                            editUserInformationFragmentRedirect();
                             break;
                         case R.id.logout:
                             // Log out
@@ -267,5 +269,13 @@ public class UserFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {}
         });
+    }
+
+    private void editUserInformationFragmentRedirect() {
+        // Go to EditUserInformationFragment
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.home_fragment_container, new EditUserInfoFragment());
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
