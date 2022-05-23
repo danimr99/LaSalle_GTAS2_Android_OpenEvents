@@ -40,12 +40,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
-    private boolean isFriend;
 
     public UsersAdapter(ArrayList<UserProfile> users, OnListUserListener usersListener, String parentFragment) {
         this.users = users;
         this.usersListener = usersListener;
-        this.isFriend = false;
 
         // Sort users by name and last name
         this.users.sort(Comparator.comparing(UserProfile::getName)

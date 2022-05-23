@@ -124,8 +124,15 @@ public class EventDetailsFragment extends Fragment {
         }
 
         this.eventLocation.setText(event.getLocation());
-        this.eventStartDate.setText(DateHandler.toDateTime(event.getEventStartDate()));
-        this.eventEndDate.setText(DateHandler.toDateTime(event.getEventEndDate()));
+
+        try {
+            this.eventStartDate.setText(DateHandler.toDateTime(event.getEventStartDate()));
+            this.eventEndDate.setText(DateHandler.toDateTime(event.getEventEndDate()));
+        } catch (NullPointerException exception) {
+            this.eventStartDate.setText(event.getEventStartDate());
+            this.eventEndDate.setText(event.getEventEndDate());
+        }
+
         this.eventCategory.setText(event.getType());
 
         if(assistants.isEmpty()) {
