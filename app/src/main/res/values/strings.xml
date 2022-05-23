@@ -17,10 +17,13 @@
 
     <!-- Titles -->
     <string name="emailTitle">Email</string>
+    <string name="eventEditTitle">Title</string>
     <string name="passwordTitle">Password</string>
     <string name="repeatPasswordTitle">Repeat password</string>
     <string name="signUpTitle">Sign up</string>
     <string name="editUserInfoTitle">Edit information</string>
+    <string name="editEventInfoTitle">Edit information</string>
+    <string name="locationTitle">Location</string>
     <string name="firstNameTitle">First name</string>
     <string name="lastNameTitle">Last name</string>
     <string name="userTitle">User</string>
@@ -72,6 +75,7 @@
     <string name="acceptLabel">Accept</string>
     <string name="cancelLabel">Cancel</string>
     <string name="createEventLabel">Create event</string>
+    <string name="changeEventLabel">Submit changes</string>
     <string name="joinEventLabel">Join event</string>
     <string name="logOutLabel">Log out</string>
     <string name="deleteAccountLabel">Delete account</string>
@@ -89,12 +93,14 @@
     <!-- Hints -->
     <string name="emailHint">Your email</string>
     <string name="changeEmailHint">Change email</string>
+    <string name="changeTitleHint">Change title</string>
     <string name="passwordHint">Your password</string>
     <string name="changePasswordHint">Change your password</string>
     <string name="repeatChangedPasswordHint">Repeat changed password</string>
     <string name="repeatPasswordHint">Repeat your password</string>
     <string name="firstNameHint">Your first name</string>
     <string name="changeFirstNameHint">Change your first name</string>
+    <string name="changeLocationHint">Change location</string>
     <string name="lastNameHint">Your last name</string>
     <string name="changeLastNameHint">Change your last name</string>
     <string name="searchHint">Search</string>
@@ -103,10 +109,15 @@
     <string name="eventTitleHint">Event title</string>
     <string name="eventLocationHint">Event location</string>
     <string name="eventStartDateHint">Select a start date</string>
+    <string name="changeEventStartDateHint">Change start date</string>
     <string name="eventEndDateHint">Select an end date</string>
+    <string name="changeEventEndDateHint">Change closure date</string>
     <string name="numberOfParticipantsHint">Select a number of participants</string>
+    <string name="changeNumberOfParticipantsHint">Change number of participants</string>
     <string name="eventTypeHint">Select an event category</string>
+    <string name="changeEventTypeHint">Change event category</string>
     <string name="eventDescriptionHint">Event description</string>
+    <string name="changeEventDescriptionHint">Change event description</string>
 
     <!-- Errors -->
     <string name="cannotConnectToServerError">ERROR: Connection to the server failed</string>
