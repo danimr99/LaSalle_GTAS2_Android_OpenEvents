@@ -71,6 +71,11 @@ public interface API {
     Call<ArrayList<Event>> getFutureEventsCreatedByUser(@Header("Authorization") String authenticationToken,
                                                           @Path("ownerID") int ownerID);
 
+    @PUT("users")
+    Call<User> updateUser(@Header("Authorization") String authenticationToken,
+                          @Body CreatedUser user);
+
+
     /*
      * Events
      */

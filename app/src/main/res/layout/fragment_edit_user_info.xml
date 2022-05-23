@@ -40,7 +40,7 @@
             app:errorEnabled="true"
             app:hintEnabled="false">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/email_input"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
@@ -50,7 +50,8 @@
                 android:inputType="textEmailAddress"
                 android:textColor="@color/white"
                 android:textColorHint="@color/broken_white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:autofillHints="" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -71,7 +72,7 @@
             app:errorEnabled="true"
             app:hintEnabled="false">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/first_name_input"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
@@ -81,7 +82,8 @@
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="@color/broken_white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:autofillHints="" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -102,7 +104,7 @@
             app:errorEnabled="true"
             app:hintEnabled="false">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/last_name_input"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
@@ -112,7 +114,8 @@
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="@color/broken_white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:autofillHints="" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,7 +138,7 @@
             app:hintEnabled="false"
             app:passwordToggleEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/password_input"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
@@ -145,7 +148,8 @@
                 android:inputType="textPassword"
                 android:textColor="@color/white"
                 android:textColorHint="@color/broken_white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:autofillHints="" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -168,7 +172,7 @@
             app:hintEnabled="false"
             app:passwordToggleEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/repeat_password_input"
                 android:layout_width="305dp"
                 android:layout_height="wrap_content"
@@ -178,11 +182,18 @@
                 android:inputType="textPassword"
                 android:textColor="@color/white"
                 android:textColorHint="@color/broken_white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:autofillHints="" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <FrameLayout
+            android:id="@+id/image_selector_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp" />
+
         <Button
-            android:id="@+id/register_button"
+            android:id="@+id/submit_info_button"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"

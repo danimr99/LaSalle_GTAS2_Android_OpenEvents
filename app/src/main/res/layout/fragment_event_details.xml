@@ -301,6 +301,14 @@
 
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_comments_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:fadingEdgeLength="30dp"
+            android:requiresFadingEdge="vertical" />
+
         <LinearLayout
             android:id="@+id/event_details_feedback"
             android:layout_width="match_parent"
