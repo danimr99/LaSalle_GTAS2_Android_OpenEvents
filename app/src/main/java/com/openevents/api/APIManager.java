@@ -141,6 +141,16 @@ public class APIManager {
         this.service.createEvent(authentication, event).enqueue(callback);
     }
 
+    public void deleteEvent(String authenticationToken, int eventID, Callback<Void> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.deleteEvent(authentication, eventID).enqueue(callback);
+    }
+
+    public void editEvent(String authenticationToken, int eventID, Callback<Event> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.editEvent(authentication, eventID).enqueue(callback);
+    }
+
     /*
      * Friends
      */

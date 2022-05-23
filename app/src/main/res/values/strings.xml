@@ -135,6 +135,7 @@
     <string name="friendRequestAlreadySent">Friend request was already sent</string>
     <string name="isNowYourFriend">is now your friend!</string>
     <string name="accountUpdatedSuccessfully">Information updated successfully</string>
+    <string name="eventDeletedSuccessfully">Event deleted successfully</string>
 
     <!-- Symbols -->
     <string name="dot">·</string>

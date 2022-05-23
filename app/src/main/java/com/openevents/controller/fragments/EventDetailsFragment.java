@@ -20,10 +20,12 @@ import com.openevents.api.responses.Event;
 import com.openevents.api.responses.User;
 import com.openevents.constants.Constants;
 import com.openevents.utils.DateHandler;
+import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +43,12 @@ public class EventDetailsFragment extends Fragment {
     private TextView eventCategory;
     private TextView eventParticipants;
     private TextView eventDescription;
+    private TextView editButton;
+    private TextView deleteButton;
+    private TextView joinButton;
+    private TextView leaveButton;
+    private TextView commentButton;
+    private TextView rateButton;
 
     // Variables
     private final Event event;
@@ -73,8 +81,10 @@ public class EventDetailsFragment extends Fragment {
         this.authenticationToken =
                 new AuthenticationToken(this.sharedPrefs.getAuthenticationToken());
 
-        // Get an instance of APIManager and get the event owner from API
+        // Get an instance of APIManager
         this.apiManager = APIManager.getInstance();
+
+        // Get event owner and participants from API
         this.getEventOwner(this.event.getOwnerId());
         this.getEventParticipants(this.event.getId());
 
@@ -90,11 +100,34 @@ public class EventDetailsFragment extends Fragment {
         this.eventParticipants = view.findViewById(R.id.event_details_participants);
         this.eventDescription = view.findViewById(R.id.event_details_description);
 
+        // Get all buttons from view
+        this.deleteButton = view.findViewById(R.id.delete_text_view);
+        this.editButton = view.findViewById(R.id.edit_text_view);
+        this.joinButton = view.findViewById(R.id.join_text_view);
+        this.leaveButton = view.findViewById(R.id.leave_text_view);
+        this.commentButton = view.findViewById(R.id.comment_text_view);
+        this.rateButton = view.findViewById(R.id.rate_text_view);
+
         // Configure back arrow on click
         this.backArrow.setOnClickListener(v -> this.navigateBack());
 
-        // Update event details UI
-        this.updateEventDetailsUI(this.event, null);
+        // Set on click listener to delete button
+        this.deleteButton.setOnClickListener(v -> deleteEvent());
+
+        // Set on click listener to edit button
+        this.editButton.setOnClickListener(v -> editEvent());
+
+        // Set on click listener to join button
+        this.joinButton.setOnClickListener(v -> joinEvent());
+
+        // Set on click listener to leave button
+        this.leaveButton.setOnClickListener(v -> leaveEvent());
+
+        // Set on click listener to join button
+        this.commentButton.setOnClickListener(v -> commentEvent());
+
+        // Set on click listener to join button
+        this.rateButton.setOnClickListener(v -> rateEvent());
 
         return view;
     }
@@ -116,6 +149,7 @@ public class EventDetailsFragment extends Fragment {
         // Set data to corresponding field
         this.eventTitle.setText(event.getName());
 
+        // Check for event owner name
         if(eventOwner == null) {
             this.eventOwner.setText("Owner ID: " + event.getOwnerId());
         } else {
@@ -123,8 +157,10 @@ public class EventDetailsFragment extends Fragment {
             this.eventOwner.setText(eventOwner.getName() + " " + eventOwner.getLastName());
         }
 
+        // Set event location
         this.eventLocation.setText(event.getLocation());
 
+        // Set start and end event dates
         try {
             this.eventStartDate.setText(DateHandler.toDateTime(event.getEventStartDate()));
             this.eventEndDate.setText(DateHandler.toDateTime(event.getEventEndDate()));
@@ -133,8 +169,10 @@ public class EventDetailsFragment extends Fragment {
             this.eventEndDate.setText(event.getEventEndDate());
         }
 
+        // Set event category
         this.eventCategory.setText(event.getType());
 
+        // Set event assistants
         if(assistants.isEmpty()) {
             this.eventParticipants.setText("0/" + event.getParticipatorsQuantity());
         } else {
@@ -142,14 +180,36 @@ public class EventDetailsFragment extends Fragment {
                     event.getParticipatorsQuantity());
         }
 
+        // Set event description
         this.eventDescription.setText(event.getDescription());
+
+        // Enable edit and delete buttons if logged in user is the owner of the event
+        if(Objects.equals(this.sharedPrefs.getUser().getId(), owner.getId())) {
+            this.editButton.setVisibility(View.VISIBLE);
+            this.deleteButton.setVisibility(View.VISIBLE);
+        } else {
+            // Check if there are still places to assist and user has not joined the event previously
+            if(this.assistants.size() < event.getParticipatorsQuantity() &&
+                    !this.assistants.stream().
+                            anyMatch(assistance ->
+                                    assistance.getAssistantID() == sharedPrefs.getUser().getId())) {
+                this.joinButton.setVisibility(View.VISIBLE);
+            }
+
+            if(this.assistants.stream().
+                    anyMatch(assistance ->
+                            assistance.getAssistantID() == sharedPrefs.getUser().getId())) {
+                this.leaveButton.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void getEventOwner(int userID) {
         this.apiManager.getUserById(this.authenticationToken.getAccessToken(), userID,
                 new Callback<ArrayList<User>>() {
             @Override
-            public void onResponse(@NonNull Call<ArrayList<User>> call, @NonNull Response<ArrayList<User>> response) {
+            public void onResponse(@NonNull Call<ArrayList<User>> call,
+                                   @NonNull Response<ArrayList<User>> response) {
                 if(response.isSuccessful()) {
                     if(response.body() != null) {
                         // Get event owner
@@ -162,7 +222,7 @@ public class EventDetailsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) { }
+            public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) {}
         });
     }
 
@@ -170,7 +230,8 @@ public class EventDetailsFragment extends Fragment {
         this.apiManager.getEventAssistants(this.authenticationToken.getAccessToken(), eventID,
                 new Callback<ArrayList<Assistance>>() {
             @Override
-            public void onResponse(@NonNull Call<ArrayList<Assistance>> call, @NonNull Response<ArrayList<Assistance>> response) {
+            public void onResponse(@NonNull Call<ArrayList<Assistance>> call,
+                                   @NonNull Response<ArrayList<Assistance>> response) {
                 if(response.isSuccessful()) {
                     if(response.body() != null) {
                         // Get list of assistance
@@ -183,13 +244,59 @@ public class EventDetailsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<Assistance>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ArrayList<Assistance>> call,
+                                  @NonNull Throwable t) {}
+        });
+    }
 
+    private void deleteEvent() {
+        this.apiManager.deleteEvent(this.authenticationToken.getAccessToken(), event.getId(),
+                new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if(response.isSuccessful()) {
+                    Notification.showDialogNotification(getContext(),
+                            getText(R.string.eventDeletedSuccessfully).toString());
+
+                    // Redirect user to previous page
+                    navigateBack();
+                } else {
+                    Notification.showDialogNotification(getContext(),
+                            getText(R.string.serverConnectionFailed).toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Notification.showDialogNotification(getContext(),
+                        getText(R.string.cannotConnectToServerError).toString());
             }
         });
     }
 
+    private void editEvent() {
+        /*requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.home_fragment_container, new EditUserInfoFragment()).commit();*/
+    }
+
+    private void joinEvent() {
+
+    }
+
+    private void leaveEvent() {
+
+    }
+
+    private void commentEvent() {
+
+    }
+
+    private void rateEvent() {
+
+    }
+
     private void navigateBack() {
-        getParentFragmentManager().popBackStack();
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.home_fragment_container, new MyEventsTabFragment()).commit();
     }
 }

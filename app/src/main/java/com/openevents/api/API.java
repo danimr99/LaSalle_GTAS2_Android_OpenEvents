@@ -92,6 +92,14 @@ public interface API {
     Call<Event> createEvent(@Header("Authorization") String authenticationToken,
                             @Body CreatedEvent event);
 
+    @DELETE("events/{eventID}")
+    Call<Void> deleteEvent (@Header("Authorization") String authenticationToken,
+                            @Path("eventID") int eventID);
+
+    @PUT("events/{eventID}")
+    Call<Event> editEvent (@Header("Authorization") String authenticationToken,
+                            @Path("eventID") int eventID);
+
     /*
      * Friends
      */
