@@ -1,8 +1,10 @@
 package com.openevents.controller.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -13,19 +15,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.AuthenticationToken;
-import com.openevents.api.responses.User;
+import com.openevents.api.responses.RegisteredUser;
 import com.openevents.constants.Constants;
+import com.openevents.controller.LoginActivity;
+import com.openevents.controller.RegisterActivity;
 import com.openevents.controller.components.ImageSelectorFragment;
+import com.openevents.utils.JsonManager;
 import com.openevents.utils.Notification;
 import com.openevents.utils.Numbers;
 import com.openevents.utils.SharedPrefs;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +39,7 @@ import retrofit2.Response;
 
 public class EditUserInfoFragment extends Fragment {
     private ImageSelectorFragment fragment;
+    private ImageView backArrow;
     private TextInputLayout emailLayout;
     private EditText email;
     private TextInputLayout firstNameLayout;
@@ -43,8 +50,7 @@ public class EditUserInfoFragment extends Fragment {
     private EditText password;
     private TextInputLayout passwordConfirmLayout;
     private EditText passwordConfirm;
-    private Button submitInfo;
-    private ImageView profileImage;
+    private Button updateInfoButton;
 
     // Variables
     private SharedPrefs sharedPrefs;
@@ -71,7 +77,7 @@ public class EditUserInfoFragment extends Fragment {
         //API Manager
         this.apiManager = APIManager.getInstance();
 
-        // Get user from shared preferences
+        // Get instance of SharedPreferences
         this.sharedPrefs = SharedPrefs.getInstance(getContext());
 
         // Get user authentication token
@@ -84,11 +90,12 @@ public class EditUserInfoFragment extends Fragment {
 
         // Inflate view with the ImageSelectorFragment
         if (this.fragment == null) {
-            this.fragment = new ImageSelectorFragment(false);
+            this.fragment = new ImageSelectorFragment(true);
             fm.beginTransaction().add(R.id.image_selector_fragment_container, this.fragment).commit();
         }
 
         // Get each component from the view
+        this.backArrow = view.findViewById(R.id.edit_profile_back_arrow);
         this.emailLayout = view.findViewById(R.id.email_input_layout);
         this.email = view.findViewById(R.id.email_input);
         this.firstNameLayout = view.findViewById(R.id.first_name_input_layout);
@@ -99,7 +106,13 @@ public class EditUserInfoFragment extends Fragment {
         this.password = view.findViewById(R.id.password_input);
         this.passwordConfirmLayout = view.findViewById(R.id.repeat_password_input_layout);
         this.passwordConfirm = view.findViewById(R.id.repeat_password_input);
-        this.submitInfo = view.findViewById(R.id.submit_info_button);
+        this.updateInfoButton = view.findViewById(R.id.update_user_info_button);
+
+        // Set on click listener to the back arrow button
+        this.backArrow.setOnClickListener(v -> navigateBack());
+
+        // Set on click listener to the update information button
+        this.updateInfoButton.setOnClickListener(v -> editUser());
 
         return view;
     }
@@ -108,20 +121,17 @@ public class EditUserInfoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //set the email field to the user's email
+        // Set the email field to the user's email
         this.email.setText(this.sharedPrefs.getUser().getEmail());
 
-        //set the first name field to the user's first name
+        // Set the first name field to the user's first name
         this.firstName.setText(this.sharedPrefs.getUser().getName());
 
-        //set the last name field to the user's last name
+        // Set the last name field to the user's last name
         this.lastName.setText(this.sharedPrefs.getUser().getLastName());
 
-        //set the password field to 'change password' text
-        this.password.setText(getString(R.string.changePasswordHint));
-
         // Set the onClickListener for the submitInfo button
-        this.submitInfo.setOnClickListener(v -> editUser());
+        this.updateInfoButton.setOnClickListener(v -> editUser());
     }
 
     private boolean checkEmail(String email) {
@@ -208,42 +218,65 @@ public class EditUserInfoFragment extends Fragment {
 
         // Check if all fields are valid
         if (this.isFormValid(email, name, lastName, password, repeatedPassword)) {
+            // Create a new created user to send as request to API
+            CreatedUser createdUser = new CreatedUser(name, lastName, email, password, image);
 
-            // Create new CreatedUser
-            CreatedUser createdUser = new CreatedUser(email, name, lastName, password, image);
-
-            // Call API to edit user
-            this.apiManager.updateUser(this.authenticationToken.getAccessToken(), createdUser, new Callback<User>() {
+            this.apiManager.editAccount(this.authenticationToken.getAccessToken(), createdUser,
+                    new Callback<RegisteredUser>() {
                 @Override
-                public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                    Log.i("OpenEventrs", "onResponse: " + response.toString());
-                    if (response.isSuccessful()) {
-                        // Get user from response
-                        User user = response.body();
+                public void onResponse(@NonNull Call<RegisteredUser> call,
+                                       @NonNull Response<RegisteredUser> response) {
+                    if(response.isSuccessful()) {
+                        if(response.body() != null) {
+                            // Get registered user
+                            RegisteredUser registeredUser = response.body();
 
-                        // Save user in shared preferences
-                        SharedPrefs.getInstance(getContext()).saveUser(user);
+                            // Save email from registered user in case logged in user could
+                            // have changed it
+                            sharedPrefs.overrideStringEntry(Constants.USER_EMAIL_SHARED_PREFERENCES,
+                                    registeredUser.getEmail());
 
-                        // Show success message
-                        Toast.makeText(getContext(), R.string.userUpdatedSuccessfully, Toast.LENGTH_SHORT).show();
-
-                        // Go back to profile fragment
-                        getActivity().getSupportFragmentManager().popBackStack();
+                            // Display success notification
+                            showRegisterSuccessfulDialog();
+                        }
                     } else {
-                        // Show error message
-                        Toast.makeText(getContext(), R.string.userUpdateError, Toast.LENGTH_SHORT).show();
+                        Notification.showDialogNotification(getContext(),
+                                getText(R.string.serverConnectionFailed).toString());
                     }
-
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<RegisteredUser> call,
+                                      @NonNull Throwable t) {
                     Notification.showDialogNotification(getContext(),
                             getText(R.string.cannotConnectToServerError).toString());
                 }
             });
-
         }
+    }
 
+    private void showRegisterSuccessfulDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(this.getText(R.string.accountUpdatedSuccessfully));
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(R.string.acceptLabel, (dialog, button) -> {
+            // Dismiss dialog
+            dialog.dismiss();
+        });
+
+        builder.setOnDismissListener(dialog -> {
+            // Redirect user to LoginActivity
+            navigateBack();
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+    private void navigateBack() {
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.home_fragment_container, new UserFragment()).commit();
     }
 }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.openevents.model.adapters.PopularEventsAdapter;
 import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListPillListener;
 import com.openevents.utils.DateHandler;
+import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -51,10 +53,13 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
     private ArrayList<Event> popularEvents;
     private ArrayList<Event> popularEventsFiltered;
     private ArrayList<Boolean> categoriesStatus;
+    private String searchInput;
 
     public HomeFragment() {
         this.popularEvents = new ArrayList<>();
         this.popularEventsFiltered = new ArrayList<>();
+
+        this.searchInput = "";
 
         this.categoriesStatus = new ArrayList<>();
         Arrays.asList(Constants.CATEGORIES).forEach(category -> categoriesStatus.add(true));
@@ -102,8 +107,10 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 if(charSequence.length() == 0) {
                     popularEventsFiltered = popularEvents;
+                    searchInput = "";
                 } else {
-                    filter(charSequence.toString());
+                    searchInput = charSequence.toString();
+                    filter(searchInput);
                 }
             }
 
@@ -149,49 +156,62 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
             }
         }
 
+        // Check if events from filtered list matches with selected categories
+        ArrayList<Event> matchingFilters = new ArrayList<>();
+
+        for(Event popular : filteredList) {
+            for(int i = 0; i < Constants.CATEGORIES.length; i++) {
+                if(this.categoriesStatus.get(i)) {
+                    if(popular.getType().toLowerCase().contains(Constants.CATEGORIES[i].toLowerCase())) {
+                        matchingFilters.add(popular);
+                    }
+                }
+            }
+        }
+
         // Save list of filtered popular events
-        this.popularEventsFiltered = filteredList;
+        this.popularEventsFiltered = matchingFilters;
 
         // Update adapter
-        this.popularEventsAdapter.filter(filteredList);
+        this.popularEventsAdapter.updateDataset(this.popularEventsFiltered);
     }
 
     private void getPopularEvents() {
         this.apiManager.getPopularEvents(this.sharedPrefs.getAuthenticationToken(),
                 new Callback<ArrayList<Event>>() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onResponse(@NonNull Call<ArrayList<Event>> call,
-                                   @NonNull Response<ArrayList<Event>> response) {
-                if (response.isSuccessful()) {
-                    if(response.body() != null) {
-                        // Get events from response
-                        popularEvents = response.body();
-                        popularEventsFiltered = popularEvents;
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onResponse(@NonNull Call<ArrayList<Event>> call,
+                                           @NonNull Response<ArrayList<Event>> response) {
+                        if (response.isSuccessful()) {
+                            if(response.body() != null) {
+                                // Get events from response
+                                popularEvents = response.body();
+                                popularEventsFiltered = popularEvents;
 
-                        // Create EventsAdapter and pass it to the events recycler view
-                        popularEventsAdapter = new PopularEventsAdapter(popularEventsFiltered, HomeFragment.this);
-                        popularEventsRecyclerView.setAdapter(popularEventsAdapter);
+                                // Create EventsAdapter and pass it to the events recycler view
+                                popularEventsAdapter = new PopularEventsAdapter(popularEventsFiltered, HomeFragment.this);
+                                popularEventsRecyclerView.setAdapter(popularEventsAdapter);
 
-                        // Update dataset and view
-                        popularEventsAdapter.notifyDataSetChanged();
-                        onDataReceived();
-                    } else {
-                        // Set activity status to no data received
-                        onNoDataReceived();
+                                // Update dataset and view
+                                popularEventsAdapter.notifyDataSetChanged();
+                                onDataReceived();
+                            } else {
+                                // Set activity status to no data received
+                                onNoDataReceived();
+                            }
+                        } else {
+                            // Set activity status to no data received
+                            onNoDataReceived();
+                        }
                     }
-                } else {
-                    // Set activity status to no data received
-                    onNoDataReceived();
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<Event>> call, @NonNull Throwable t) {
-                // Set activity status to connection failure
-                onConnectionFailure();
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Call<ArrayList<Event>> call, @NonNull Throwable t) {
+                        // Set activity status to connection failure
+                        onConnectionFailure();
+                    }
+                });
     }
 
     @Override
@@ -225,7 +245,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
     public void onEventClicked(int index) {
         getParentFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
-                        new EventDetailsFragment(this.popularEventsFiltered.get(index))).
+                        new EventDetailsFragment(this.popularEventsFiltered.get(index), false)).
                 addToBackStack(this.getClass().getName()).
                 commit();
     }
@@ -233,5 +253,6 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
     @Override
     public void onPillClicked(int index, boolean status) {
         this.categoriesStatus.set(index, status);
+        this.filter(this.searchInput);
     }
 }

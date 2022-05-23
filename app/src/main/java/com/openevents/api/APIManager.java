@@ -4,7 +4,7 @@ import com.openevents.api.requests.CreatedEvent;
 import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.Event;
-import com.openevents.api.responses.FriendshipResponse;
+import com.openevents.api.responses.QueryResponse;
 import com.openevents.api.responses.RegisteredUser;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.api.responses.UserStats;
@@ -93,10 +93,18 @@ public class APIManager {
         this.service.deleteAccount(authentication).enqueue(callback);
     }
 
-    public void updateUser(String authenticationToken, CreatedUser user, Callback<User> callback) {
+    public void editAccount(String authenticationToken, CreatedUser createdUser,
+                            Callback<RegisteredUser> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
-        this.service.updateUser(authentication, user).enqueue(callback);
+        this.service.editAccount(authentication, createdUser).enqueue(callback);
     }
+
+    public void getUserPastAssistances(String authenticationToken, int userID,
+                                       Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getUserPastAssistances(authentication, userID).enqueue(callback);
+    }
+
 
     /*
      * Events
@@ -140,11 +148,21 @@ public class APIManager {
         this.service.createEvent(authentication, event).enqueue(callback);
     }
 
+    public void deleteEvent(String authenticationToken, int eventID, Callback<Void> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.deleteEvent(authentication, eventID).enqueue(callback);
+    }
+
+    public void editEvent(String authenticationToken, int eventID, Callback<Event> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.editEvent(authentication, eventID).enqueue(callback);
+    }
+
     /*
      * Friends
      */
     public void sendFriendRequest(String authenticationToken, int userID,
-                                  Callback<FriendshipResponse> callback) {
+                                  Callback<QueryResponse> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.sendFriendRequest(authentication, userID).enqueue(callback);
     }
@@ -155,14 +173,29 @@ public class APIManager {
     }
 
     public void acceptFriendRequest(String authenticationToken, int userID,
-                                    Callback<FriendshipResponse> callback) {
+                                    Callback<QueryResponse> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.acceptFriendRequest(authentication, userID).enqueue(callback);
     }
 
     public void declineFriendRequest(String authenticationToken, int userID,
-                                     Callback<FriendshipResponse> callback) {
+                                     Callback<QueryResponse> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.declineFriendRequest(authentication, userID).enqueue(callback);
+    }
+
+    /*
+     * Assistances
+     */
+    public void attendEvent(String authenticationToken, int userID, int eventID,
+                            Callback<Void> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.attendEvent(authentication, userID, eventID).enqueue(callback);
+    }
+
+    public void unattendEvent(String authenticationToken, int userID, int eventID,
+                            Callback<QueryResponse> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.unattendEvent(authentication, userID, eventID).enqueue(callback);
     }
 }

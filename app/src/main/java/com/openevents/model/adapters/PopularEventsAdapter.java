@@ -32,7 +32,7 @@ public class PopularEventsAdapter extends RecyclerView.Adapter<PopularEventsAdap
         this.eventListener = eventListener;
     }
 
-    public void filter(ArrayList<Event> filteredList) {
+    public void updateDataset(ArrayList<Event> filteredList) {
         this.popularEvents = filteredList;
         notifyDataSetChanged();
     }

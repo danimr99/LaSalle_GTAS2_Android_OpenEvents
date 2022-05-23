@@ -10,6 +10,7 @@ import com.openevents.R;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.openevents.controller.fragments.UserFragment;
 import com.openevents.api.responses.User;
@@ -17,7 +18,9 @@ import com.openevents.utils.SharedPrefs;
 
 import android.annotation.SuppressLint;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
@@ -89,22 +92,43 @@ public class MainActivity extends AppCompatActivity {
         // Get user from API
         this.apiManager.getUserByEmail(authenticationToken.getAccessToken(), email,
                 new Callback<ArrayList<User>>() {
-            @Override
-            public void onResponse(@NonNull Call<ArrayList<User>> call, @NonNull Response<ArrayList<User>> response) {
-                if (response.isSuccessful()) {
-                    if(response.body() != null) {
-                        // Get user from response
-                        User user = response.body().get(0);
+                    @Override
+                    public void onResponse(@NonNull Call<ArrayList<User>> call, @NonNull Response<ArrayList<User>> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body() != null) {
+                                User user;
 
-                        // Save user to SharedPreferences
-                        sharedPrefs.saveUser(user);
+                                // Checks if user has been deleted and existed his/her authentication
+                                // token on SharedPreferences
+                                try {
+                                    // Get user from response
+                                    user = response.body().get(0);
+
+                                    // Save user to SharedPreferences
+                                    sharedPrefs.saveUser(user);
+
+                                } catch (IndexOutOfBoundsException exception) {
+                                    logout();
+                                }
+                            }
+                        }
                     }
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) { }
-        });
+                    @Override
+                    public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) {
+                    }
+                });
+    }
+
+    private void logout() {
+        // Remove data from SharedPreferences
+        this.sharedPrefs.logout();
+
+        // Redirect user to LoginActivity
+        Intent intent = new Intent(this.getApplicationContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        this.finish();
     }
 
 }

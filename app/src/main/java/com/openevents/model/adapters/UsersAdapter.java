@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
-import com.openevents.api.responses.FriendshipResponse;
+import com.openevents.api.responses.QueryResponse;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.constants.Constants;
 import com.openevents.controller.fragments.AllUsersFragment;
@@ -40,12 +40,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
-    private boolean isFriend;
 
     public UsersAdapter(ArrayList<UserProfile> users, OnListUserListener usersListener, String parentFragment) {
         this.users = users;
         this.usersListener = usersListener;
-        this.isFriend = false;
 
         // Sort users by name and last name
         this.users.sort(Comparator.comparing(UserProfile::getName)
@@ -126,10 +124,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         final UserProfile profile = this.users.get(itemPosition);
 
         this.apiManager.acceptFriendRequest(this.authenticationToken.getAccessToken(),
-                profile.getId(), new Callback<FriendshipResponse>() {
+                profile.getId(), new Callback<QueryResponse>() {
             @Override
-            public void onResponse(@NonNull Call<FriendshipResponse> call,
-                                   @NonNull Response<FriendshipResponse> response) {
+            public void onResponse(@NonNull Call<QueryResponse> call,
+                                   @NonNull Response<QueryResponse> response) {
                 if(response.isSuccessful()) {
                     Notification.showDialogNotification(view.getContext(),
                             profile.getName() + " " +
@@ -145,7 +143,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             }
 
             @Override
-            public void onFailure(@NonNull Call<FriendshipResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<QueryResponse> call, @NonNull Throwable t) {
                 Notification.showDialogNotification(view.getContext(),
                         view.getContext().getText(R.string.cannotConnectToServerError).toString());
             }
@@ -157,9 +155,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         final UserProfile profile = this.users.get(itemPosition);
 
         this.apiManager.declineFriendRequest(this.authenticationToken.getAccessToken(),
-                profile.getId(), new Callback<FriendshipResponse>() {
+                profile.getId(), new Callback<QueryResponse>() {
             @Override
-            public void onResponse(@NonNull Call<FriendshipResponse> call, @NonNull Response<FriendshipResponse> response) {
+            public void onResponse(@NonNull Call<QueryResponse> call, @NonNull Response<QueryResponse> response) {
                 if(response.isSuccessful()) {
                     Notification.showDialogNotification(view.getContext(),
                             view.getContext().getText(R.string.friendRequestDeclined).toString());
@@ -174,7 +172,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             }
 
             @Override
-            public void onFailure(@NonNull Call<FriendshipResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<QueryResponse> call, @NonNull Throwable t) {
                 Notification.showDialogNotification(view.getContext(),
                         view.getContext().getText(R.string.cannotConnectToServerError).toString());
             }

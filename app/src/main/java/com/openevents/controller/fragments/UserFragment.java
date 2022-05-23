@@ -120,8 +120,8 @@ public class UserFragment extends Fragment {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.edit_user_information:
-                            // Go to EditUserInformationFragment
-                            editUserInformationFragmentRedirect();
+                            // Edit user information
+                            editUser();
                             break;
                         case R.id.logout:
                             // Log out
@@ -245,6 +245,11 @@ public class UserFragment extends Fragment {
         this.profilePercentageLessComments.setText(percentageCommentersBelow);
     }
 
+    private void editUser() {
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.home_fragment_container, new EditUserInfoFragment()).commit();
+    }
+
     private void logout() {
         // Remove data from SharedPreferences
         this.sharedPrefs.logout();
@@ -269,13 +274,5 @@ public class UserFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {}
         });
-    }
-
-    private void editUserInformationFragmentRedirect() {
-        // Go to EditUserInformationFragment
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.home_fragment_container, new EditUserInfoFragment());
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 }

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.openevents.R;
+import com.openevents.api.responses.UserProfile;
 import com.openevents.model.interfaces.OnListPillListener;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,6 @@ public class PillAdapter extends RecyclerView.Adapter<PillAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Set text to pill
         holder.pill.setText(categories[position]);
-
         holder.setStatus(this.status.get(position));
     }
 

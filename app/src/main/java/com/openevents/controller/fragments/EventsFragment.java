@@ -229,7 +229,7 @@ public class EventsFragment extends Fragment implements ActivityState, OnListEve
     public void onEventClicked(int index) {
         getParentFragmentManager().beginTransaction().
                 add(R.id.home_fragment_container,
-                        new EventDetailsFragment(this.eventsFiltered.get(index))).
+                        new EventDetailsFragment(this.eventsFiltered.get(index), false)).
                 addToBackStack(this.getClass().getName()).
                 commit();
     }
