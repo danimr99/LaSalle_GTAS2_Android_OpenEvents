@@ -79,6 +79,8 @@
     <string name="deleteEventLabel">Delete event</string>
     <string name="commentEventLabel">Comment</string>
     <string name="rateEventLabel">Rate</string>
+    <string name="editEventLabel">Edit</string>
+    <string name="leaveEventLabel">Leave</string>
     <string name="sendFriendRequestLabel">Send friend request</string>
     <string name="deleteFriendshipLabel">Delete friendship</string>
     <string name="allUsersLabel">All users</string>
