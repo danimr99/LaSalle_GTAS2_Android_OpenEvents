@@ -153,45 +153,45 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
         this.popularEventsFiltered = filteredList;
 
         // Update adapter
-        this.popularEventsAdapter.filter(filteredList);
+        this.popularEventsAdapter.updateDataset(filteredList);
     }
 
     private void getPopularEvents() {
         this.apiManager.getPopularEvents(this.sharedPrefs.getAuthenticationToken(),
                 new Callback<ArrayList<Event>>() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onResponse(@NonNull Call<ArrayList<Event>> call,
-                                   @NonNull Response<ArrayList<Event>> response) {
-                if (response.isSuccessful()) {
-                    if(response.body() != null) {
-                        // Get events from response
-                        popularEvents = response.body();
-                        popularEventsFiltered = popularEvents;
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onResponse(@NonNull Call<ArrayList<Event>> call,
+                                           @NonNull Response<ArrayList<Event>> response) {
+                        if (response.isSuccessful()) {
+                            if(response.body() != null) {
+                                // Get events from response
+                                popularEvents = response.body();
+                                popularEventsFiltered = popularEvents;
 
-                        // Create EventsAdapter and pass it to the events recycler view
-                        popularEventsAdapter = new PopularEventsAdapter(popularEventsFiltered, HomeFragment.this);
-                        popularEventsRecyclerView.setAdapter(popularEventsAdapter);
+                                // Create EventsAdapter and pass it to the events recycler view
+                                popularEventsAdapter = new PopularEventsAdapter(popularEventsFiltered, HomeFragment.this);
+                                popularEventsRecyclerView.setAdapter(popularEventsAdapter);
 
-                        // Update dataset and view
-                        popularEventsAdapter.notifyDataSetChanged();
-                        onDataReceived();
-                    } else {
-                        // Set activity status to no data received
-                        onNoDataReceived();
+                                // Update dataset and view
+                                popularEventsAdapter.notifyDataSetChanged();
+                                onDataReceived();
+                            } else {
+                                // Set activity status to no data received
+                                onNoDataReceived();
+                            }
+                        } else {
+                            // Set activity status to no data received
+                            onNoDataReceived();
+                        }
                     }
-                } else {
-                    // Set activity status to no data received
-                    onNoDataReceived();
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<Event>> call, @NonNull Throwable t) {
-                // Set activity status to connection failure
-                onConnectionFailure();
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Call<ArrayList<Event>> call, @NonNull Throwable t) {
+                        // Set activity status to connection failure
+                        onConnectionFailure();
+                    }
+                });
     }
 
     @Override
