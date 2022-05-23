@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Inflate view with the ImageSelectorFragment
         if (this.fragment == null) {
-            this.fragment = new ImageSelectorFragment();
+            this.fragment = new ImageSelectorFragment(true);
             fm.beginTransaction().add(R.id.image_selector_fragment_container, this.fragment).commit();
         }
 
