@@ -5,7 +5,7 @@ import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.Event;
-import com.openevents.api.responses.FriendshipResponse;
+import com.openevents.api.responses.QueryResponse;
 import com.openevents.api.responses.RegisteredUser;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.api.responses.User;
@@ -75,6 +75,10 @@ public interface API {
     Call<RegisteredUser> editAccount(@Header("Authorization") String authenticationToken,
                                                 @Body CreatedUser createdUser);
 
+    @GET("users/{userID}/assistances/finished")
+    Call<ArrayList<Event>> getUserPastAssistances(@Header("Authorization") String authenticationToken,
+                                                  @Path("userID") int userID);
+
     /*
      * Events
      */
@@ -104,17 +108,28 @@ public interface API {
      * Friends
      */
     @POST("friends/{userID}")
-    Call<FriendshipResponse> sendFriendRequest(@Header("Authorization") String authenticationToken,
-                                               @Path("userID") int userID);
+    Call<QueryResponse> sendFriendRequest(@Header("Authorization") String authenticationToken,
+                                          @Path("userID") int userID);
 
     @GET("friends/requests")
     Call<ArrayList<UserProfile>> getFriendRequests(@Header("Authorization") String authenticationToken);
 
     @PUT("friends/{userID}")
-    Call<FriendshipResponse> acceptFriendRequest(@Header("Authorization") String authenticationToken,
-                            @Path("userID") int userID);
+    Call<QueryResponse> acceptFriendRequest(@Header("Authorization") String authenticationToken,
+                                            @Path("userID") int userID);
 
     @DELETE("friends/{userID}")
-    Call<FriendshipResponse> declineFriendRequest(@Header("Authorization") String authenticationToken,
-                                                  @Path("userID") int userID);
+    Call<QueryResponse> declineFriendRequest(@Header("Authorization") String authenticationToken,
+                                             @Path("userID") int userID);
+
+    /*
+     * Assistances
+     */
+    @POST("assistances/{userID}/{eventID}")
+    Call<Void> attendEvent(@Header("Authorization") String authenticationToken,
+                           @Path("userID") int userID, @Path("eventID") int eventID);
+
+    @DELETE("assistances/{userID}/{eventID}")
+    Call<QueryResponse> unattendEvent(@Header("Authorization") String authenticationToken,
+                           @Path("userID") int userID, @Path("eventID") int eventID);
 }

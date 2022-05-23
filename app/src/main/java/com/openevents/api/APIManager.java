@@ -4,7 +4,7 @@ import com.openevents.api.requests.CreatedEvent;
 import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.Assistance;
 import com.openevents.api.responses.Event;
-import com.openevents.api.responses.FriendshipResponse;
+import com.openevents.api.responses.QueryResponse;
 import com.openevents.api.responses.RegisteredUser;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.api.responses.UserStats;
@@ -99,6 +99,13 @@ public class APIManager {
         this.service.editAccount(authentication, createdUser).enqueue(callback);
     }
 
+    public void getUserPastAssistances(String authenticationToken, int userID,
+                                       Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getUserPastAssistances(authentication, userID).enqueue(callback);
+    }
+
+
     /*
      * Events
      */
@@ -155,7 +162,7 @@ public class APIManager {
      * Friends
      */
     public void sendFriendRequest(String authenticationToken, int userID,
-                                  Callback<FriendshipResponse> callback) {
+                                  Callback<QueryResponse> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.sendFriendRequest(authentication, userID).enqueue(callback);
     }
@@ -166,14 +173,29 @@ public class APIManager {
     }
 
     public void acceptFriendRequest(String authenticationToken, int userID,
-                                    Callback<FriendshipResponse> callback) {
+                                    Callback<QueryResponse> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.acceptFriendRequest(authentication, userID).enqueue(callback);
     }
 
     public void declineFriendRequest(String authenticationToken, int userID,
-                                     Callback<FriendshipResponse> callback) {
+                                     Callback<QueryResponse> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.declineFriendRequest(authentication, userID).enqueue(callback);
+    }
+
+    /*
+     * Assistances
+     */
+    public void attendEvent(String authenticationToken, int userID, int eventID,
+                            Callback<Void> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.attendEvent(authentication, userID, eventID).enqueue(callback);
+    }
+
+    public void unattendEvent(String authenticationToken, int userID, int eventID,
+                            Callback<QueryResponse> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.unattendEvent(authentication, userID, eventID).enqueue(callback);
     }
 }

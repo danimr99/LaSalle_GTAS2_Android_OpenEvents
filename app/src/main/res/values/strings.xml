@@ -136,6 +136,8 @@
     <string name="isNowYourFriend">is now your friend!</string>
     <string name="accountUpdatedSuccessfully">Information updated successfully</string>
     <string name="eventDeletedSuccessfully">Event deleted successfully</string>
+    <string name="joinedEventSuccessfully">You are now a participant of this event</string>
+    <string name="leaveEventSuccessfully">You have canceled your assistance to this event</string>
 
     <!-- Symbols -->
     <string name="dot">·</string>

@@ -145,9 +145,9 @@ public class EventCreationFragment extends Fragment {
             final NumberPicker numberPicker = new NumberPicker(getContext());
 
             // Configure number picker
-            numberPicker.setMinValue(1);
+            numberPicker.setMinValue(2);
             numberPicker.setMaxValue(10000);
-            numberPicker.setValue(1);
+            numberPicker.setValue(2);
             numberPicker.setWrapSelectorWheel(false);
 
             // Set on value changed listener

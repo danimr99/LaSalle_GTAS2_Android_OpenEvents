@@ -1,11 +1,9 @@
 package com.openevents.controller.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -18,7 +16,7 @@ import android.widget.TextView;
 import com.openevents.R;
 import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
-import com.openevents.api.responses.FriendshipResponse;
+import com.openevents.api.responses.QueryResponse;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.api.responses.UserStats;
 import com.openevents.constants.Constants;
@@ -241,10 +239,10 @@ public class UserProfileFragment extends Fragment {
 
     private void sendFriendRequest() {
         this.apiManager.sendFriendRequest(this.authenticationToken.getAccessToken(), this.user.getId(),
-                new Callback<FriendshipResponse>() {
+                new Callback<QueryResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<FriendshipResponse> call,
-                                           @NonNull Response<FriendshipResponse> response) {
+                    public void onResponse(@NonNull Call<QueryResponse> call,
+                                           @NonNull Response<QueryResponse> response) {
                         if (response.isSuccessful()) {
                             // Display dialog informing that friend request has been sent
                             Notification.showDialogNotification(getContext(),
@@ -262,7 +260,7 @@ public class UserProfileFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<FriendshipResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<QueryResponse> call, @NonNull Throwable t) {
                         Notification.showDialogNotification(getContext(),
                                 requireContext().getText(R.string.cannotConnectToServerError).toString());
                     }
@@ -271,10 +269,10 @@ public class UserProfileFragment extends Fragment {
 
     private void acceptFriendRequest() {
         this.apiManager.acceptFriendRequest(this.authenticationToken.getAccessToken(),
-                this.user.getId(), new Callback<FriendshipResponse>() {
+                this.user.getId(), new Callback<QueryResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<FriendshipResponse> call,
-                                           @NonNull Response<FriendshipResponse> response) {
+                    public void onResponse(@NonNull Call<QueryResponse> call,
+                                           @NonNull Response<QueryResponse> response) {
                         if (response.isSuccessful()) {
                             Notification.showDialogNotification(getContext(),
                                     user.getName() + " " + getText(R.string.isNowYourFriend));
@@ -291,7 +289,7 @@ public class UserProfileFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<FriendshipResponse> call,
+                    public void onFailure(@NonNull Call<QueryResponse> call,
                                           @NonNull Throwable t) {
                         Notification.showDialogNotification(getContext(),
                                 requireContext().getText(R.string.cannotConnectToServerError).toString());

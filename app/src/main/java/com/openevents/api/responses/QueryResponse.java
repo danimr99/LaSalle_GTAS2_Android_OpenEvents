@@ -2,7 +2,7 @@ package com.openevents.api.responses;
 
 import java.io.Serializable;
 
-public class FriendshipResponse implements Serializable {
+public class QueryResponse implements Serializable {
     private int fieldCount;
     private int affectedRows;
     private int insertID;
@@ -11,8 +11,8 @@ public class FriendshipResponse implements Serializable {
     private int warningStatus;
     private int changedRows;
 
-    public FriendshipResponse(int fieldCount, int affectedRows, int insertID, String info,
-                              int serverStatus, int warningStatus) {
+    public QueryResponse(int fieldCount, int affectedRows, int insertID, String info,
+                         int serverStatus, int warningStatus) {
         this.fieldCount = fieldCount;
         this.affectedRows = affectedRows;
         this.insertID = insertID;
@@ -21,8 +21,8 @@ public class FriendshipResponse implements Serializable {
         this.warningStatus = warningStatus;
     }
 
-    public FriendshipResponse(int fieldCount, int affectedRows, int insertID, String info,
-                              int serverStatus, int warningStatus, int changedRows) {
+    public QueryResponse(int fieldCount, int affectedRows, int insertID, String info,
+                         int serverStatus, int warningStatus, int changedRows) {
         this.fieldCount = fieldCount;
         this.affectedRows = affectedRows;
         this.insertID = insertID;
