@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -63,6 +64,15 @@ public abstract class DateHandler {
             return Objects.requireNonNull(d1).before(d2);
         } catch (ParseException e) {
             return false;
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static Date getDate(String date) {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(date);
+        } catch (ParseException e) {
+            return Calendar.getInstance().getTime();
         }
     }
 }
