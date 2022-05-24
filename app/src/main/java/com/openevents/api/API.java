@@ -75,9 +75,14 @@ public interface API {
     Call<RegisteredUser> editAccount(@Header("Authorization") String authenticationToken,
                                                 @Body CreatedUser createdUser);
 
+    @GET("users/{userID}/assistances")
+    Call<ArrayList<Event>> getUserJoinedEvents(@Header("Authorization") String authenticationToken,
+                                               @Path("userID") int userID);
+
     @GET("users/{userID}/assistances/finished")
     Call<ArrayList<Event>> getUserPastAssistances(@Header("Authorization") String authenticationToken,
                                                   @Path("userID") int userID);
+
 
     /*
      * Events
@@ -102,7 +107,7 @@ public interface API {
 
     @PUT("events/{eventID}")
     Call<Event> editEvent (@Header("Authorization") String authenticationToken,
-                            @Path("eventID") int eventID);
+                            @Path("eventID") int eventID, @Body CreatedEvent editedEvent);
 
     /*
      * Friends

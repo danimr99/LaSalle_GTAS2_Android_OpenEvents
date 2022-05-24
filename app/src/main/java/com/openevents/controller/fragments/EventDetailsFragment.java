@@ -1,11 +1,13 @@
 package com.openevents.controller.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,8 @@ import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -47,9 +51,8 @@ public class EventDetailsFragment extends Fragment {
     private TextView editButton;
     private TextView deleteButton;
     private TextView joinButton;
+    private TextView addToCalendarButton;
     private TextView leaveButton;
-    private TextView commentButton;
-    private TextView rateButton;
 
     // Variables
     private final Event event;
@@ -58,13 +61,13 @@ public class EventDetailsFragment extends Fragment {
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
-    private boolean mustUpdateOnPopBack;
+    private boolean fromMyEvents;
 
     public EventDetailsFragment(Event event, boolean fromMyEvents) {
         this.event = event;
         this.assistants = new ArrayList<>();
 
-        this.mustUpdateOnPopBack = fromMyEvents;
+        this.fromMyEvents = fromMyEvents;
     }
 
     @Override
@@ -108,9 +111,8 @@ public class EventDetailsFragment extends Fragment {
         this.deleteButton = view.findViewById(R.id.delete_text_view);
         this.editButton = view.findViewById(R.id.edit_text_view);
         this.joinButton = view.findViewById(R.id.join_text_view);
+        this.addToCalendarButton = view.findViewById(R.id.add_to_calendar_text_view);
         this.leaveButton = view.findViewById(R.id.leave_text_view);
-        this.commentButton = view.findViewById(R.id.comment_text_view);
-        this.rateButton = view.findViewById(R.id.rate_text_view);
 
         // Configure back arrow on click
         this.backArrow.setOnClickListener(v -> this.navigateBack());
@@ -124,14 +126,11 @@ public class EventDetailsFragment extends Fragment {
         // Set on click listener to join button
         this.joinButton.setOnClickListener(v -> joinEvent());
 
+        // Set on click listener to add event to calendar
+        this.addToCalendarButton.setOnClickListener(v -> addEventToCalendar());
+
         // Set on click listener to leave button
         this.leaveButton.setOnClickListener(v -> leaveEvent());
-
-        // Set on click listener to join button
-        this.commentButton.setOnClickListener(v -> commentEvent());
-
-        // Set on click listener to join button
-        this.rateButton.setOnClickListener(v -> rateEvent());
 
         return view;
     }
@@ -195,11 +194,12 @@ public class EventDetailsFragment extends Fragment {
             this.editButton.setVisibility(View.VISIBLE);
             this.deleteButton.setVisibility(View.VISIBLE);
             this.joinButton.setVisibility(View.GONE);
+            this.addToCalendarButton.setVisibility(View.VISIBLE);
         }
 
         // Check if there are still places to assist
         try {
-            if(assistants.size() < event.getParticipatorsQuantity()
+            if (assistants.size() < event.getParticipatorsQuantity()
                     && !Objects.equals(owner.getId(), loggedInUser.getId())) {
                 // Check if logged in user is a participant
                 if (assistants.stream().anyMatch(assistance ->
@@ -207,9 +207,11 @@ public class EventDetailsFragment extends Fragment {
                     // Logged in user is a participant
                     this.joinButton.setVisibility(View.GONE);
                     this.leaveButton.setVisibility(View.VISIBLE);
+                    this.addToCalendarButton.setVisibility(View.VISIBLE);
                 } else {
                     this.joinButton.setVisibility(View.VISIBLE);
                     this.leaveButton.setVisibility(View.GONE);
+                    this.addToCalendarButton.setVisibility(View.GONE);
                 }
             } else {
                 this.joinButton.setVisibility(View.GONE);
@@ -217,6 +219,7 @@ public class EventDetailsFragment extends Fragment {
         } catch (NullPointerException exception) {
             this.joinButton.setVisibility(View.GONE);
             this.leaveButton.setVisibility(View.GONE);
+            this.addToCalendarButton.setVisibility(View.GONE);
         }
     }
 
@@ -228,18 +231,24 @@ public class EventDetailsFragment extends Fragment {
                                            @NonNull Response<ArrayList<User>> response) {
                         if (response.isSuccessful()) {
                             if (response.body() != null) {
-                                // Get event owner
-                                User owner = response.body().get(0);
+                                try {
+                                    // Get event owner
+                                    User owner = response.body().get(0);
 
-                                // Update event details UI
-                                updateEventDetailsUI(event, owner);
+                                    // Update event details UI
+                                    updateEventDetailsUI(event, owner);
+                                } catch (IndexOutOfBoundsException exception) {
+                                    // Update event details UI
+                                    updateEventDetailsUI(event, null);
+                                }
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ArrayList<User>> call,
-                                          @NonNull Throwable t) {}
+                                          @NonNull Throwable t) {
+                    }
                 });
     }
 
@@ -293,8 +302,8 @@ public class EventDetailsFragment extends Fragment {
     }
 
     private void editEvent() {
-        /*requireActivity().getSupportFragmentManager().beginTransaction().
-                replace(R.id.home_fragment_container, new EditUserInfoFragment()).commit();*/
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.home_fragment_container, new EventEditionFragment(this.event, this.fromMyEvents)).commit();
     }
 
     private void joinEvent() {
@@ -315,6 +324,7 @@ public class EventDetailsFragment extends Fragment {
 
                             // Enable leave event button
                             leaveButton.setVisibility(View.VISIBLE);
+                            addToCalendarButton.setVisibility(View.VISIBLE);
                         } else {
                             Notification.showDialogNotification(getContext(),
                                     getText(R.string.serverConnectionFailed).toString());
@@ -327,6 +337,19 @@ public class EventDetailsFragment extends Fragment {
                                 getText(R.string.cannotConnectToServerError).toString());
                     }
                 });
+    }
+
+    private void addEventToCalendar() {
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra(CalendarContract.Events.TITLE, this.event.getName());
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                DateHandler.getDate(this.event.getEventStartDate()).getTime());
+        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                DateHandler.getDate(this.event.getEventEndDate()).getTime());
+        intent.putExtra(CalendarContract.Events.ALL_DAY, false);
+        intent.putExtra(CalendarContract.Events.DESCRIPTION, this.event.getDescription());
+        startActivity(intent);
     }
 
     private void leaveEvent() {
@@ -348,6 +371,7 @@ public class EventDetailsFragment extends Fragment {
 
                             // Disable leave event button
                             leaveButton.setVisibility(View.GONE);
+                            addToCalendarButton.setVisibility(View.GONE);
                         } else {
                             Notification.showDialogNotification(getContext(),
                                     getText(R.string.serverConnectionFailed).toString());
@@ -362,16 +386,8 @@ public class EventDetailsFragment extends Fragment {
                 });
     }
 
-    private void commentEvent() {
-
-    }
-
-    private void rateEvent() {
-
-    }
-
     private void navigateBack() {
-        if(mustUpdateOnPopBack) {
+        if (this.fromMyEvents) {
             requireActivity().getSupportFragmentManager().beginTransaction().
                     replace(R.id.home_fragment_container, new MyEventsTabFragment()).commit();
         } else {
