@@ -10,6 +10,7 @@
     <string name="acceptRequestButtonDescription">Accept request button</string>
     <string name="declineRequestButtonDescription">Decline request button</string>
     <string name="backArrowDescription">Back arrow button</string>
+    <string name="calendarDescription">Add event to calendar button</string>
     <string name="moreActionsDescription">More actions button</string>
     <string name="sendRequestButtonDescription">Send request button</string>
     <string name="deleteFriendButtonDescription">Delete friend button</string>
@@ -77,6 +78,7 @@
     <string name="createEventLabel">Create event</string>
     <string name="updateEventLabel">Update event</string>
     <string name="joinEventLabel">Join event</string>
+    <string name="addCalendarEventLabel">Add to calendar</string>
     <string name="logOutLabel">Log out</string>
     <string name="deleteAccountLabel">Delete account</string>
     <string name="deleteEventLabel">Delete event</string>
