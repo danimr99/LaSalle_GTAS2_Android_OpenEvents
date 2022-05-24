@@ -105,6 +105,12 @@ public class APIManager {
         this.service.getUserPastAssistances(authentication, userID).enqueue(callback);
     }
 
+    public void getUserJoinedEvents(String authenticationToken, int userID,
+                                    Callback<ArrayList<Event>> callback) {
+        String authentication = this.addBearerAuthenticationToken(authenticationToken);
+        this.service.getUserJoinedEvents(authentication, userID).enqueue(callback);
+    }
+
 
     /*
      * Events
