@@ -58,13 +58,13 @@ public class EventDetailsFragment extends Fragment {
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
-    private boolean mustUpdateOnPopBack;
+    private boolean fromMyEvents;
 
     public EventDetailsFragment(Event event, boolean fromMyEvents) {
         this.event = event;
         this.assistants = new ArrayList<>();
 
-        this.mustUpdateOnPopBack = fromMyEvents;
+        this.fromMyEvents = fromMyEvents;
     }
 
     @Override
@@ -199,7 +199,7 @@ public class EventDetailsFragment extends Fragment {
 
         // Check if there are still places to assist
         try {
-            if(assistants.size() < event.getParticipatorsQuantity()
+            if (assistants.size() < event.getParticipatorsQuantity()
                     && !Objects.equals(owner.getId(), loggedInUser.getId())) {
                 // Check if logged in user is a participant
                 if (assistants.stream().anyMatch(assistance ->
@@ -228,18 +228,24 @@ public class EventDetailsFragment extends Fragment {
                                            @NonNull Response<ArrayList<User>> response) {
                         if (response.isSuccessful()) {
                             if (response.body() != null) {
-                                // Get event owner
-                                User owner = response.body().get(0);
+                                try {
+                                    // Get event owner
+                                    User owner = response.body().get(0);
 
-                                // Update event details UI
-                                updateEventDetailsUI(event, owner);
+                                    // Update event details UI
+                                    updateEventDetailsUI(event, owner);
+                                } catch (IndexOutOfBoundsException exception) {
+                                    // Update event details UI
+                                    updateEventDetailsUI(event, null);
+                                }
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ArrayList<User>> call,
-                                          @NonNull Throwable t) {}
+                                          @NonNull Throwable t) {
+                    }
                 });
     }
 
@@ -293,8 +299,8 @@ public class EventDetailsFragment extends Fragment {
     }
 
     private void editEvent() {
-        /*requireActivity().getSupportFragmentManager().beginTransaction().
-                replace(R.id.home_fragment_container, new EditUserInfoFragment()).commit();*/
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.home_fragment_container, new EventEditionFragment(this.event, this.fromMyEvents)).commit();
     }
 
     private void joinEvent() {
@@ -371,7 +377,7 @@ public class EventDetailsFragment extends Fragment {
     }
 
     private void navigateBack() {
-        if(mustUpdateOnPopBack) {
+        if (this.fromMyEvents) {
             requireActivity().getSupportFragmentManager().beginTransaction().
                     replace(R.id.home_fragment_container, new MyEventsTabFragment()).commit();
         } else {

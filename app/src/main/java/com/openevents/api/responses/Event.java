@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Event implements Serializable {
+    @SerializedName("id")
     private int id;
     private String name;
     @SerializedName("owner_id")
@@ -44,6 +45,10 @@ public class Event implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

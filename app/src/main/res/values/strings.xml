@@ -21,8 +21,8 @@
     <string name="passwordTitle">Password</string>
     <string name="repeatPasswordTitle">Repeat password</string>
     <string name="signUpTitle">Sign up</string>
-    <string name="editUserInfoTitle">Edit information</string>
-    <string name="editEventInfoTitle">Edit information</string>
+    <string name="editUserInfoTitle">Edit account</string>
+    <string name="editEventInfoTitle">Edit event</string>
     <string name="locationTitle">Location</string>
     <string name="firstNameTitle">First name</string>
     <string name="lastNameTitle">Last name</string>
@@ -75,7 +75,7 @@
     <string name="acceptLabel">Accept</string>
     <string name="cancelLabel">Cancel</string>
     <string name="createEventLabel">Create event</string>
-    <string name="changeEventLabel">Submit changes</string>
+    <string name="updateEventLabel">Update event</string>
     <string name="joinEventLabel">Join event</string>
     <string name="logOutLabel">Log out</string>
     <string name="deleteAccountLabel">Delete account</string>
@@ -142,6 +142,7 @@
     <string name="friendRequestDeclined">Friend request declined successfully</string>
     <string name="registerSuccessful">Signed up successfully</string>
     <string name="eventCreatedSuccessfully">Event created successfully</string>
+    <string name="eventEditedSuccessfully">Event edited successfully</string>
     <string name="friendRequestSent">Friend request sent successfully</string>
     <string name="friendRequestAlreadySent">Friend request was already sent</string>
     <string name="isNowYourFriend">is now your friend!</string>

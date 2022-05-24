@@ -102,7 +102,7 @@ public interface API {
 
     @PUT("events/{eventID}")
     Call<Event> editEvent (@Header("Authorization") String authenticationToken,
-                            @Path("eventID") int eventID);
+                            @Path("eventID") int eventID, @Body CreatedEvent editedEvent);
 
     /*
      * Friends
