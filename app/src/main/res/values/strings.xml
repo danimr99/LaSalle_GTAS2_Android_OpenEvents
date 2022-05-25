@@ -152,6 +152,7 @@
     <string name="eventDeletedSuccessfully">Event deleted successfully</string>
     <string name="joinedEventSuccessfully">You are now a participant of this event</string>
     <string name="leaveEventSuccessfully">You have canceled your assistance to this event</string>
+    <string name="eventDeletedConfirmation">Are you sure that you want to delete your account?</string>
 
     <!-- Symbols -->
     <string name="dot">·</string>
