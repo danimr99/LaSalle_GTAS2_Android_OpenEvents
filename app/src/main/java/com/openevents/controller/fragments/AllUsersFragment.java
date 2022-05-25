@@ -136,7 +136,7 @@ public class AllUsersFragment extends Fragment implements OnListUserListener {
         this.usersFiltered = filteredList;
 
         // Update adapter
-        allUsersAdapter.filter(filteredList);
+        allUsersAdapter.filter(this.usersFiltered);
     }
 
     private void getUsers() {

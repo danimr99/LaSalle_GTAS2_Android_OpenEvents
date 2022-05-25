@@ -26,14 +26,12 @@ import com.openevents.api.responses.User;
 import com.openevents.api.responses.UserStats;
 import com.openevents.constants.Constants;
 import com.openevents.controller.LoginActivity;
-import com.openevents.controller.RegisterActivity;
 import com.openevents.controller.components.ImageSelectorFragment;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;

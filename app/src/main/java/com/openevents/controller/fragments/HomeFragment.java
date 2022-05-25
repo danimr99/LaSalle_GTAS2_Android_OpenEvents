@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
 
         // Set on click listener to "See all" label
         seeAll.setOnClickListener(v -> getParentFragmentManager().beginTransaction().
-                replace(R.id.home_fragment_container, new EventsFragment()).commit());
+                replace(R.id.home_fragment_container, new AllEventsFragment()).commit());
 
         // Configure search bar
         searchBar.addTextChangedListener(new TextWatcher() {

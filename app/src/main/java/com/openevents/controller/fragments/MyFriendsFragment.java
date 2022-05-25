@@ -100,6 +100,9 @@ public class MyFriendsFragment extends Fragment implements OnListUserListener {
                         // Get friends from API
                         friends = response.body();
 
+                        // Delete null user profiles (account deleted)
+                        friends.removeIf(userProfile -> userProfile.getEmail() == null);
+
                         // Create UsersAdapter and pass it to the users recycler view
                         friendsAdapter = new UsersAdapter(friends, MyFriendsFragment.this,
                                 TAG_MY_FRIENDS);
