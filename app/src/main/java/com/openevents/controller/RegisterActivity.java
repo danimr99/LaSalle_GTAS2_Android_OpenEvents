@@ -2,9 +2,9 @@ package com.openevents.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -27,15 +27,11 @@ import com.openevents.utils.Notification;
 import java.io.IOException;
 import java.util.Objects;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
-    // UI Components
-    private ImageSelectorFragment fragment;
-    private CircleImageView profileImage;
     private TextInputLayout emailLayout;
     private EditText email;
     private TextInputLayout nameLayout;
@@ -46,7 +42,6 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText password;
     private TextInputLayout repeatPasswordLayout;
     private TextInputEditText repeatPassword;
-    private Button createAccountButton;
 
     // Variables
     private APIManager apiManager;
@@ -61,15 +56,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Create ImageSelectorFragment
         FragmentManager fm = this.getSupportFragmentManager();
-        this.fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.image_selector_fragment_container);
+        // UI Components
+        ImageSelectorFragment fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.image_selector_fragment_container);
 
         // Inflate view with the ImageSelectorFragment
-        if (this.fragment == null) {
-            this.fragment = new ImageSelectorFragment(true);
-            fm.beginTransaction().add(R.id.image_selector_fragment_container, this.fragment).commit();
+        if (fragment == null) {
+            fragment = new ImageSelectorFragment(true);
+            fm.beginTransaction().add(R.id.image_selector_fragment_container, fragment).commit();
         }
 
         // Get each component from the view
+        ImageView backArrow = findViewById(R.id.sign_up_back_arrow);
         this.emailLayout = findViewById(R.id.email_input_layout);
         this.email = findViewById(R.id.email_input);
         this.nameLayout = findViewById(R.id.first_name_input_layout);
@@ -80,20 +77,18 @@ public class RegisterActivity extends AppCompatActivity {
         this.password = findViewById(R.id.password_input);
         this.repeatPasswordLayout = findViewById(R.id.repeat_password_input_layout);
         this.repeatPassword = findViewById(R.id.repeat_password_input);
-        this.createAccountButton = findViewById(R.id.register_button);
+        Button createAccountButton = findViewById(R.id.register_button);
 
-        // Set onClickListener to button
-        this.createAccountButton.setOnClickListener(view -> this.createAccount());
+        // Set on click listener to back arrow
+        backArrow.setOnClickListener(v -> this.onBackPressed());
+
+        // Set on click listener to button
+        createAccountButton.setOnClickListener(view -> this.createAccount());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        // Get profile image view once the fragment has been loaded
-        View fragmentView = this.fragment.getView();
-        this.profileImage = fragmentView != null ?
-                fragmentView.findViewById(R.id.image_selector) : null;
     }
 
     private boolean checkEmail(String email) {
@@ -222,7 +217,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 emailLayout.setError(getText(R.string.alreadyExistsEmailError));
                             }
                         } catch (IOException e) {
-                            Notification.showDialogNotification(getApplicationContext(),
+                            Notification.showDialogNotification(RegisterActivity.this,
                                     getText(R.string.registerError).toString());
                         }
                     }
@@ -230,7 +225,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<RegisteredUser> call, @NonNull Throwable t) {
-                    Notification.showDialogNotification(getApplicationContext(),
+                    Notification.showDialogNotification(RegisterActivity.this,
                             getText(R.string.cannotConnectToServerError).toString());
                 }
             });
@@ -238,7 +233,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void showRegisterSuccessfulDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
         builder.setMessage(this.getText(R.string.registerSuccessful));
         builder.setCancelable(true);
 

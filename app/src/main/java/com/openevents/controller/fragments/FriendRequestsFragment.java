@@ -1,5 +1,6 @@
 package com.openevents.controller.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,13 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.openevents.R;
 import com.openevents.api.APIManager;
+import com.openevents.api.ActivityState;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.adapters.UsersAdapter;
-import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListUserListener;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
@@ -28,16 +30,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class FriendRequestsFragment extends Fragment implements OnListUserListener {
+public class FriendRequestsFragment extends Fragment implements OnListUserListener, ActivityState {
     // Constants
     public static final String TAG_FRIEND_REQUESTS = "FRIEND_REQUESTS";
 
     // UI Components
     private RecyclerView friendRequestsRecyclerView;
     private UsersAdapter friendRequestsAdapter;
+    private TextView friendRequestsStatusText;
 
     // Variables
-    private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
     private ArrayList<UserProfile> friendRequests;
@@ -58,11 +60,12 @@ public class FriendRequestsFragment extends Fragment implements OnListUserListen
         View view = inflater.inflate(R.layout.fragment_friend_requests, container, false);
 
         // Get instance of SharedPrefs
-        this.sharedPrefs = SharedPrefs.getInstance(getContext());
+        // Variables
+        SharedPrefs sharedPrefs = SharedPrefs.getInstance(getContext());
 
         // Get user authentication token
         this.authenticationToken =
-                new AuthenticationToken(this.sharedPrefs.getAuthenticationToken());
+                new AuthenticationToken(sharedPrefs.getAuthenticationToken());
 
         // Get an instance of APIManager and get friends from API
         this.apiManager = APIManager.getInstance();
@@ -70,6 +73,10 @@ public class FriendRequestsFragment extends Fragment implements OnListUserListen
 
         // Get all components from view
         this.friendRequestsRecyclerView = view.findViewById(R.id.friend_requests_recycler_view);
+        this.friendRequestsStatusText = view.findViewById(R.id.friend_requests_status_text);
+
+        // Set activity status to loading
+        this.loading();
 
         // Configure horizontal layout for the events recycler view
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),
@@ -88,11 +95,12 @@ public class FriendRequestsFragment extends Fragment implements OnListUserListen
 
     private void getFriendRequests() {
         this.apiManager.getFriendRequests(this.authenticationToken.getAccessToken(), new Callback<ArrayList<UserProfile>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(@NonNull Call<ArrayList<UserProfile>> call,
                                    @NonNull Response<ArrayList<UserProfile>> response) {
-                if(response.isSuccessful()) {
-                    if(response.body() != null) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
                         // Get friend requests from API
                         friendRequests = response.body();
 
@@ -103,17 +111,55 @@ public class FriendRequestsFragment extends Fragment implements OnListUserListen
 
                         // Update UI
                         friendRequestsAdapter.notifyDataSetChanged();
+                        onDataReceived();
+                    } else {
+                        // Set activity status to no data received
+                        onNoDataReceived();
                     }
+                } else {
+                    // Set activity status to no data received
+                    onNoDataReceived();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<UserProfile>> call,
                                   @NonNull Throwable t) {
-                Notification.showDialogNotification(getContext(),
-                        getText(R.string.cannotConnectToServerError).toString());
+                // Set activity status to connection failure
+                onConnectionFailure();
             }
         });
+    }
+
+    @Override
+    public void loading() {
+        this.friendRequestsStatusText.setVisibility(View.VISIBLE);
+        this.friendRequestsStatusText.setText(getText(R.string.loading));
+        this.friendRequestsRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDataReceived() {
+        if(this.friendRequests.isEmpty()) {
+            this.onNoDataReceived();
+        } else {
+            this.friendRequestsStatusText.setVisibility(View.GONE);
+            this.friendRequestsRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onNoDataReceived() {
+        this.friendRequestsStatusText.setVisibility(View.VISIBLE);
+        this.friendRequestsStatusText.setText(getText(R.string.noFriendRequests));
+        this.friendRequestsRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onConnectionFailure() {
+        this.friendRequestsStatusText.setVisibility(View.VISIBLE);
+        this.friendRequestsStatusText.setText(getText(R.string.serverConnectionFailed));
+        this.friendRequestsRecyclerView.setVisibility(View.GONE);
     }
 
     @Override

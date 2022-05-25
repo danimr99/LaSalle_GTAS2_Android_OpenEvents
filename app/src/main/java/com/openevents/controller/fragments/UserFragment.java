@@ -1,14 +1,15 @@
 package com.openevents.controller.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.openevents.api.responses.UserStats;
 import com.openevents.constants.Constants;
 import com.openevents.controller.LoginActivity;
 import com.openevents.controller.components.ImageSelectorFragment;
+import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
@@ -103,9 +105,8 @@ public class UserFragment extends Fragment {
         this.profileNumberOfComments = view.findViewById(R.id.user_number_comments);
         this.profilePercentageLessComments = view.findViewById(R.id.user_percentage_users_less_comments);
 
-        //Set onClickListener popup menu when on click of imageButton
+        // Set onClickListener popup menu when on click of imageButton
         ImageView imageButton = view.findViewById(R.id.more_actions_button);
-
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +130,7 @@ public class UserFragment extends Fragment {
                             break;
                         case R.id.delete_account:
                             // Delete account
-                            deleteAccount();
+                            showDeleteAccountConfirmationDialog();
                             break;
                     }
                     return false;
@@ -162,7 +163,7 @@ public class UserFragment extends Fragment {
                     @Override
                     public void onResponse(@NonNull Call<ArrayList<User>> call, @NonNull Response<ArrayList<User>> response) {
                         if (response.isSuccessful()) {
-                            if(response.body() != null) {
+                            if (response.body() != null) {
                                 // Get user from response
                                 User user = response.body().get(0);
 
@@ -188,7 +189,7 @@ public class UserFragment extends Fragment {
 
     private void updateUserDataUI(User user) {
         // Set image from the user
-        if(user.getImage() != null && user.getImage().trim().length() != 0) {
+        if (user.getImage() != null && user.getImage().trim().length() != 0) {
             Picasso.get()
                     .load(user.getImage())
                     .placeholder(R.drawable.user_placeholder)
@@ -215,8 +216,8 @@ public class UserFragment extends Fragment {
         this.apiManager.getUserStats(this.authenticationToken.getAccessToken(), userID, new Callback<UserStats>() {
             @Override
             public void onResponse(@NonNull Call<UserStats> call, @NonNull Response<UserStats> response) {
-                if(response.isSuccessful()) {
-                    if(response.body() != null) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
                         UserStats stats = response.body();
 
                         // Update UI with user stats
@@ -226,7 +227,8 @@ public class UserFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<UserStats> call, @NonNull Throwable t) {}
+            public void onFailure(@NonNull Call<UserStats> call, @NonNull Throwable t) {
+            }
         });
     }
 
@@ -235,7 +237,7 @@ public class UserFragment extends Fragment {
         String percentageCommentersBelow = stats.getPercentageCommentersBelow();
 
         // Check if user has average score
-        if(averageScore == null) {
+        if (averageScore == null) {
             averageScore = (String) getText(R.string.noAverageScore);
             percentageCommentersBelow = (String) getText(R.string.noPercentageCommentersBelow);
         }
@@ -261,18 +263,39 @@ public class UserFragment extends Fragment {
         requireActivity().finish();
     }
 
+    private void showDeleteAccountConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setMessage(this.getText(R.string.eventDeletedConfirmation));
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(R.string.acceptLabel, (dialog, button) -> this.deleteAccount());
+        builder.setNegativeButton(R.string.cancelLabel, (dialog, button) -> dialog.dismiss());
+
+        builder.setOnDismissListener(DialogInterface::dismiss);
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     private void deleteAccount() {
         this.apiManager.deleteAccount(this.authenticationToken.getAccessToken(),
                 new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                if(response.isSuccessful()) {
-                    logout();
-                }
-            }
+                    @Override
+                    public void onResponse(@NonNull Call<Void> call,
+                                           @NonNull Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            logout();
+                        } else {
+                            Notification.showDialogNotification(getContext(),
+                                    getText(R.string.serverConnectionFailed).toString());
+                        }
+                    }
 
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {}
-        });
+                    @Override
+                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                        Notification.showDialogNotification(getContext(),
+                                getText(R.string.cannotConnectToServerError).toString());
+                    }
+                });
     }
 }

@@ -1,5 +1,6 @@
 package com.openevents.controller.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -34,12 +35,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class EventsFragment extends Fragment implements ActivityState, OnListEventListener {
+public class AllEventsFragment extends Fragment implements ActivityState, OnListEventListener {
     // UI Components
-    private EditText searchBar;
-    private LinearLayout sortByStartDate;
     private ImageView sortByStartDateIcon;
-    private TextView sortByStartDateText;
     private TextView eventsStatusText;
     private RecyclerView eventsRecyclerView;
     private EventsAdapter eventsAdapter;
@@ -51,7 +49,7 @@ public class EventsFragment extends Fragment implements ActivityState, OnListEve
     private ArrayList<Event> eventsFiltered;
     private boolean ascOrder;
 
-    public EventsFragment() {
+    public AllEventsFragment() {
         this.events = new ArrayList<>();
         this.events = new ArrayList<>();
         this.ascOrder = true;
@@ -77,18 +75,17 @@ public class EventsFragment extends Fragment implements ActivityState, OnListEve
         this.getEvents();
 
         // Get components from view
-        this.searchBar = view.findViewById(R.id.events_search_bar);
+        EditText searchBar = view.findViewById(R.id.events_search_bar);
         this.eventsRecyclerView = view.findViewById(R.id.events_recycler_view);
-        this.eventsStatusText = view.findViewById(R.id.events_status_text);
-        this.sortByStartDate = view.findViewById(R.id.sort_by_start_date);
+        this.eventsStatusText = view.findViewById(R.id.all_events_status_text);
+        LinearLayout sortByStartDate = view.findViewById(R.id.sort_by_start_date);
         this.sortByStartDateIcon = view.findViewById(R.id.sort_by_start_date_icon);
-        this.sortByStartDateText = view.findViewById(R.id.sort_by_start_date_label);
 
         // Set activity status to loading
         this.loading();
 
         // Configure search bar
-        this.searchBar.addTextChangedListener(new TextWatcher() {
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -106,7 +103,7 @@ public class EventsFragment extends Fragment implements ActivityState, OnListEve
         });
 
         // Configure on click listener for the sort toggle
-        this.sortByStartDate.setOnClickListener(v -> toggleSortByStartDateOrder());
+        sortByStartDate.setOnClickListener(v -> toggleSortByStartDateOrder());
 
         // Configure horizontal layout for the events recycler view
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),
@@ -116,6 +113,7 @@ public class EventsFragment extends Fragment implements ActivityState, OnListEve
         return view;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void toggleSortByStartDateOrder() {
         // Set icon to the corresponding rotation
         if(this.ascOrder) {
@@ -157,13 +155,22 @@ public class EventsFragment extends Fragment implements ActivityState, OnListEve
         // Save list of filtered popular events
         this.eventsFiltered = filteredList;
 
+        // Update UI
+        if(this.eventsFiltered.isEmpty()) {
+            this.eventsStatusText.setVisibility(View.VISIBLE);
+            this.eventsStatusText.setText(getText(R.string.noEvents));
+        } else {
+            this.eventsStatusText.setVisibility(View.GONE);
+        }
+
         // Update adapter
-        eventsAdapter.updateDataset(filteredList);
+        eventsAdapter.updateDataset(this.eventsFiltered);
     }
 
     private void getEvents() {
         this.apiManager.getEvents(this.sharedPrefs.getAuthenticationToken(),
                 new Callback<ArrayList<Event>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(@NonNull Call<ArrayList<Event>> call,
                                    @NonNull Response<ArrayList<Event>> response) {
@@ -174,7 +181,7 @@ public class EventsFragment extends Fragment implements ActivityState, OnListEve
                         eventsFiltered = events;
 
                         // Create EventsAdapter and pass it to the events recycler view
-                        eventsAdapter = new EventsAdapter(eventsFiltered, EventsFragment.this);
+                        eventsAdapter = new EventsAdapter(eventsFiltered, AllEventsFragment.this);
                         eventsRecyclerView.setAdapter(eventsAdapter);
 
                         // Update dataset and view

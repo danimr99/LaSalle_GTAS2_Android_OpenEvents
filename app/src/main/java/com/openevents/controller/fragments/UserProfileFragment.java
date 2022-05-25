@@ -31,11 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserProfileFragment extends Fragment {
-    // Components UI
-    private ImageView backArrow;
-    private ImageView profileImage;
-    private TextView profileName;
-    private TextView profileEmail;
+    // UI Components
     private TextView profileAverageScore;
     private TextView profileNumberOfComments;
     private TextView profilePercentageLessComments;
@@ -83,10 +79,10 @@ public class UserProfileFragment extends Fragment {
         this.checkFriendshipStatus();
 
         // Get all components from view
-        this.backArrow = view.findViewById(R.id.profile_back_arrow);
-        this.profileImage = view.findViewById(R.id.profile_image);
-        this.profileName = view.findViewById(R.id.profile_name);
-        this.profileEmail = view.findViewById(R.id.profile_email);
+        ImageView backArrow = view.findViewById(R.id.profile_back_arrow);
+        ImageView profileImage = view.findViewById(R.id.profile_image);
+        TextView profileName = view.findViewById(R.id.profile_name);
+        TextView profileEmail = view.findViewById(R.id.profile_email);
         this.profileAverageScore = view.findViewById(R.id.profile_average_score);
         this.profileNumberOfComments = view.findViewById(R.id.profile_number_comments);
         this.profilePercentageLessComments = view.findViewById(R.id.profile_percentage_users_less_comments);
@@ -101,17 +97,17 @@ public class UserProfileFragment extends Fragment {
                     .placeholder(R.drawable.user_placeholder)
                     .error(R.drawable.user_placeholder)
                     .resize(Constants.MAX_IMAGE_WIDTH, Constants.MAX_IMAGE_HEIGHT)
-                    .into(this.profileImage);
+                    .into(profileImage);
         } else {
-            Picasso.get().load(R.drawable.user_placeholder).into(this.profileImage);
+            Picasso.get().load(R.drawable.user_placeholder).into(profileImage);
         }
 
         // Set data to each component
-        this.profileName.setText(this.user.getName() + " " + this.user.getLastName());
-        this.profileEmail.setText(this.user.getEmail());
+        profileName.setText(this.user.getName() + " " + this.user.getLastName());
+        profileEmail.setText(this.user.getEmail());
 
         // Configure back arrow on click
-        this.backArrow.setOnClickListener(v -> this.navigateBack());
+        backArrow.setOnClickListener(v -> this.navigateBack());
 
         // Configure friendship buttons
         this.sendFriendRequestButton.setOnClickListener(v -> {

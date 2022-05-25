@@ -1,5 +1,6 @@
 package com.openevents.controller.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,13 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.openevents.R;
 import com.openevents.api.APIManager;
+import com.openevents.api.ActivityState;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.adapters.UsersAdapter;
-import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListUserListener;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
@@ -31,14 +33,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class AllUsersFragment extends Fragment implements OnListUserListener {
+public class AllUsersFragment extends Fragment implements OnListUserListener, ActivityState {
     // Constants
     public static final String TAG_ALL_USERS = "ALL_USERS";
 
     // UI Components
-    private EditText searchBar;
     private RecyclerView allUsersRecyclerView;
     private UsersAdapter allUsersAdapter;
+    private TextView usersStatusText;
 
     // Variables
     private ArrayList<UserProfile> users;
@@ -75,17 +77,22 @@ public class AllUsersFragment extends Fragment implements OnListUserListener {
         this.getUsers();
 
         // Get all components from view
-        this.searchBar = view.findViewById(R.id.users_search_bar);
+        EditText searchBar = view.findViewById(R.id.users_search_bar);
         this.allUsersRecyclerView = view.findViewById(R.id.all_users_recycler_view);
+        this.usersStatusText = view.findViewById(R.id.all_users_status_text);
+
+        // Set activity status to loading
+        this.loading();
 
         // Configure search bar
-        this.searchBar.addTextChangedListener(new TextWatcher() {
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if(charSequence.length() == 0) {
+                if (charSequence.length() == 0) {
                     usersFiltered = users;
                 } else {
                     filter(charSequence.toString());
@@ -93,7 +100,8 @@ public class AllUsersFragment extends Fragment implements OnListUserListener {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         // Configure horizontal layout for the events recycler view
@@ -121,13 +129,13 @@ public class AllUsersFragment extends Fragment implements OnListUserListener {
             }
 
             // Check for profile last name
-            if(profile.getLastName().toLowerCase().contains(text.toLowerCase()) &&
+            if (profile.getLastName().toLowerCase().contains(text.toLowerCase()) &&
                     !filteredList.contains(profile)) {
                 filteredList.add(profile);
             }
 
             // Check for profile email
-            if(profile.getEmail().toLowerCase().contains(text.toLowerCase()) &&
+            if (profile.getEmail().toLowerCase().contains(text.toLowerCase()) &&
                     !filteredList.contains(profile)) {
                 filteredList.add(profile);
             }
@@ -136,8 +144,16 @@ public class AllUsersFragment extends Fragment implements OnListUserListener {
         // Save list of filtered popular events
         this.usersFiltered = filteredList;
 
+        // Update UI
+        if (this.usersFiltered.isEmpty()) {
+            this.usersStatusText.setVisibility(View.VISIBLE);
+            this.usersStatusText.setText(getText(R.string.noUsers));
+        } else {
+            this.usersStatusText.setVisibility(View.GONE);
+        }
+
         // Update adapter
-        allUsersAdapter.filter(filteredList);
+        allUsersAdapter.filter(this.usersFiltered);
     }
 
     private void getUsers() {
@@ -146,36 +162,44 @@ public class AllUsersFragment extends Fragment implements OnListUserListener {
 
         this.apiManager.getUsers(this.authenticationToken.getAccessToken(),
                 new Callback<ArrayList<UserProfile>>() {
-            @Override
-            public void onResponse(@NonNull Call<ArrayList<UserProfile>> call,
-                                   @NonNull Response<ArrayList<UserProfile>> response) {
-                if(response.isSuccessful()) {
-                    if(response.body() != null) {
-                        // Get users from API
-                        users = response.body();
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onResponse(@NonNull Call<ArrayList<UserProfile>> call,
+                                           @NonNull Response<ArrayList<UserProfile>> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body() != null) {
+                                // Get users from API
+                                users = response.body();
 
-                        // Remove logged in user from the list of users
-                        users.removeIf(userProfile -> userProfile.getId() == loggedInUserID);
-                        usersFiltered = users;
+                                // Remove logged in user from the list of users
+                                users.removeIf(userProfile -> userProfile.getId() == loggedInUserID);
+                                usersFiltered = users;
 
-                        // Create UsersAdapter and pass it to the users recycler view
-                        allUsersAdapter = new UsersAdapter(usersFiltered, AllUsersFragment.this,
-                                TAG_ALL_USERS);
-                        allUsersRecyclerView.setAdapter(allUsersAdapter);
+                                // Create UsersAdapter and pass it to the users recycler view
+                                allUsersAdapter = new UsersAdapter(usersFiltered, AllUsersFragment.this,
+                                        TAG_ALL_USERS);
+                                allUsersRecyclerView.setAdapter(allUsersAdapter);
 
-                        // Update UI
-                        allUsersAdapter.notifyDataSetChanged();
+                                // Update UI
+                                allUsersAdapter.notifyDataSetChanged();
+                                onDataReceived();
+                            } else {
+                                // Set activity status to no data received
+                                onNoDataReceived();
+                            }
+                        } else {
+                            // Set activity status to no data received
+                            onNoDataReceived();
+                        }
                     }
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<UserProfile>> call,
-                                  @NonNull Throwable t) {
-                Notification.showDialogNotification(getContext(),
-                        getText(R.string.cannotConnectToServerError).toString());
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Call<ArrayList<UserProfile>> call,
+                                          @NonNull Throwable t) {
+                        // Set activity status to connection failure
+                        onConnectionFailure();
+                    }
+                });
     }
 
     @Override
@@ -185,5 +209,32 @@ public class AllUsersFragment extends Fragment implements OnListUserListener {
                         new UserProfileFragment(this.usersFiltered.get(index))).
                 addToBackStack(this.getClass().getName()).
                 commit();
+    }
+
+    @Override
+    public void loading() {
+        this.usersStatusText.setVisibility(View.VISIBLE);
+        this.usersStatusText.setText(getText(R.string.loading));
+        this.allUsersRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDataReceived() {
+        this.usersStatusText.setVisibility(View.GONE);
+        this.allUsersRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onNoDataReceived() {
+        this.usersStatusText.setVisibility(View.VISIBLE);
+        this.usersStatusText.setText(getText(R.string.noPopularEvents));
+        this.allUsersRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onConnectionFailure() {
+        this.usersStatusText.setVisibility(View.VISIBLE);
+        this.usersStatusText.setText(getText(R.string.serverConnectionFailed));
+        this.allUsersRecyclerView.setVisibility(View.GONE);
     }
 }

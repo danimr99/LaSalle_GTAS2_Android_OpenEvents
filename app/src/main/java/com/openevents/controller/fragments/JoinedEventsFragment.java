@@ -10,14 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.openevents.R;
 import com.openevents.api.APIManager;
+import com.openevents.api.ActivityState;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.Event;
 import com.openevents.model.adapters.EventsAdapter;
 import com.openevents.model.interfaces.OnListEventListener;
-import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -27,8 +28,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class JoinedEventsFragment extends Fragment implements OnListEventListener {
+public class JoinedEventsFragment extends Fragment implements OnListEventListener, ActivityState {
     // UI Components
+    private TextView joinedStatusText;
     private RecyclerView joinedRecyclerView;
     private EventsAdapter joinedAdapter;
 
@@ -40,7 +42,6 @@ public class JoinedEventsFragment extends Fragment implements OnListEventListene
 
     public JoinedEventsFragment() {
         this.joinedEvents = new ArrayList<>();
-
     }
 
     @Override
@@ -67,6 +68,10 @@ public class JoinedEventsFragment extends Fragment implements OnListEventListene
 
         // Get all components from view
         this.joinedRecyclerView = view.findViewById(R.id.joined_events_recycler_view);
+        this.joinedStatusText = view.findViewById(R.id.joined_events_status_text);
+
+        // Set activity status to loading
+        this.loading();
 
         // Configure horizontal layout for the events created recycler view
         LinearLayoutManager linearLayoutManagerEventsCreated = new LinearLayoutManager(view.getContext(),
@@ -93,13 +98,20 @@ public class JoinedEventsFragment extends Fragment implements OnListEventListene
                         joinedAdapter = new EventsAdapter(joinedEvents,
                                 JoinedEventsFragment.this);
                         joinedRecyclerView.setAdapter(joinedAdapter);
+
+                        // Update UI
+                        onDataReceived();
+                    } else {
+                        onNoDataReceived();
                     }
+                } else {
+                    onNoDataReceived();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<Event>> call, @NonNull Throwable t) {
-
+                onConnectionFailure();
             }
         });
     }
@@ -111,5 +123,37 @@ public class JoinedEventsFragment extends Fragment implements OnListEventListene
                         new EventDetailsFragment(this.joinedEvents.get(index), false)).
                 addToBackStack(this.getClass().getName()).
                 commit();
+    }
+
+    @Override
+    public void loading() {
+        this.joinedStatusText.setVisibility(View.VISIBLE);
+        this.joinedStatusText.setText(getText(R.string.loading));
+        this.joinedRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDataReceived() {
+        if(this.joinedEvents.isEmpty()) {
+            this.onNoDataReceived();
+        } else {
+            this.joinedStatusText.setVisibility(View.GONE);
+            this.joinedRecyclerView.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @Override
+    public void onNoDataReceived() {
+        this.joinedStatusText.setVisibility(View.VISIBLE);
+        this.joinedStatusText.setText(getText(R.string.noJoinedEvents));
+        this.joinedRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onConnectionFailure() {
+        this.joinedStatusText.setVisibility(View.VISIBLE);
+        this.joinedStatusText.setText(getText(R.string.serverConnectionFailed));
+        this.joinedRecyclerView.setVisibility(View.GONE);
     }
 }

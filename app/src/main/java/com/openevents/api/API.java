@@ -135,6 +135,6 @@ public interface API {
                            @Path("userID") int userID, @Path("eventID") int eventID);
 
     @DELETE("assistances/{userID}/{eventID}")
-    Call<QueryResponse> unattendEvent(@Header("Authorization") String authenticationToken,
-                           @Path("userID") int userID, @Path("eventID") int eventID);
+    Call<QueryResponse> leaveEvent(@Header("Authorization") String authenticationToken,
+                                   @Path("userID") int userID, @Path("eventID") int eventID);
 }

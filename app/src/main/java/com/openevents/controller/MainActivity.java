@@ -20,7 +20,6 @@ import android.annotation.SuppressLint;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
@@ -93,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
         this.apiManager.getUserByEmail(authenticationToken.getAccessToken(), email,
                 new Callback<ArrayList<User>>() {
                     @Override
-                    public void onResponse(@NonNull Call<ArrayList<User>> call, @NonNull Response<ArrayList<User>> response) {
+                    public void onResponse(@NonNull Call<ArrayList<User>> call,
+                                           @NonNull Response<ArrayList<User>> response) {
                         if (response.isSuccessful()) {
                             if (response.body() != null) {
                                 User user;
@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
                                     // Save user to SharedPreferences
                                     sharedPrefs.saveUser(user);
-
                                 } catch (IndexOutOfBoundsException exception) {
                                     logout();
                                 }
@@ -115,7 +114,9 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<ArrayList<User>> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<ArrayList<User>> call,
+                                          @NonNull Throwable t) {
+                        logout();
                     }
                 });
     }
@@ -125,10 +126,9 @@ public class MainActivity extends AppCompatActivity {
         this.sharedPrefs.logout();
 
         // Redirect user to LoginActivity
-        Intent intent = new Intent(this.getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         this.finish();
     }
-
 }

@@ -1,5 +1,6 @@
 package com.openevents.controller;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,10 +8,9 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.openevents.R;
-import com.openevents.api.APIManager;
-import com.openevents.constants.Constants;
 import com.openevents.utils.SharedPrefs;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
     // Variables
     private SharedPrefs sharedPrefs;
@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
             // Navigate to the proper activity
             this.startActivity(intent);
 
-            // Finish this activity to remove it from the stack of activities0
+            // Finish this activity to remove it from the stack of activities
             this.finish();
         }, 2000);
     }

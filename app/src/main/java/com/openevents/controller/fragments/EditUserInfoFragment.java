@@ -1,6 +1,5 @@
 package com.openevents.controller.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,7 +7,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,23 +21,17 @@ import com.openevents.api.requests.CreatedUser;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.RegisteredUser;
 import com.openevents.constants.Constants;
-import com.openevents.controller.LoginActivity;
-import com.openevents.controller.RegisterActivity;
 import com.openevents.controller.components.ImageSelectorFragment;
-import com.openevents.utils.JsonManager;
 import com.openevents.utils.Notification;
 import com.openevents.utils.Numbers;
 import com.openevents.utils.SharedPrefs;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditUserInfoFragment extends Fragment {
-    private ImageSelectorFragment fragment;
-    private ImageView backArrow;
+    // UI Components
     private TextInputLayout emailLayout;
     private EditText email;
     private TextInputLayout firstNameLayout;
@@ -55,8 +47,6 @@ public class EditUserInfoFragment extends Fragment {
     // Variables
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
-
-    //API Manager
     private APIManager apiManager;
 
     public EditUserInfoFragment() {
@@ -86,16 +76,16 @@ public class EditUserInfoFragment extends Fragment {
 
         // Create ImageSelectorFragment
         FragmentManager fm = this.getChildFragmentManager();
-        this.fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.image_selector_fragment_container);
+        ImageSelectorFragment fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.image_selector_fragment_container);
 
         // Inflate view with the ImageSelectorFragment
-        if (this.fragment == null) {
-            this.fragment = new ImageSelectorFragment(true);
-            fm.beginTransaction().add(R.id.image_selector_fragment_container, this.fragment).commit();
+        if (fragment == null) {
+            fragment = new ImageSelectorFragment(true);
+            fm.beginTransaction().add(R.id.image_selector_fragment_container, fragment).commit();
         }
 
         // Get each component from the view
-        this.backArrow = view.findViewById(R.id.edit_profile_back_arrow);
+        ImageView backArrow = view.findViewById(R.id.edit_profile_back_arrow);
         this.emailLayout = view.findViewById(R.id.email_input_layout);
         this.email = view.findViewById(R.id.email_input);
         this.firstNameLayout = view.findViewById(R.id.first_name_input_layout);
@@ -109,7 +99,7 @@ public class EditUserInfoFragment extends Fragment {
         this.updateInfoButton = view.findViewById(R.id.update_user_info_button);
 
         // Set on click listener to the back arrow button
-        this.backArrow.setOnClickListener(v -> navigateBack());
+        backArrow.setOnClickListener(v -> navigateBack());
 
         // Set on click listener to the update information button
         this.updateInfoButton.setOnClickListener(v -> editUser());
@@ -256,7 +246,7 @@ public class EditUserInfoFragment extends Fragment {
     }
 
     private void showRegisterSuccessfulDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setMessage(this.getText(R.string.accountUpdatedSuccessfully));
         builder.setCancelable(true);
 
@@ -273,7 +263,6 @@ public class EditUserInfoFragment extends Fragment {
         AlertDialog alert = builder.create();
         alert.show();
     }
-
 
     private void navigateBack() {
         requireActivity().getSupportFragmentManager().beginTransaction().
