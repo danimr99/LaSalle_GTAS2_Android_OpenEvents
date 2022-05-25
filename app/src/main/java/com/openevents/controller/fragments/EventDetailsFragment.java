@@ -354,7 +354,7 @@ public class EventDetailsFragment extends Fragment {
         final int loggedInUserID = this.sharedPrefs.getUser().getId();
 
         // Attend to event
-        this.apiManager.unattendEvent(this.authenticationToken.getAccessToken(), loggedInUserID,
+        this.apiManager.leaveEvent(this.authenticationToken.getAccessToken(), loggedInUserID,
                 event.getId(), new Callback<QueryResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<QueryResponse> call,

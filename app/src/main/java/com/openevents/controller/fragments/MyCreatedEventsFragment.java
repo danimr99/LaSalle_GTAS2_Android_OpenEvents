@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openevents.R;
 import com.openevents.api.APIManager;
+import com.openevents.api.ActivityState;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.Event;
 import com.openevents.constants.Constants;
@@ -32,9 +34,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MyCreatedEventsFragment extends Fragment implements OnListEventListener, OnListPillListener {
+public class MyCreatedEventsFragment extends Fragment implements OnListEventListener,
+        OnListPillListener, ActivityState {
     // UI Components
+    private RecyclerView myCreatedEventsRecyclerView;
     private EventsAdapter myCreatedEventsAdapter;
+    private TextView myCreatedEventsStatusText;
 
     // Variables
     private final ArrayList<Event> myCreatedEvents;
@@ -85,8 +90,12 @@ public class MyCreatedEventsFragment extends Fragment implements OnListEventList
 
         // Get all components from view
         RecyclerView timeStateRecyclerView = view.findViewById(R.id.time_state_recycler_view);
-        RecyclerView myCreatedEventsRecyclerView = view.findViewById(R.id.my_created_events_recycler_view);
+        this.myCreatedEventsRecyclerView = view.findViewById(R.id.my_created_events_recycler_view);
         FloatingActionButton createEvent = view.findViewById(R.id.fab_create_event_button);
+        this.myCreatedEventsStatusText = view.findViewById(R.id.my_events_created_status_text);
+
+        // Set activity status to loading
+        this.loading();
 
         // Set on click listener to create event fab button
         createEvent.setOnClickListener(v -> createNewEvent());
@@ -155,14 +164,18 @@ public class MyCreatedEventsFragment extends Fragment implements OnListEventList
 
                                 // Update adapter
                                 updateEventsList();
+                                onDataReceived();
+                            } else {
+                                onNoDataReceived();
                             }
+                        } else {
+                            onNoDataReceived();
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ArrayList<Event>> call, @NonNull Throwable t) {
-                        Notification.showDialogNotification(getContext(),
-                                getText(R.string.cannotConnectToServerError).toString());
+                        onConnectionFailure();
                     }
                 });
 
@@ -179,14 +192,18 @@ public class MyCreatedEventsFragment extends Fragment implements OnListEventList
 
                                 // Update adapter
                                 updateEventsList();
+                                onDataReceived();
+                            } else {
+                                onNoDataReceived();
                             }
+                        } else {
+                            onNoDataReceived();
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ArrayList<Event>> call, @NonNull Throwable t) {
-                        Notification.showDialogNotification(getContext(),
-                                getText(R.string.cannotConnectToServerError).toString());
+                        onConnectionFailure();
                     }
                 });
 
@@ -202,14 +219,18 @@ public class MyCreatedEventsFragment extends Fragment implements OnListEventList
 
                                 // Update adapter
                                 updateEventsList();
+                                onDataReceived();
+                            } else {
+                                onNoDataReceived();
                             }
+                        } else {
+                            onNoDataReceived();
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ArrayList<Event>> call, @NonNull Throwable t) {
-                        Notification.showDialogNotification(getContext(),
-                                getText(R.string.cannotConnectToServerError).toString());
+                        onConnectionFailure();
                     }
                 });
     }
@@ -253,5 +274,37 @@ public class MyCreatedEventsFragment extends Fragment implements OnListEventList
     public void onPillClicked(int index, boolean status) {
         this.timeStatesStatus.set(index, status);
         this.updateEventsList();
+    }
+
+    @Override
+    public void loading() {
+        this.myCreatedEventsStatusText.setVisibility(View.VISIBLE);
+        this.myCreatedEventsStatusText.setText(getText(R.string.loading));
+        this.myCreatedEventsRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDataReceived() {
+        if(this.myCreatedEvents.isEmpty()) {
+            onNoDataReceived();
+        } else {
+            this.myCreatedEventsStatusText.setVisibility(View.GONE);
+            this.myCreatedEventsRecyclerView.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @Override
+    public void onNoDataReceived() {
+        this.myCreatedEventsStatusText.setVisibility(View.VISIBLE);
+        this.myCreatedEventsStatusText.setText(getText(R.string.noCreatedEvents));
+        this.myCreatedEventsRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onConnectionFailure() {
+        this.myCreatedEventsStatusText.setVisibility(View.VISIBLE);
+        this.myCreatedEventsStatusText.setText(getText(R.string.serverConnectionFailed));
+        this.myCreatedEventsRecyclerView.setVisibility(View.GONE);
     }
 }

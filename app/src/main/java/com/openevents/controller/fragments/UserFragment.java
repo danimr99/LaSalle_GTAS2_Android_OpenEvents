@@ -1,11 +1,13 @@
 package com.openevents.controller.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -25,6 +27,7 @@ import com.openevents.api.responses.UserStats;
 import com.openevents.constants.Constants;
 import com.openevents.controller.LoginActivity;
 import com.openevents.controller.components.ImageSelectorFragment;
+import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
@@ -127,7 +130,7 @@ public class UserFragment extends Fragment {
                             break;
                         case R.id.delete_account:
                             // Delete account
-                            deleteAccount();
+                            showDeleteAccountConfirmationDialog();
                             break;
                     }
                     return false;
@@ -260,18 +263,38 @@ public class UserFragment extends Fragment {
         requireActivity().finish();
     }
 
+    private void showDeleteAccountConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setMessage(this.getText(R.string.eventDeletedConfirmation));
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(R.string.acceptLabel, (dialog, button) -> this.deleteAccount());
+        builder.setNegativeButton(R.string.cancelLabel, (dialog, button) -> dialog.dismiss());
+
+        builder.setOnDismissListener(DialogInterface::dismiss);
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     private void deleteAccount() {
         this.apiManager.deleteAccount(this.authenticationToken.getAccessToken(),
                 new Callback<Void>() {
                     @Override
-                    public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                    public void onResponse(@NonNull Call<Void> call,
+                                           @NonNull Response<Void> response) {
                         if (response.isSuccessful()) {
                             logout();
+                        } else {
+                            Notification.showDialogNotification(getContext(),
+                                    getText(R.string.serverConnectionFailed).toString());
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                        Notification.showDialogNotification(getContext(),
+                                getText(R.string.cannotConnectToServerError).toString());
                     }
                 });
     }

@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
         EditText searchBar = view.findViewById(R.id.users_search_bar);
         TextView seeAll = view.findViewById(R.id.see_all_label);
         this.popularEventsRecyclerView = view.findViewById(R.id.popular_events_recycler_view);
-        this.popularEventsStatusText = view.findViewById(R.id.events_status_text);
+        this.popularEventsStatusText = view.findViewById(R.id.all_events_status_text);
         RecyclerView categoriesRecyclerView = view.findViewById(R.id.categories_recycler_view);
 
         // Set activity status to loading
@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
 
         // Set on click listener to "See all" label
         seeAll.setOnClickListener(v -> getParentFragmentManager().beginTransaction().
-                replace(R.id.home_fragment_container, new EventsFragment()).commit());
+                replace(R.id.home_fragment_container, new AllEventsFragment()).commit());
 
         // Configure search bar
         searchBar.addTextChangedListener(new TextWatcher() {
@@ -154,6 +154,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
         // Check if events from filtered list matches with selected categories
         ArrayList<Event> matchingFilters = new ArrayList<>();
 
+        // Check for categories selected to display
         for(Event popular : filteredList) {
             for(int i = 0; i < Constants.CATEGORIES.length; i++) {
                 if(this.categoriesStatus.get(i)) {
@@ -166,6 +167,16 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
 
         // Save list of filtered popular events
         this.popularEventsFiltered = matchingFilters;
+
+        // Update UI
+        if(this.popularEventsFiltered.isEmpty()) {
+            this.popularEventsRecyclerView.setVisibility(View.GONE);
+            this.popularEventsStatusText.setVisibility(View.VISIBLE);
+            this.popularEventsStatusText.setText(getText(R.string.noEvents));
+        } else {
+            this.popularEventsStatusText.setVisibility(View.GONE);
+            this.popularEventsRecyclerView.setVisibility(View.VISIBLE);
+        }
 
         // Update adapter
         this.popularEventsAdapter.updateDataset(this.popularEventsFiltered);
