@@ -63,6 +63,12 @@
     <string name="serverConnectionFailed">An error occurred while connecting to the server</string>
     <string name="noPopularEvents">No popular events were found</string>
     <string name="noEvents">No events were found</string>
+    <string name="noUsers">No users were found</string>
+    <string name="noFriends">No friends were found</string>
+    <string name="noJoinedEvents">You have not joined any event yet</string>
+    <string name="noFriendRequests">No friend requests were found</string>
+    <string name="noCreatedEvents">No created events found</string>
+    <string name="noFinishedEvents">No finished events found</string>
     <string name="noAverageScore">No average score yet</string>
     <string name="noPercentageCommentersBelow">Percentage cannot be calculated yet</string>
 

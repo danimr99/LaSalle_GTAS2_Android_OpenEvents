@@ -16,4 +16,11 @@
         android:fadingEdgeLength="30dp"
         android:requiresFadingEdge="vertical" />
 
+    <TextView
+        android:id="@+id/joined_events_status_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/broken_white"/>
+
 </LinearLayout>

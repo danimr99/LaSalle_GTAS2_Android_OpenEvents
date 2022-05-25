@@ -77,7 +77,7 @@ public class AllEventsFragment extends Fragment implements ActivityState, OnList
         // Get components from view
         EditText searchBar = view.findViewById(R.id.events_search_bar);
         this.eventsRecyclerView = view.findViewById(R.id.events_recycler_view);
-        this.eventsStatusText = view.findViewById(R.id.events_status_text);
+        this.eventsStatusText = view.findViewById(R.id.all_events_status_text);
         LinearLayout sortByStartDate = view.findViewById(R.id.sort_by_start_date);
         this.sortByStartDateIcon = view.findViewById(R.id.sort_by_start_date_icon);
 

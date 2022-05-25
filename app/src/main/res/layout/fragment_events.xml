@@ -85,11 +85,10 @@
         android:requiresFadingEdge="vertical" />
 
     <TextView
-        android:id="@+id/events_status_text"
+        android:id="@+id/all_events_status_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@color/broken_white"
-        android:textSize="20sp"/>
+        android:textColor="@color/broken_white"/>
 
 </LinearLayout>

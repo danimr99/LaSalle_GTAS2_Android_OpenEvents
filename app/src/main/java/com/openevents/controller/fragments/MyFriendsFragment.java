@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.openevents.R;
 import com.openevents.api.APIManager;
+import com.openevents.api.ActivityState;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.adapters.UsersAdapter;
 import com.openevents.model.interfaces.OnListUserListener;
-import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -27,13 +28,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyFriendsFragment extends Fragment implements OnListUserListener {
+public class MyFriendsFragment extends Fragment implements OnListUserListener, ActivityState {
     // Constants
     public static final String TAG_MY_FRIENDS = "MY_FRIENDS";
 
     // UI Components
     private RecyclerView friendsRecyclerView;
     private UsersAdapter friendsAdapter;
+    private TextView friendStatusText;
 
     // Variables
     private ArrayList<UserProfile> friends;
@@ -54,7 +56,7 @@ public class MyFriendsFragment extends Fragment implements OnListUserListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_my_friend_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_friends, container, false);
 
         // Get instance of SharedPrefs
         this.sharedPrefs = SharedPrefs.getInstance(getContext());
@@ -69,6 +71,10 @@ public class MyFriendsFragment extends Fragment implements OnListUserListener {
 
         // Get all components from view
         this.friendsRecyclerView = view.findViewById(R.id.my_friends_recycler_view);
+        this.friendStatusText = view.findViewById(R.id.my_friends_status_text);
+
+        // Set activity status to loading
+        this.loading();
 
         // Configure horizontal layout for the events recycler view
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),
@@ -110,15 +116,22 @@ public class MyFriendsFragment extends Fragment implements OnListUserListener {
 
                         // Update UI
                         friendsAdapter.notifyDataSetChanged();
+                        onDataReceived();
+                    } else {
+                        // Set activity status to no data received
+                        onNoDataReceived();
                     }
+                } else {
+                    // Set activity status to no data received
+                    onNoDataReceived();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<UserProfile>> call,
                                   @NonNull Throwable t) {
-                Notification.showDialogNotification(getContext(),
-                        getText(R.string.cannotConnectToServerError).toString());
+                // Set activity status to connection failure
+                onConnectionFailure();
             }
         });
     }
@@ -130,5 +143,36 @@ public class MyFriendsFragment extends Fragment implements OnListUserListener {
                         new UserProfileFragment(this.friends.get(index))).
                 addToBackStack(this.getClass().getName()).
                 commit();
+    }
+
+    @Override
+    public void loading() {
+        this.friendStatusText.setVisibility(View.VISIBLE);
+        this.friendStatusText.setText(getText(R.string.loading));
+        this.friendsRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDataReceived() {
+        if(this.friends.isEmpty()) {
+            this.onNoDataReceived();
+        } else {
+            this.friendStatusText.setVisibility(View.GONE);
+            this.friendsRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onNoDataReceived() {
+        this.friendStatusText.setVisibility(View.VISIBLE);
+        this.friendStatusText.setText(getText(R.string.noFriends));
+        this.friendsRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onConnectionFailure() {
+        this.friendStatusText.setVisibility(View.VISIBLE);
+        this.friendStatusText.setText(getText(R.string.serverConnectionFailed));
+        this.friendsRecyclerView.setVisibility(View.GONE);
     }
 }

@@ -99,8 +99,8 @@ public class APIManager {
         this.service.editAccount(authentication, createdUser).enqueue(callback);
     }
 
-    public void getUserPastAssistances(String authenticationToken, int userID,
-                                       Callback<ArrayList<Event>> callback) {
+    public void getUserPastAssistants(String authenticationToken, int userID,
+                                      Callback<ArrayList<Event>> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
         this.service.getUserPastAssistances(authentication, userID).enqueue(callback);
     }
@@ -192,7 +192,7 @@ public class APIManager {
     }
 
     /*
-     * Assistances
+     * Assistants
      */
     public void attendEvent(String authenticationToken, int userID, int eventID,
                             Callback<Void> callback) {
@@ -200,9 +200,9 @@ public class APIManager {
         this.service.attendEvent(authentication, userID, eventID).enqueue(callback);
     }
 
-    public void unattendEvent(String authenticationToken, int userID, int eventID,
-                            Callback<QueryResponse> callback) {
+    public void leaveEvent(String authenticationToken, int userID, int eventID,
+                           Callback<QueryResponse> callback) {
         String authentication = this.addBearerAuthenticationToken(authenticationToken);
-        this.service.unattendEvent(authentication, userID, eventID).enqueue(callback);
+        this.service.leaveEvent(authentication, userID, eventID).enqueue(callback);
     }
 }
