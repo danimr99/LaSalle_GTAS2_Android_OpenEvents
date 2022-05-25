@@ -44,8 +44,6 @@ import retrofit2.Response;
 public class EventEditionFragment extends Fragment {
     // UI Components
     private ImageView backArrow;
-    private ImageSelectorFragment fragment;
-    private ImageView profileImage;
     private TextInputLayout titleLayout;
     private EditText eventTitle;
     private TextInputLayout locationLayout;
@@ -62,12 +60,10 @@ public class EventEditionFragment extends Fragment {
     private EditText eventDescription;
     private Button updateEventButton;
 
-    // Variables
-    private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
-    private Event editEvent;
-    private boolean fromMyEvents;
+    private final Event editEvent;
+    private final boolean fromMyEvents;
 
     public EventEditionFragment(Event editEvent, boolean fromMyEvents) {
         this.editEvent = editEvent;
@@ -86,25 +82,27 @@ public class EventEditionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_event_edition, container, false);
 
         // Get instance of SharedPrefs
-        this.sharedPrefs = SharedPrefs.getInstance(getContext());
+        // Variables
+        SharedPrefs sharedPrefs = SharedPrefs.getInstance(getContext());
 
         // Get user authentication token
         this.authenticationToken =
-                new AuthenticationToken(this.sharedPrefs.getAuthenticationToken());
+                new AuthenticationToken(sharedPrefs.getAuthenticationToken());
 
         // Get an instance of APIManager
         this.apiManager = APIManager.getInstance();
 
         // Create ImageSelectorFragment
         FragmentManager fm = this.getChildFragmentManager();
-        this.fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.edit_event_image_selector);
+        ImageSelectorFragment fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.edit_event_image_selector);
 
         // Inflate view with the ImageSelectorFragment
-        if (this.fragment == null) {
-            this.fragment = new ImageSelectorFragment(false);
-            fm.beginTransaction().add(R.id.edit_event_image_selector, this.fragment).commit();
+        if (fragment == null) {
+            fragment = new ImageSelectorFragment(false);
+            fm.beginTransaction().add(R.id.edit_event_image_selector, fragment).commit();
         }
 
+        // Get all components from view
         this.backArrow = view.findViewById(R.id.edit_event_back_arrow);
         this.titleLayout = view.findViewById(R.id.change_event_title_input_layout);
         this.eventTitle = view.findViewById(R.id.change_event_title_input);
@@ -205,16 +203,6 @@ public class EventEditionFragment extends Fragment {
 
         // Set as default values all the information from the event
         this.setDefaultValues();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Get profile image view once the fragment has been loaded
-        View fragmentView = this.fragment.getView();
-        this.profileImage = fragmentView != null ?
-                fragmentView.findViewById(R.id.image_selector) : null;
     }
 
     private void setDefaultValues() {
@@ -353,9 +341,6 @@ public class EventEditionFragment extends Fragment {
                     Log.i("OpenEvents", JsonManager.toJSON(response.body()));
                     if(response.isSuccessful()) {
                         if(response.body() != null) {
-                            // Get event with the new information
-                            //editEvent = response.body();
-
                             Notification.showDialogNotification(getContext(),
                                     getText(R.string.eventEditedSuccessfully).toString());
 

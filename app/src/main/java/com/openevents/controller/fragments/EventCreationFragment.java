@@ -33,7 +33,6 @@ import com.openevents.utils.Numbers;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.Calendar;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,8 +41,6 @@ import retrofit2.Response;
 public class EventCreationFragment extends Fragment {
     // UI Components
     private ImageView backArrow;
-    private ImageSelectorFragment fragment;
-    private ImageView profileImage;
     private TextInputLayout titleLayout;
     private EditText eventTitle;
     private TextInputLayout locationLayout;
@@ -61,7 +58,6 @@ public class EventCreationFragment extends Fragment {
     private Button createEventButton;
 
     // Variables
-    private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
 
@@ -77,20 +73,21 @@ public class EventCreationFragment extends Fragment {
 
         // Create an instance of APIManager and SharedPreferences
         this.apiManager = APIManager.getInstance();
-        this.sharedPrefs = SharedPrefs.getInstance(view.getContext());
+        // Variables
+        SharedPrefs sharedPrefs = SharedPrefs.getInstance(view.getContext());
 
         // Get user authentication token
         this.authenticationToken =
-                new AuthenticationToken(this.sharedPrefs.getAuthenticationToken());
+                new AuthenticationToken(sharedPrefs.getAuthenticationToken());
 
         // Create ImageSelectorFragment
         FragmentManager fm = this.getChildFragmentManager();
-        this.fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.create_event_image_selector);
+        ImageSelectorFragment fragment = (ImageSelectorFragment) fm.findFragmentById(R.id.create_event_image_selector);
 
         // Inflate view with the ImageSelectorFragment
-        if (this.fragment == null) {
-            this.fragment = new ImageSelectorFragment(false);
-            fm.beginTransaction().add(R.id.create_event_image_selector, this.fragment).commit();
+        if (fragment == null) {
+            fragment = new ImageSelectorFragment(false);
+            fm.beginTransaction().add(R.id.create_event_image_selector, fragment).commit();
         }
 
         // Get all components from view
@@ -190,16 +187,6 @@ public class EventCreationFragment extends Fragment {
 
         // Set on click listener to the create event button
         this.createEventButton.setOnClickListener(v -> createEvent());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Get profile image view once the fragment has been loaded
-        View fragmentView = this.fragment.getView();
-        this.profileImage = fragmentView != null ?
-                fragmentView.findViewById(R.id.image_selector) : null;
     }
 
     public void showDateTimePicker(EditText input) {

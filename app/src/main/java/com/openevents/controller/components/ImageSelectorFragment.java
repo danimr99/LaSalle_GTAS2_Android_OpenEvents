@@ -1,6 +1,5 @@
 package com.openevents.controller.components;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -18,8 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.openevents.R;
-
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.mayanknagwanshi.imagepicker.ImageSelectActivity;
@@ -44,7 +42,7 @@ public class ImageSelectorFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment depending on the shape
@@ -74,7 +72,7 @@ public class ImageSelectorFragment extends Fragment {
                             Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
 
                             // Set bitmap to ImageView
-                            if(isRounded) {
+                            if(this.isRounded) {
                                 this.imageSelectorRounded.setImageBitmap(selectedImage);
                             } else {
                                 this.imageSelectorSquared.setImageBitmap(selectedImage);
@@ -92,7 +90,6 @@ public class ImageSelectorFragment extends Fragment {
             this.imageSelectorSquared = view.findViewById(R.id.image_selector);
             this.imageSelectorSquared.setOnClickListener(v -> launchImageSelector(v.getContext()));
         }
-
 
         return view;
     }

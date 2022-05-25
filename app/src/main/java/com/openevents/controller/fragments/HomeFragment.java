@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ import com.openevents.model.adapters.PopularEventsAdapter;
 import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListPillListener;
 import com.openevents.utils.DateHandler;
-import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -40,11 +38,8 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements ActivityState, OnListEventListener, OnListPillListener {
     // UI Components
-    private EditText searchBar;
-    private TextView seeAll;
     private TextView popularEventsStatusText;
     private RecyclerView popularEventsRecyclerView;
-    private RecyclerView categoriesRecyclerView;
     private PopularEventsAdapter popularEventsAdapter;
 
     // Variables
@@ -52,7 +47,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
     private SharedPrefs sharedPrefs;
     private ArrayList<Event> popularEvents;
     private ArrayList<Event> popularEventsFiltered;
-    private ArrayList<Boolean> categoriesStatus;
+    private final ArrayList<Boolean> categoriesStatus;
     private String searchInput;
 
     public HomeFragment() {
@@ -85,21 +80,21 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
         this.getPopularEvents();
 
         // Get components from view
-        this.searchBar = view.findViewById(R.id.users_search_bar);
-        this.seeAll = view.findViewById(R.id.see_all_label);
+        EditText searchBar = view.findViewById(R.id.users_search_bar);
+        TextView seeAll = view.findViewById(R.id.see_all_label);
         this.popularEventsRecyclerView = view.findViewById(R.id.popular_events_recycler_view);
         this.popularEventsStatusText = view.findViewById(R.id.events_status_text);
-        this.categoriesRecyclerView = view.findViewById(R.id.categories_recycler_view);
+        RecyclerView categoriesRecyclerView = view.findViewById(R.id.categories_recycler_view);
 
         // Set activity status to loading
         this.loading();
 
         // Set on click listener to "See all" label
-        this.seeAll.setOnClickListener(v -> getParentFragmentManager().beginTransaction().
+        seeAll.setOnClickListener(v -> getParentFragmentManager().beginTransaction().
                 replace(R.id.home_fragment_container, new EventsFragment()).commit());
 
         // Configure search bar
-        this.searchBar.addTextChangedListener(new TextWatcher() {
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -122,7 +117,7 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         this.popularEventsRecyclerView.setLayoutManager(linearLayoutManager);
-        this.categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         // Set adapter to the categories recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);

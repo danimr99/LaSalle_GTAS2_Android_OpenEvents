@@ -1,5 +1,6 @@
 package com.openevents.controller.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,6 @@ import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.adapters.UsersAdapter;
-import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListUserListener;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
@@ -36,7 +36,6 @@ public class AllUsersFragment extends Fragment implements OnListUserListener {
     public static final String TAG_ALL_USERS = "ALL_USERS";
 
     // UI Components
-    private EditText searchBar;
     private RecyclerView allUsersRecyclerView;
     private UsersAdapter allUsersAdapter;
 
@@ -75,11 +74,11 @@ public class AllUsersFragment extends Fragment implements OnListUserListener {
         this.getUsers();
 
         // Get all components from view
-        this.searchBar = view.findViewById(R.id.users_search_bar);
+        EditText searchBar = view.findViewById(R.id.users_search_bar);
         this.allUsersRecyclerView = view.findViewById(R.id.all_users_recycler_view);
 
         // Configure search bar
-        this.searchBar.addTextChangedListener(new TextWatcher() {
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -146,6 +145,7 @@ public class AllUsersFragment extends Fragment implements OnListUserListener {
 
         this.apiManager.getUsers(this.authenticationToken.getAccessToken(),
                 new Callback<ArrayList<UserProfile>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(@NonNull Call<ArrayList<UserProfile>> call,
                                    @NonNull Response<ArrayList<UserProfile>> response) {

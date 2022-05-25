@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,7 +20,6 @@ import com.openevents.api.responses.Event;
 import com.openevents.constants.Constants;
 import com.openevents.model.adapters.EventsAdapter;
 import com.openevents.model.adapters.PillAdapter;
-import com.openevents.model.adapters.PopularEventsAdapter;
 import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListPillListener;
 import com.openevents.utils.Notification;
@@ -36,18 +34,14 @@ import retrofit2.Response;
 
 public class MyCreatedEventsFragment extends Fragment implements OnListEventListener, OnListPillListener {
     // UI Components
-    private RecyclerView timeStateRecyclerView;
-    private PillAdapter timeStateAdapter;
-    private RecyclerView myCreatedEventsRecyclerView;
     private EventsAdapter myCreatedEventsAdapter;
-    private FloatingActionButton createEvent;
 
     // Variables
-    private ArrayList<Event> myCreatedEvents;
+    private final ArrayList<Event> myCreatedEvents;
     private ArrayList<Event> myCreatedFinishedEvents;
     private ArrayList<Event> myCreatedActiveEvents;
     private ArrayList<Event> myCreatedFutureEvents;
-    private ArrayList<Boolean> timeStatesStatus;
+    private final ArrayList<Boolean> timeStatesStatus;
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
@@ -62,7 +56,7 @@ public class MyCreatedEventsFragment extends Fragment implements OnListEventList
         this.timeStatesStatus = new ArrayList<>();
 
         // Set default status of each time state button [0 -> Finished, 1 -> Active, 2 -> Future]
-        this.timeStatesStatus.add(false);  // 0
+        this.timeStatesStatus.add(false); // 0
         this.timeStatesStatus.add(true);  // 1
         this.timeStatesStatus.add(true);  // 2
     }
@@ -90,30 +84,30 @@ public class MyCreatedEventsFragment extends Fragment implements OnListEventList
         this.getCreatedEvents();
 
         // Get all components from view
-        this.timeStateRecyclerView = view.findViewById(R.id.time_state_recycler_view);
-        this.myCreatedEventsRecyclerView = view.findViewById(R.id.my_created_events_recycler_view);
-        this.createEvent = view.findViewById(R.id.fab_create_event_button);
+        RecyclerView timeStateRecyclerView = view.findViewById(R.id.time_state_recycler_view);
+        RecyclerView myCreatedEventsRecyclerView = view.findViewById(R.id.my_created_events_recycler_view);
+        FloatingActionButton createEvent = view.findViewById(R.id.fab_create_event_button);
 
         // Set on click listener to create event fab button
-        this.createEvent.setOnClickListener(v -> createNewEvent());
+        createEvent.setOnClickListener(v -> createNewEvent());
 
         // Configure horizontal layout for the time states recycler view
         LinearLayoutManager linearLayoutManagerTimeStates = new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
-        this.timeStateRecyclerView.setLayoutManager(linearLayoutManagerTimeStates);
+        timeStateRecyclerView.setLayoutManager(linearLayoutManagerTimeStates);
 
         // Configure horizontal layout for the events created recycler view
         LinearLayoutManager linearLayoutManagerEventsCreated = new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false);
-        this.myCreatedEventsRecyclerView.setLayoutManager(linearLayoutManagerEventsCreated);
+        myCreatedEventsRecyclerView.setLayoutManager(linearLayoutManagerEventsCreated);
 
         // Set adapter for the events recycler view
         this.myCreatedEventsAdapter = new EventsAdapter(this.myCreatedEvents,
                 MyCreatedEventsFragment.this);
-        this.myCreatedEventsRecyclerView.setAdapter(this.myCreatedEventsAdapter);
+        myCreatedEventsRecyclerView.setAdapter(this.myCreatedEventsAdapter);
 
         // Handle scrolling issues between RecyclerView and ViewPager2
-        this.timeStateRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+        timeStateRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                 int action = e.getAction();
@@ -132,9 +126,9 @@ public class MyCreatedEventsFragment extends Fragment implements OnListEventList
         });
 
         // Set adapter for the time states recycler view
-        this.timeStateAdapter = new PillAdapter(Constants.EVENT_TIME_STATES, this.timeStatesStatus,
+        PillAdapter timeStateAdapter = new PillAdapter(Constants.EVENT_TIME_STATES, this.timeStatesStatus,
                 MyCreatedEventsFragment.this);
-        this.timeStateRecyclerView.setAdapter(this.timeStateAdapter);
+        timeStateRecyclerView.setAdapter(timeStateAdapter);
 
         return view;
     }

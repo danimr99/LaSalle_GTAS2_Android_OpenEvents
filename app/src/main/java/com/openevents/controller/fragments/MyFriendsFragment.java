@@ -1,5 +1,6 @@
 package com.openevents.controller.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,6 @@ import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.adapters.UsersAdapter;
-import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListUserListener;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
@@ -91,6 +91,7 @@ public class MyFriendsFragment extends Fragment implements OnListUserListener {
 
         this.apiManager.getUserFriends(this.authenticationToken.getAccessToken(), loggedInUserID,
                 new Callback<ArrayList<UserProfile>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(@NonNull Call<ArrayList<UserProfile>> call,
                                    @NonNull Response<ArrayList<UserProfile>> response) {

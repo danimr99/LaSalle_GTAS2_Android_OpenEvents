@@ -25,8 +25,7 @@ public class SocialTabFragment extends Fragment {
     private ViewPager2 viewPager;
 
     // Variables
-    private ArrayList<Fragment> tabs;
-    private ViewPagerAdapter viewPagerAdapter;
+    private final ArrayList<Fragment> tabs;
 
     public SocialTabFragment() {
         this.tabs = new ArrayList<>();
@@ -53,9 +52,9 @@ public class SocialTabFragment extends Fragment {
         this.viewPager = view.findViewById(R.id.social_pager);
 
         // Configure view pager adapter
-        this.viewPagerAdapter = new ViewPagerAdapter(this);
-        this.viewPagerAdapter.setData(this.tabs);
-        this.viewPager.setAdapter(this.viewPagerAdapter);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPagerAdapter.setData(this.tabs);
+        this.viewPager.setAdapter(viewPagerAdapter);
 
         return view;
     }

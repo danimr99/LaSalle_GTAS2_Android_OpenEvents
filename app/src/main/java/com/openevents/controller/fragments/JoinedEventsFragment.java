@@ -17,7 +17,6 @@ import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.Event;
 import com.openevents.model.adapters.EventsAdapter;
 import com.openevents.model.interfaces.OnListEventListener;
-import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -40,7 +39,6 @@ public class JoinedEventsFragment extends Fragment implements OnListEventListene
 
     public JoinedEventsFragment() {
         this.joinedEvents = new ArrayList<>();
-
     }
 
     @Override

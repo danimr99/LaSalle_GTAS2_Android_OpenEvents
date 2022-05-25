@@ -30,8 +30,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText email;
     private TextInputLayout passwordLayout;
     private TextInputEditText password;
-    private Button signInButton;
-    private TextView signUpTextView;
 
     // Variables
     private APIManager apiManager;
@@ -53,12 +51,12 @@ public class LoginActivity extends AppCompatActivity {
         this.password = findViewById(R.id.password_input);
 
         // Sign in button
-        this.signInButton = findViewById(R.id.sign_in_button);
-        this.signInButton.setOnClickListener(view -> this.attemptSignIn());
+        Button signInButton = findViewById(R.id.sign_in_button);
+        signInButton.setOnClickListener(view -> this.attemptSignIn());
 
         // Sign up textview to navigate to RegisterActivity
-        this.signUpTextView = findViewById(R.id.sign_up_text);
-        this.signUpTextView.setOnClickListener(view -> {
+        TextView signUpTextView = findViewById(R.id.sign_up_text);
+        signUpTextView.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
@@ -136,20 +134,20 @@ public class LoginActivity extends AppCompatActivity {
                                     userSession.getEmail());
 
                             // Redirect user to HomeActivity
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();
                         }
                     } else {
-                        Notification.showDialogNotification(getApplicationContext(),
+                        Notification.showDialogNotification(LoginActivity.this,
                                 getText(R.string.invalidCredentialsError).toString());
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<AuthenticationToken> call, @NonNull Throwable t) {
-                    Notification.showDialogNotification(getApplicationContext(),
+                    Notification.showDialogNotification(LoginActivity.this,
                             getText(R.string.cannotConnectToServerError).toString());
                 }
             });

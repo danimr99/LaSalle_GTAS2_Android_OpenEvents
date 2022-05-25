@@ -1,5 +1,6 @@
 package com.openevents.controller.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,6 @@ import com.openevents.api.APIManager;
 import com.openevents.api.responses.AuthenticationToken;
 import com.openevents.api.responses.UserProfile;
 import com.openevents.model.adapters.UsersAdapter;
-import com.openevents.model.interfaces.OnListEventListener;
 import com.openevents.model.interfaces.OnListUserListener;
 import com.openevents.utils.Notification;
 import com.openevents.utils.SharedPrefs;
@@ -37,7 +37,6 @@ public class FriendRequestsFragment extends Fragment implements OnListUserListen
     private UsersAdapter friendRequestsAdapter;
 
     // Variables
-    private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
     private ArrayList<UserProfile> friendRequests;
@@ -58,11 +57,12 @@ public class FriendRequestsFragment extends Fragment implements OnListUserListen
         View view = inflater.inflate(R.layout.fragment_friend_requests, container, false);
 
         // Get instance of SharedPrefs
-        this.sharedPrefs = SharedPrefs.getInstance(getContext());
+        // Variables
+        SharedPrefs sharedPrefs = SharedPrefs.getInstance(getContext());
 
         // Get user authentication token
         this.authenticationToken =
-                new AuthenticationToken(this.sharedPrefs.getAuthenticationToken());
+                new AuthenticationToken(sharedPrefs.getAuthenticationToken());
 
         // Get an instance of APIManager and get friends from API
         this.apiManager = APIManager.getInstance();
@@ -88,6 +88,7 @@ public class FriendRequestsFragment extends Fragment implements OnListUserListen
 
     private void getFriendRequests() {
         this.apiManager.getFriendRequests(this.authenticationToken.getAccessToken(), new Callback<ArrayList<UserProfile>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(@NonNull Call<ArrayList<UserProfile>> call,
                                    @NonNull Response<ArrayList<UserProfile>> response) {

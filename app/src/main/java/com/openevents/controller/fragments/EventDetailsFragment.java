@@ -28,8 +28,6 @@ import com.openevents.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -38,7 +36,6 @@ import retrofit2.Response;
 
 public class EventDetailsFragment extends Fragment {
     // UI Components
-    private ImageView backArrow;
     private ImageView eventImage;
     private TextView eventTitle;
     private TextView eventOwner;
@@ -61,7 +58,7 @@ public class EventDetailsFragment extends Fragment {
     private SharedPrefs sharedPrefs;
     private AuthenticationToken authenticationToken;
     private APIManager apiManager;
-    private boolean fromMyEvents;
+    private final boolean fromMyEvents;
 
     public EventDetailsFragment(Event event, boolean fromMyEvents) {
         this.event = event;
@@ -96,7 +93,7 @@ public class EventDetailsFragment extends Fragment {
         this.getEventParticipants(this.event.getId());
 
         // Get components from view
-        this.backArrow = view.findViewById(R.id.event_details_back_arrow);
+        ImageView backArrow = view.findViewById(R.id.event_details_back_arrow);
         this.eventImage = view.findViewById(R.id.event_details_image);
         this.eventTitle = view.findViewById(R.id.event_details_title);
         this.eventOwner = view.findViewById(R.id.event_details_owner);
@@ -115,7 +112,7 @@ public class EventDetailsFragment extends Fragment {
         this.leaveButton = view.findViewById(R.id.leave_text_view);
 
         // Configure back arrow on click
-        this.backArrow.setOnClickListener(v -> this.navigateBack());
+        backArrow.setOnClickListener(v -> this.navigateBack());
 
         // Set on click listener to delete button
         this.deleteButton.setOnClickListener(v -> deleteEvent());
