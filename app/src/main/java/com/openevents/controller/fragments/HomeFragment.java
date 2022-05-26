@@ -100,13 +100,13 @@ public class HomeFragment extends Fragment implements ActivityState, OnListEvent
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if(charSequence.length() == 0) {
-                    popularEventsFiltered = popularEvents;
-                    searchInput = "";
-                } else {
-                    searchInput = charSequence.toString();
-                    filter(searchInput);
+                popularEventsFiltered = popularEvents;
+
+                if (charSequence.length() != 0) {
+                    filter(charSequence.toString());
                 }
+
+                popularEventsAdapter.updateDataset(popularEventsFiltered);
             }
 
             @Override
