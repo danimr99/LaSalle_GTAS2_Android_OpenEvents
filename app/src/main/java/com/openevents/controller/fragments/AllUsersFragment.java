@@ -92,11 +92,13 @@ public class AllUsersFragment extends Fragment implements OnListUserListener, Ac
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (charSequence.length() == 0) {
-                    usersFiltered = users;
-                } else {
+                usersFiltered = users;
+
+                if (charSequence.length() != 0) {
                     filter(charSequence.toString());
                 }
+
+                allUsersAdapter.filter(usersFiltered);
             }
 
             @Override
