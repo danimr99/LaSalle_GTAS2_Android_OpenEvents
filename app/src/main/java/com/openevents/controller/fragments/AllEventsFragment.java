@@ -91,11 +91,13 @@ public class AllEventsFragment extends Fragment implements ActivityState, OnList
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if(charSequence.length() == 0) {
-                    eventsFiltered = events;
-                } else {
+                eventsFiltered = events;
+
+                if (charSequence.length() != 0) {
                     filter(charSequence.toString());
                 }
+
+                eventsAdapter.updateDataset(eventsFiltered);
             }
 
             @Override
